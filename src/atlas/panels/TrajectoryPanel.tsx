@@ -52,7 +52,7 @@ export function TrajectoryPanel({ store }: Props) {
     [store],
   );
 
-  if (mode !== "trajectory") return null;
+  if (mode !== "forecasts") return null;
 
   const ensureSectionOpen = (k: SectionKey) => {
     setOpen(k, true);
@@ -75,7 +75,7 @@ export function TrajectoryPanel({ store }: Props) {
       className="pointer-events-auto fixed bottom-0 left-0 right-0 z-30 mx-auto flex max-w-[760px] flex-col border border-border/50 bg-background/95 backdrop-blur-md"
       style={{ maxHeight: "72vh" }}
       role="dialog"
-      aria-label="Trajectory"
+      aria-label="Forecasts"
     >
       <div className="flex shrink-0 items-center justify-end gap-2 border-b border-border/30 px-3 py-2">
         <button

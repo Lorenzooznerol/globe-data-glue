@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
@@ -10,16 +10,11 @@ import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
-import { giraiRampColor } from "@/atlas/giraiRamp";
+import { giraiColor, THEMES } from "@/atlas/theme";
 import { directionGlyph } from "@/atlas/trajectory";
 import { DirectionGlyph } from "@/atlas/panels/DirectionGlyph";
 
 const Globe = lazy(() => import("react-globe.gl"));
-
-const NEUTRAL_FILL = "rgba(64,72,86,0.18)";
-const NEUTRAL_SIDE = "rgba(40,46,56,0.4)";
-const STROKE = "rgba(120,130,150,0.35)";
-const BG = "#0a0d12";
 
 interface Props {
   store: DataStore;
@@ -35,6 +30,14 @@ interface Resolved {
   girai: GiraiCountry | null;
 }
 
+interface GlyphDatum {
+  id: string;
+  lat: number;
+  lng: number;
+  kind: ReturnType<typeof directionGlyph>;
+  color: string;
+}
+
 function hexToRgba(hex: string, alpha: number): string {
   const m = hex.replace("#", "");
   const r = parseInt(m.slice(0, 2), 16);
@@ -43,7 +46,17 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-export function EarthGlobe({ store, width, height }: Props) {
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) =>
+    c === "&" ? "&amp;"
+    : c === "<" ? "&lt;"
+    : c === ">" ? "&gt;"
+    : c === '"' ? "&quot;"
+    : "&#39;",
+  );
+}
+
+function EarthGlobeImpl({ store, width, height }: Props) {
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
   const features = useCountries();
 
@@ -54,13 +67,13 @@ export function EarthGlobe({ store, width, height }: Props) {
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const flyToken = useAtlasStore((s) => s.flyToken);
   const mode = useAtlasStore((s) => s.mode);
-  const migrationToken = useAtlasStore((s) => s.migrationToken);
+  const themeName = useAtlasStore((s) => s.theme);
   const selectNode = useAtlasStore((s) => s.selectNode);
   const selectIso = useAtlasStore((s) => s.selectIso);
   const setHovered = useAtlasStore((s) => s.setHovered);
 
-  const trajectoryMode = mode === "trajectory";
-  void migrationToken; // legacy: migrations are now shown only in the panel
+  const theme = THEMES[themeName];
+  const forecastsMode = mode === "forecasts";
 
   useEffect(() => {
     const g = globeRef.current;
@@ -92,24 +105,46 @@ export function EarthGlobe({ store, width, height }: Props) {
     return m;
   }, [resolved]);
 
-  const activeSelectedNodeId = selectedNodeId;
+  // Precompute iso3 → cap color per (theme, families) to keep the hot path O(1).
+  const capColorByIso = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const r of resolved) {
+      if (!r.iso) continue;
+      let color: string;
+      if (r.girai) color = giraiColor(theme, r.girai.index_score);
+      else color = theme.countryBase;
+      // dim non-matching family nodes
+      if (families.size > 0 && r.node) {
+        const fam = familyOf(r.node.morphology);
+        if (!fam || !families.has(fam)) {
+          color = r.girai ? giraiColor(theme, r.girai.index_score, 0.2) : theme.countryBase;
+        }
+      }
+      m.set(r.iso, color);
+    }
+    return m;
+  }, [resolved, theme, families]);
 
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
     g.controls().autoRotate =
-      !reducedMotion && !hoveredNodeId && !activeSelectedNodeId && !selectedIso;
-  }, [reducedMotion, hoveredNodeId, activeSelectedNodeId, selectedIso]);
+      !reducedMotion &&
+      !hoveredNodeId &&
+      !selectedNodeId &&
+      !selectedIso &&
+      !forecastsMode;
+  }, [reducedMotion, hoveredNodeId, selectedNodeId, selectedIso, forecastsMode]);
 
   useEffect(() => {
-    if (!activeSelectedNodeId) return;
+    if (!selectedNodeId) return;
     const g = globeRef.current;
     if (!g) return;
     let lat: number | undefined;
     let lng: number | undefined;
-    const fallback = NODE_CENTROIDS[activeSelectedNodeId];
-    const feat = featureByNode.get(activeSelectedNodeId);
-    if (activeSelectedNodeId !== "ST-EU" && feat && feat.geometry) {
+    const fallback = NODE_CENTROIDS[selectedNodeId];
+    const feat = featureByNode.get(selectedNodeId);
+    if (selectedNodeId !== "ST-EU" && feat && feat.geometry) {
       try {
         const [cLng, cLat] = geoCentroid(feat as never);
         if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
@@ -126,128 +161,149 @@ export function EarthGlobe({ store, width, height }: Props) {
       lng = fallback[1];
     }
     g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
-  }, [flyToken, activeSelectedNodeId, reducedMotion, featureByNode]);
+  }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
 
-  const polygonCapColor = (obj: object): string => {
-    const r = obj as Resolved;
-    // Trajectory mode: every polygon is a single flat neutral. No GIRAI bleed-through,
-    // no migration tweens, no family hues on caps.
-    if (trajectoryMode) {
-      return NEUTRAL_FILL;
-    }
-    let base: string;
-    if (r.girai) {
-      base = giraiRampColor(r.girai.index_score, 1);
-      if (r.nodeId && r.nodeId === hoveredNodeId) {
-        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
+  const polygonCapColor = useCallback(
+    (obj: object): string => {
+      const r = obj as Resolved;
+      if (forecastsMode) return theme.countryBase;
+      if (!r.iso) return theme.countryBase;
+      const base = capColorByIso.get(r.iso) ?? theme.countryBase;
+      if (r.nodeId && r.nodeId === hoveredNodeId && r.girai) {
+        return giraiColor(theme, Math.min(100, r.girai.index_score + 10));
       }
-    } else {
-      base = NEUTRAL_FILL;
-    }
-    // Family filter: dim countries whose curated node is filtered out.
-    if (families.size > 0 && r.node) {
-      const fam = familyOf(r.node.morphology);
-      if (!fam || !families.has(fam)) {
-        return r.girai ? giraiRampColor(r.girai.index_score, 0.2) : NEUTRAL_FILL;
+      return base;
+    },
+    [forecastsMode, theme, capColorByIso, hoveredNodeId],
+  );
+
+  const polygonSideColor = useCallback(
+    (obj: object): string => {
+      const r = obj as Resolved;
+      if (r.node) return hexToRgba(colorForNode(r.node), 0.45);
+      return theme.countryBase;
+    },
+    [theme],
+  );
+
+  const polygonStrokeColor = useCallback(
+    (obj: object): string => {
+      const r = obj as Resolved;
+      const isFocused =
+        (r.nodeId && (r.nodeId === hoveredNodeId || r.nodeId === selectedNodeId)) ||
+        (r.iso && r.iso === selectedIso);
+      if (isFocused) return theme.borderStrong;
+      if (r.node) return colorForNode(r.node);
+      return theme.border;
+    },
+    [theme, hoveredNodeId, selectedNodeId, selectedIso],
+  );
+
+  const polygonAltitude = useCallback(
+    (obj: object): number => {
+      const r = obj as Resolved;
+      if (r.nodeId === hoveredNodeId && r.nodeId) return reducedMotion ? 0.05 : 0.07;
+      if (r.nodeId && r.nodeId === selectedNodeId) return 0.05;
+      if (r.iso && r.iso === selectedIso) return 0.04;
+      if (r.nodeId) return 0.022;
+      return 0.006;
+    },
+    [hoveredNodeId, selectedNodeId, selectedIso, reducedMotion],
+  );
+
+  const polygonLabel = useCallback(
+    (obj: object): string => {
+      const r = obj as Resolved;
+      if (!r.node && !r.girai) return "";
+      let subtitle: string;
+      let line: string;
+      if (r.node) {
+        const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
+        subtitle = isEU ? "European Union (member state)" : r.node.name;
+        line = r.node.headline || plainHeadline(r.node.morphology);
+        if (r.girai) line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
+      } else if (r.girai) {
+        subtitle = r.girai.country;
+        line = `GIRAI ${r.girai.index_score.toFixed(1)} / 100 · rank ${Math.round(
+          r.girai.ranking,
+        )} of ${store.girai.countries.length}`;
+      } else {
+        return "";
       }
-    }
-    return base;
-  };
+      const bg = themeName === "dark" ? "rgba(10,13,18,0.92)" : "rgba(255,255,255,0.95)";
+      const fg = themeName === "dark" ? "#e8e8e8" : "#1a1d21";
+      const sub = themeName === "dark" ? "#b8b8b8" : "#4a4d52";
+      const border = theme.border;
+      return `
+        <div style="
+          font-family: var(--font-serif), serif;
+          background: ${bg};
+          border: 1px solid ${border};
+          padding: 10px 14px;
+          max-width: 280px;
+          color: ${fg};
+          backdrop-filter: blur(6px);
+        ">
+          <div style="font-size: 15px; letter-spacing:-0.01em; margin-bottom: 4px;">
+            ${escapeHtml(subtitle)}
+          </div>
+          <div style="font-size: 12px; line-height: 1.45; color: ${sub}; font-style: italic;">
+            ${escapeHtml(line)}
+          </div>
+        </div>`;
+    },
+    [store, theme, themeName],
+  );
 
-  const polygonSideColor = (obj: object): string => {
-    const r = obj as Resolved;
-    if (r.node) return hexToRgba(colorForNode(r.node), 0.45);
-    return NEUTRAL_SIDE;
-  };
-
-  // Curated nodes get a family-coloured stroke ring; everything else uses the neutral stroke.
-  const polygonStrokeColor = (obj: object): string => {
-    const r = obj as Resolved;
-    if (r.node) return colorForNode(r.node);
-    return STROKE;
-  };
-
-  const polygonAltitude = (obj: object): number => {
-    const r = obj as Resolved;
-    if (r.nodeId === hoveredNodeId && r.nodeId) return reducedMotion ? 0.05 : 0.07;
-    if (r.nodeId && r.nodeId === activeSelectedNodeId) return 0.05;
-    if (r.iso && r.iso === selectedIso) return 0.04;
-    if (r.nodeId) return 0.022; // curated nodes sit raised so the ring is visible
-    return 0.006;
-  };
-
-  const polygonLabel = (obj: object): string => {
-    const r = obj as Resolved;
-    if (!r.node && !r.girai) return "";
-    let subtitle: string;
-    let line: string;
-    if (r.node) {
-      const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
-      subtitle = isEU ? "European Union (member state)" : r.node.name;
-      line = r.node.headline || plainHeadline(r.node.morphology);
-      if (r.girai) {
-        line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
+  // rAF-coalesced hover handler
+  const hoverRaf = useRef<number | null>(null);
+  const handleHover = useCallback(
+    (obj: object | null) => {
+      const r = obj as Resolved | null;
+      if (typeof document !== "undefined") {
+        const interactive = !!(r && (r.nodeId || r.girai));
+        document.body.style.cursor = interactive ? "pointer" : "default";
       }
-    } else if (r.girai) {
-      subtitle = r.girai.country;
-      line = `GIRAI ${r.girai.index_score.toFixed(1)} / 100 · rank ${Math.round(
-        r.girai.ranking,
-      )} of ${store.girai.countries.length}`;
-    } else {
-      return "";
-    }
-    return `
-      <div style="
-        font-family: var(--font-serif), serif;
-        background: rgba(10,13,18,0.92);
-        border: 1px solid rgba(120,130,150,0.35);
-        padding: 10px 14px;
-        max-width: 280px;
-        color: #e8e8e8;
-        backdrop-filter: blur(6px);
-      ">
-        <div style="font-size: 15px; letter-spacing:-0.01em; margin-bottom: 4px;">
-          ${escapeHtml(subtitle)}
-        </div>
-        <div style="font-size: 12px; line-height: 1.45; color: #b8b8b8; font-style: italic;">
-          ${escapeHtml(line)}
-        </div>
-      </div>`;
-  };
+      if (hoverRaf.current != null) cancelAnimationFrame(hoverRaf.current);
+      hoverRaf.current = requestAnimationFrame(() => {
+        setHovered(r?.nodeId ?? null);
+        hoverRaf.current = null;
+      });
+    },
+    [setHovered],
+  );
 
-  const handleHover = (obj: object | null) => {
-    const r = obj as Resolved | null;
-    setHovered(r?.nodeId ?? null);
-    if (typeof document !== "undefined") {
-      const interactive = !!(r && (r.nodeId || r.girai));
-      document.body.style.cursor = interactive ? "pointer" : "default";
-    }
-  };
+  useEffect(() => {
+    return () => {
+      if (hoverRaf.current != null) cancelAnimationFrame(hoverRaf.current);
+    };
+  }, []);
 
-  const handleClick = (obj: object) => {
-    const r = obj as Resolved;
-    if (r.nodeId) {
-      selectNode(r.nodeId, { fly: true });
-      return;
-    }
-    if (r.iso && r.girai) {
-      selectIso(r.iso);
-    }
-  };
+  const handleClick = useCallback(
+    (obj: object) => {
+      const r = obj as Resolved;
+      if (r.nodeId) {
+        selectNode(r.nodeId, { fly: true });
+        return;
+      }
+      if (r.iso && r.girai) selectIso(r.iso);
+    },
+    [selectNode, selectIso],
+  );
 
   const globeMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color("#10141b"),
+      color: new THREE.Color(theme.sphere),
       roughness: 1,
       metalness: 0,
-      emissive: new THREE.Color("#10141b"),
-      emissiveIntensity: 0.3,
+      emissive: new THREE.Color(theme.sphere),
+      emissiveIntensity: themeName === "dark" ? 0.3 : 0.05,
     });
-  }, []);
+  }, [theme, themeName]);
 
-  // Trajectory mode: glyphs at predicted-node centroids.
+  // Glyphs at predicted-node centroids (Forecasts mode only).
   const glyphData = useMemo(() => {
-    if (!trajectoryMode) return [] as GlyphDatum[];
+    if (!forecastsMode) return [] as GlyphDatum[];
     const out: GlyphDatum[] = [];
     for (const [nodeId, preds] of store.predictionsByNode) {
       const node = store.nodesById.get(nodeId);
@@ -264,7 +320,7 @@ export function EarthGlobe({ store, width, height }: Props) {
             lng = cLng;
           }
         } catch {
-          /* fall back below */
+          /* fall through */
         }
       }
       if (lat == null || lng == null) {
@@ -278,23 +334,29 @@ export function EarthGlobe({ store, width, height }: Props) {
         lat,
         lng,
         kind: directionGlyph(p.direction),
-        color: "rgba(232,232,232,0.92)",
+        color: theme.glyphInk,
       });
     }
     return out;
-  }, [trajectoryMode, store, featureByNode]);
+  }, [forecastsMode, store, featureByNode, theme]);
 
-  const glyphHtml = (obj: object): string => {
-    const g = obj as GlyphDatum;
-    const svg = renderToStaticMarkup(
-      <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
-    );
-    return `<div style="
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
-    ">${svg}</div>`;
-  };
+  const htmlElement = useCallback(
+    (d: object) => {
+      const g = d as GlyphDatum;
+      const svg = renderToStaticMarkup(
+        <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
+      );
+      const wrapper = document.createElement("div");
+      wrapper.style.pointerEvents = "none";
+      wrapper.style.transform = "translate(-50%,-50%)";
+      wrapper.style.filter = "drop-shadow(0 0 4px rgba(0,0,0,0.6))";
+      wrapper.innerHTML = svg;
+      return wrapper;
+    },
+    [reducedMotion],
+  );
+
+  const pixelRatio = typeof window === "undefined" ? 1 : Math.min(2, window.devicePixelRatio || 1);
 
   return (
     <Suspense fallback={null}>
@@ -302,10 +364,13 @@ export function EarthGlobe({ store, width, height }: Props) {
         ref={globeRef}
         width={width}
         height={height}
-        backgroundColor={BG}
-        showAtmosphere={false}
+        backgroundColor={theme.bg}
+        showAtmosphere
+        atmosphereColor={theme.atmosphere}
+        atmosphereAltitude={0.12}
         showGraticules={false}
         globeMaterial={globeMaterial}
+        rendererConfig={{ pixelRatio }}
         polygonsData={resolved}
         polygonGeoJsonGeometry={(obj: object) =>
           (obj as Resolved).feature.geometry as never
@@ -322,30 +387,11 @@ export function EarthGlobe({ store, width, height }: Props) {
         htmlLat={(d: object) => (d as GlyphDatum).lat}
         htmlLng={(d: object) => (d as GlyphDatum).lng}
         htmlAltitude={0.04}
-        htmlElement={(d: object) => {
-          const el = document.createElement("div");
-          el.innerHTML = glyphHtml(d);
-          return el.firstElementChild as HTMLElement;
-        }}
+        htmlElement={htmlElement}
       />
     </Suspense>
   );
 }
 
-interface GlyphDatum {
-  id: string;
-  lat: number;
-  lng: number;
-  kind: ReturnType<typeof directionGlyph>;
-  color: string;
-}
-
-function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) =>
-    c === "&" ? "&amp;"
-    : c === "<" ? "&lt;"
-    : c === ">" ? "&gt;"
-    : c === '"' ? "&quot;"
-    : "&#39;",
-  );
-}
+import { memo } from "react";
+export const EarthGlobe = memo(EarthGlobeImpl);
