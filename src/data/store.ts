@@ -29,6 +29,8 @@ export interface DataStore {
   edgesTo: (id: string) => LegitimacyEdge[];
   morphologyHistory: (nodeId: string) => MorphologyTimeIndexed[];
   markerFor: (morphologyCode: string) => Marker | undefined;
+  /** Deduped union of sources from a node's claims + morphology_timeindexed rows. */
+  documentsForNode: (nodeId: string) => Source[];
 
   warnings: string[];
 }
@@ -84,6 +86,26 @@ export function buildStore(raw: RawTables): DataStore {
     }
   }
 
+  const documentsForNode = (nodeId: string): Source[] => {
+    const ids = new Set<string>();
+    for (const c of raw.claims) {
+      if (c.node_id !== nodeId) continue;
+      for (const sid of c.source_ids) ids.add(sid);
+    }
+    for (const m of raw.morphology) {
+      if (m.node_id !== nodeId) continue;
+      if (m.source_id) ids.add(m.source_id);
+    }
+    const out: Source[] = [];
+    for (const id of ids) {
+      const s = sourcesById.get(id);
+      if (s) out.push(s);
+    }
+    // Newest first.
+    out.sort((a, b) => (b.pub_date ?? "").localeCompare(a.pub_date ?? ""));
+    return out;
+  };
+
   return {
     raw,
     nodesBandedById,
@@ -96,7 +118,11 @@ export function buildStore(raw: RawTables): DataStore {
     sourcesById,
     getNode: (id) => nodesBandedById.get(id) ?? nodesVisionById.get(id),
     getSources: (ids) => ids.map((i) => sourcesById.get(i)).filter((s): s is Source => !!s),
-    claimsForNode: (id) => raw.claims.filter((c) => c.node_id === id),
+    claimsForNode: (id) =>
+      raw.claims
+        .filter((c) => c.node_id === id)
+        .slice()
+        .sort((a, b) => (b.as_of_date ?? "").localeCompare(a.as_of_date ?? "")),
     predictionsForNode: (id) => raw.predictions.filter((p) => p.node_id === id),
     edgesFrom: (id) => raw.edges.filter((e) => e.from_node === id),
     edgesTo: (id) => raw.edges.filter((e) => e.to_node === id),
@@ -106,6 +132,7 @@ export function buildStore(raw: RawTables): DataStore {
         .slice()
         .sort((a, b) => a.as_of.localeCompare(b.as_of)),
     markerFor: (code) => markersByMorphology.get(code),
+    documentsForNode,
     warnings,
   };
 }

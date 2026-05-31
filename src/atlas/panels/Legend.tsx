@@ -1,48 +1,47 @@
-import { MORPH_COLOR, MORPH_LABEL, MORPH_ORDER, type MorphCode } from "@/atlas/morphology";
 import { useAtlasStore } from "@/atlas/store";
-import { cn } from "@/lib/utils";
+import { MORPH_COLOR, MORPH_ORDER, MORPH_LABEL, type MorphCode } from "@/atlas/morphology";
+import { MORPH_HEADLINE } from "@/atlas/plainLanguage";
 
 export function Legend() {
-  const morphFilter = useAtlasStore((s) => s.filters.morphologies);
+  const morphologies = useAtlasStore((s) => s.morphologies);
   const toggle = useAtlasStore((s) => s.toggleMorphology);
-  const clear = useAtlasStore((s) => s.clearMorphologyFilter);
+  const clear = useAtlasStore((s) => s.clearMorphologies);
+  const active = morphologies.size > 0;
 
   return (
-    <div className="pointer-events-auto rounded-md border border-border/70 bg-card/80 px-3 py-2 backdrop-blur-md">
-      <div className="mb-2 flex items-center justify-between gap-4">
-        <span className="mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-          morphology
+    <div className="pointer-events-auto flex flex-col gap-2.5 rounded-md border border-border/50 bg-background/85 p-3.5 backdrop-blur-md">
+      <div className="flex items-center justify-between">
+        <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          Shape of governance
         </span>
-        {morphFilter.size > 0 && (
+        {active && (
           <button
             onClick={clear}
-            className="mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-foreground"
+            className="mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
           >
             clear
           </button>
         )}
       </div>
-      <ul className="grid grid-cols-1 gap-1">
-        {MORPH_ORDER.map((m) => {
-          const active = morphFilter.size === 0 || morphFilter.has(m);
+      <ul className="flex flex-col gap-1.5">
+        {MORPH_ORDER.map((m: MorphCode) => {
+          const on = morphologies.has(m);
+          const dimmed = active && !on;
           return (
             <li key={m}>
               <button
-                onClick={() => toggle(m as MorphCode)}
-                className={cn(
-                  "group flex w-full items-center gap-2 text-left transition-opacity",
-                  active ? "opacity-100" : "opacity-40 hover:opacity-80",
-                )}
+                onClick={() => toggle(m)}
+                title={MORPH_HEADLINE[m]}
+                className="flex w-full items-center gap-2.5 text-left"
+                style={{ opacity: dimmed ? 0.35 : 1 }}
               >
                 <span
                   className="h-2.5 w-2.5 rounded-[1px]"
                   style={{ background: MORPH_COLOR[m] }}
-                  aria-hidden
                 />
-                <span className="mono text-[10px] uppercase tracking-wider text-foreground/85">
-                  {m}
+                <span className="font-serif text-[12px] leading-tight text-foreground/90">
+                  {MORPH_LABEL[m]}
                 </span>
-                <span className="text-[11px] text-muted-foreground">{MORPH_LABEL[m]}</span>
               </button>
             </li>
           );

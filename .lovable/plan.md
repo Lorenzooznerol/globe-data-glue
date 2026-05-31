@@ -1,137 +1,101 @@
-## Scope
 
-Build the world model + full informational layer on top of the existing `src/data` store. No predictions/markers/timeline views (Prompt 2). Everything below either renders or wires interaction; nothing is stubbed.
+# Atlas v2 — Real Earth, plain-language first
+
+This rebuilds the visualization layer on top of the existing CSV store. The data layer (`src/data/*`) and the 8 CSVs in `public/data/` stay as-is. The Three-fiber sphere/centroid system in `src/atlas/components/*` is retired in favor of `react-globe.gl` country polygons. The existing `Signature` glyph, `centroids.ts`, `RingLayer`, `VisionHalo`, `Globe`, `StateMarkers`, `CameraRig`, `NodePanel` are replaced.
+
+## What ships
+
+1. A real Earth where every country is its actual shape at the right size.
+2. The ~26 governed states colored by morphology (desaturated palette); EU tints all 27 member states; RU/IR ghosted; everything else a quiet "no-data" charcoal.
+3. Hover lifts a country off the sphere with a smooth altitude transition and shows a floating label with the country name + a one-sentence plain-language gloss (no codes).
+4. Click eases the camera to the country and opens a card with a tab selector: **Analysis** (default) and **Documents**.
+5. A collapsible left **Side Index** for Actors, Deployers, and Legitimacy/Vision nodes — same card, no geography.
+6. Filters (plain morphology names, layer), legend, and a global search that flies to the match.
+7. Dark, austere, serif + mono, calm motion, reduced-motion fallback.
+
+Explicit non-goals (Prompt 2): predictions, markers, time scrubber, morphology-migration animation, sub-federal US-states overlay, prediction status on cards.
+
+## Visual & interaction spec
+
+- Background: deep near-black with a faint CSS radial vignette; subtle grain optional.
+- Globe material: matte dark sphere (no texture, no bloom, no atmosphere glow).
+- Countries: flat morphology color, opacity by `evidence_strength` (STRONG 1.0, WEAK 0.5, OPAQUE 0.25). No height/magnitude scaling — altitude is reserved for hover lift only.
+- Hover: `polygonAltitude` eases 0.01 → 0.07, fill brightens ~8%, `polygonsTransitionDuration ≈ 250ms`. Floating HTML label above the lifted country: serif country name + the plain morphology sentence.
+- Click: holds the country at altitude 0.05, camera eases (`pointOfView`, ~900ms `easeInOutCubic`) to center it, card opens.
+- Auto-rotate: slow (~0.3), pauses on user interaction, off entirely when reduced-motion.
+- Reduced-motion: snap transitions (0ms), no auto-rotate, no lift easing.
+
+## Card (right-hand `Sheet`, ~480px)
+
+Header: country name (serif), one-line plain summary beneath it, small morphology chip in the morphology hue.
+
+**Tabs** (shadcn `Tabs`, default = Analysis):
+
+- **Analysis**
+    1. *What shape this takes* — plain morphology sentence + plain sub-mechanism gloss, rendered in the morphology hue.
+    2. *On paper vs in practice* — two 5-step meters labeled with the plain band word (almost none / minimal / partial / substantial / comprehensive) + a one-line gap gloss derived from band delta (e.g. paper>reality → "ambitious on paper, still ramping in practice").
+    3. *What to expect* — a short paragraph synthesized from `notes` + the most recent claim.
+    4. *Key facts* — claims rendered as readable bullet rows (claim_text + as_of_date).
+    5. *Technical detail* (collapsed `Collapsible`, monospace) — morphology code(s), paper/realization band codes, realization_mode, epistemic_level, reg_refs.
+    6. For US: a "Sub-federal" subsection listing California (SB 53) and Colorado (SB 24-205) facts from `ST-US-CA` / `ST-US-CO`.
+    7. For Vision/Legitimacy nodes (opened from side index): replace bands with plain prose for `source_of_authority`, `scope`, `mode_of_influence`, `dated_anchor`.
+
+- **Documents** — deduped union of sources from this node's claims + morphology_timeindexed rows. Each row: title (anchor, `target=_blank rel=noreferrer`), publisher, year, small reliability + source_type tags. Sorted newest first. `url_status` ≠ verified → small quiet "unverified" marker.
+
+## Side Index (left rail, collapsible)
+
+Grouped sections: Actors, Deployers, Legitimacy (vision). Click → same card opens; the globe does not move. Hidden by default behind a discreet "Index" toggle. Quiet typographic list — no swatches dominating.
+
+## Filters, legend, search
+
+- Top-left floating cluster:
+    - **Legend**: 7 swatches with plain morphology names (always visible).
+    - **Morphology filter**: multi-select by plain name; non-matching countries dim to 0.15.
+    - **Layer filter**: states / actors / deployers / legitimacy (affects which side-index sections show).
+- Top-center: global **search** combobox over all node names. Selecting a country flies the globe to it and opens the card; selecting a non-state opens the card without moving the globe.
+
+## Files to add
+
+- `src/atlas/iso.ts` — `NODE_TO_ISO3` map + `EU_MEMBERS` array + `isoToNodeId` reverse lookup (EU members all map to `ST-EU`).
+- `src/atlas/plainLanguage.ts` — verbatim `MORPH_PLAIN`, `SUBMECH_PLAIN`, `BAND_PLAIN`, `BAND_ORDER`, plus helpers `plainSummary(node)` and `gapGloss(paper, reality)`.
+- `src/atlas/morphology.ts` — replace palette with the new desaturated hex values (M1 #5b7a99 … M7 #6b7385); keep `splitMorphology` for "M3+M4".
+- `src/atlas/useCountries.ts` — fetches `public/data/countries-110m.geojson` once, memoizes features.
+- `public/data/countries-110m.geojson` — copy of the Natural Earth 110m countries set with `ISO_A3` in properties (downloaded at build of this task; ~250KB acceptable for a one-time fetch with cache).
+- `src/atlas/components/EarthGlobe.tsx` — `react-globe.gl` instance, polygon props, hover/click handlers, camera fly-to via ref, auto-rotate handling.
+- `src/atlas/components/HoverLabel.tsx` — HTML label rendered through `htmlElementsData` or `labelsData` API.
+- `src/atlas/panels/NodeCard.tsx` — replaces `NodePanel`; tabs + sections above.
+- `src/atlas/panels/DocumentsTab.tsx`, `src/atlas/panels/AnalysisTab.tsx`, `src/atlas/panels/BandMeter.tsx`, `src/atlas/panels/TechnicalDetail.tsx`.
+- `src/atlas/panels/SideIndex.tsx` — left rail.
+- `src/atlas/panels/SearchCommand.tsx` — shadcn `Command` combobox.
+- `src/atlas/store.ts` — extend with `hoveredNodeId`, `query`, `cameraTarget`, `layerFilter`, `morphologyFilter` (plain-name set), `reducedMotion`.
+- `src/data/store.ts` — add `documentsForNode(nodeId)` helper that returns the deduped sources from claims + morphology_timeindexed for that node.
+
+## Files to remove
+
+`src/atlas/components/Atlas.tsx`, `Globe.tsx`, `StateMarkers.tsx`, `RingLayer.tsx`, `VisionHalo.tsx`, `CameraRig.tsx`, `centroids.ts`, `projection.ts`, `panels/NodePanel.tsx`, `panels/Legend.tsx`, `panels/FilterRail.tsx`. The `Signature` glyph and `LibraryView` are not used in this version (kept on disk for Prompt 2 only if useful; otherwise removed to keep the tree clean).
 
 ## Dependencies
 
-- `three`, `@react-three/fiber`, `@react-three/drei`, `zustand`
-- Fonts via `@fontsource/fraunces` (serif titles) + `@fontsource/jetbrains-mono` (data/labels). No Inter/Roboto.
+Add: `react-globe.gl`. Remove from active import paths: `@react-three/fiber`, `@react-three/drei` are not needed by react-globe.gl directly (it wraps three internally) but are harmless if left installed; we will not uninstall to avoid churn. Existing `three`, `zustand`, `papaparse`, fonts stay.
 
-## Design tokens (`src/styles.css`)
+## Routing & layout
 
-Replace the default token palette with an austere instrument-grade dark theme. All values in `oklch`.
-- `--background` near-black, `--foreground` warm off-white, `--muted` and `--border` hairline grays, `--card` one step above bg.
-- Add the 7 morphology hues as raw CSS vars (`--morph-m1` … `--morph-m7`) converted from the supplied hex to `oklch`. Morphology is the **only** categorical color — never themed via primary/accent.
-- Register morphology tokens in `@theme inline` so utilities like `text-[var(--morph-m3)]` and CSS reads work.
-- Add font-family vars: `--font-serif: "Fraunces", serif`, `--font-mono: "JetBrains Mono", monospace`. Apply serif to `h1–h3`, mono to `code`/`.label`. Body stays a quiet sans fallback (`ui-sans-serif`) used sparingly.
-- Force light theme off — globe is always dark.
+`src/routes/index.tsx` becomes: full-viewport `<EarthGlobe />` + floating filter/legend cluster + search + side-index toggle + `<NodeCard />` sheet bound to `selectedNodeId`. Vignette via a fixed pointer-events-none overlay.
 
-## Folder layout
+## Acceptance checklist (mapped to the brief)
 
-```
-src/
-  atlas/
-    centroids.ts            // node_id -> [lat, lng] map (29 states, embedded)
-    morphology.ts           // palette + helpers (color, opacity from evidence_strength, "M3+M4" split)
-    projection.ts           // latLngToVec3, slerp tween helpers
-    store.ts                // zustand: selectedNodeId, filters {layer[], morphology[]}, ringToggles, libraryOpen, reducedMotion
-    components/
-      Atlas.tsx             // Canvas root: lights, controls, scene composition
-      Globe.tsx             // dark sphere + faint graticule (procedural lines, no texture)
-      StateMarkers.tsx      // 29 state markers from nodes_banded + centroids
-      ActorRing.tsx         // AC-* on concentric ring r=1.25
-      DeployerRing.tsx      // DP-* on concentric ring r=1.45
-      VisionHalo.tsx        // VN-* outermost faint labels + included/excluded arcs
-      CameraRig.tsx         // OrbitControls + auto-rotate + ease-to-node tween
-      Marker.tsx            // shared instanced/single marker primitive (uniform size, opacity by evidence)
-      Label.tsx             // drei <Html> hover label, mono font
-    panels/
-      NodePanel.tsx         // right-hand sheet: header, bands, Signature, claims->sources, notes
-      ClaimItem.tsx         // expandable; renders linked Source rows
-      SourceRow.tsx
-      FilterRail.tsx        // left rail: layer + morphology filters + ring toggles + library button
-      Legend.tsx            // always-visible hue->morphology key
-      LibraryView.tsx       // full-screen overlay: sources+claims table, filter by source_type/reliability/topic
-    signature/
-      Signature.tsx         // reusable ~132x96 inline SVG glyph
-  routes/
-    index.tsx               // Atlas page (replaces current smoke route; keep counts behind a debug flag)
-    library.tsx             // optional dedicated route, also reachable via overlay
-```
+- [ ] All countries rendered at real size from GeoJSON; 26 governed colored; EU tints 27 members; RU/IR ghosted.
+- [ ] Hover lifts the country + plain one-line label, no codes.
+- [ ] Click eases camera + opens card; tabs work; Analysis default.
+- [ ] Documents tab lists deduped sources with working external links and reliability/source_type tags.
+- [ ] Codes only appear inside the collapsed Technical detail.
+- [ ] Side index opens same card for actors/deployers/legitimacy.
+- [ ] Plain-name morphology filter dims non-matches; layer filter scopes side index; search flies-to + opens.
+- [ ] Reduced-motion disables rotate/lift/tween.
 
-## World model rendering
+## Open questions
 
-- **Canvas**: `<Canvas dpr={[1,2]} camera={{ position:[0,0,3.2], fov:38 }}>`, near-black `<color attach="background">`, vignette via post-processing OR a simple radial-gradient CSS overlay (cheaper, no bloom).
-- **Globe**: `<Sphere args={[1, 64, 64]}>` with `MeshStandardMaterial` (very low specular, near-black, subtle emissive). Graticule = procedural `LineSegments` of lat/lng circles every 30° in a desaturated foreground hue at low opacity. Land outlines: ship a tiny pre-baked GeoJSON (Natural Earth 110m land) as `public/geo/land.json`, drawn as `LineSegments` (no fills). If GeoJSON adds weight, fall back to graticule-only — both read as "instrument-grade."
-- **Lights**: one `ambientLight` + one soft directional; no environment map.
-- **State markers**: small `SphereGeometry(r=0.012)` placed via `latLngToVec3(lat,lng, 1.005)`. Color from morphology. Opacity from `evidence_strength`: STRONG=1, WEAK=0.5, OPAQUE=0.22. OPAQUE markers also get a thin dashed ring so they read as "ghosted, present, no band." Size is uniform — verified by code: no scale derived from any band.
-- **Actor/Deployer rings**: nodes distributed evenly around a circle in the equatorial plane at r=1.25 / r=1.45 (tilted ~15°). Same marker primitive, same uniform size.
-- **Vision halo**: VN-* placed on an outer ring r=1.75, rendered as small open glyphs + `<Html>` labels at low opacity. `legitimacy_edges` with `included=yes` drawn as thin `QuadraticBezierLine` arcs from attractor to target node position; `included=no` drawn dashed at ~30% opacity (never omitted).
-- **Auto-rotate**: 0.05 rad/s; pauses on pointer-down/hover; resumes after 4s idle. Disabled when `prefers-reduced-motion`.
-
-## Camera ease
-
-`CameraRig` exposes `flyTo(targetVec3)`. On node click: compute the marker's world position, target a camera position along that vector at radius 2.4, slerp current → target over 900ms with `easeInOutCubic`. Also tween the OrbitControls target to the marker. Reduced-motion: snap.
-
-## Signature glyph
-
-`<Signature node>` — pure SVG, no three.
-- Viewbox 132×96. 5 horizontal gridlines for bands CI > IN > AS > S > C (top to bottom, low→high realization). Faint mono labels on the left axis.
-- Three columns: intent (paper_band), instrument (mid), reality (realization_band). Y = ordinal map.
-- Polyline colored by morphology hue; stroke-opacity from evidence_strength. M6 → `stroke-dasharray="3 3"`.
-- Instrument marker: M3 small open square; M1 downward chevron set below mid; M6/M7 small dot. M3+M4 → primary morphology drives the polyline, secondary morphology renders a small open diamond next to the reality node.
-- Intent = filled dot; Reality = hollow ring (left empty — Prompt 2 will encode prediction status here).
-- Column labels: `int / inst / real` in mono at the bottom.
-
-## Informational panel
-
-`NodePanel` opens as a right-hand `Sheet` (shadcn) at ~420px:
-1. Header: serif name + monospace `node_id` + small layer tag (`STATE` / `ACTOR` / `DEPLOYER` / `VISION`).
-2. Morphology chip in its hue, with `sub_mechanism` in mono underneath.
-3. Bands row: `paper_band → realization_band` rendered as two small band ticks with the mono ordinal labels.
-4. The `Signature` glyph, centered.
-5. Claims section: list of `claimsForNode(id)`. Each `ClaimItem` shows the epistemic tag (VERIFIED/ATTESTED/INFERRED) as a 1px-border pill, `as_of_date` in mono, claim_text in serif. Expand → list of resolved `Source` rows via `store.getSources(claim.source_ids)`: title, publisher (mono), `source_type · reliability · url_status`, outbound link (opens in new tab).
-6. Notes block (italic, muted) at the bottom.
-7. For VN-* (no claims/bands): render `source_of_authority`, `scope`, `mode_of_influence`, `dated_anchor`, `notes` — same chrome, no Signature.
-8. Staggered reveal of sections (translate-y 8→0, opacity 0→1, 60ms stagger). Reduced-motion: appear instantly.
-
-## Filter rail + legend
-
-`FilterRail` (left, ~280px, collapsible):
-- Layer multi-select: state / actor / deployer / vision (default all on).
-- Morphology multi-select with hue swatches; selecting any morphology dims all non-matching markers on the globe to 0.15 opacity.
-- Ring toggles: Actors / Deployers / Vision halo (independent).
-- "Open library" button.
-- Reduced-motion toggle (manual override).
-
-`Legend` (bottom-left, always visible): seven hue swatches → morphology codes + short names, in mono.
-
-## Library view
-
-`LibraryView` — full-screen overlay (or `/library` route, both wired):
-- Two tabs: **Sources** and **Claims**.
-- Sources tab: searchable table; filters for `source_type`, `reliability`, `topic`. Rows show title, publisher, date, reliability, url_status, outbound link. Clicking a row reveals which claims cite it (reverse join computed once).
-- Claims tab: filter by `epistemic_level` and by node layer. Clicking a claim row jumps back to the globe and opens that node's panel.
-
-## Store (zustand)
-
-```
-{
-  selectedNodeId: string | null
-  filters: { layers: Set<Layer>; morphologies: Set<string> }
-  rings: { actors: boolean; deployers: boolean; vision: boolean }
-  library: { open: boolean; tab: 'sources'|'claims' }
-  reducedMotion: boolean
-  selectNode(id), clearSelection(), toggleLayer, toggleMorphology, toggleRing, openLibrary, ...
-}
-```
-Data store stays unchanged — `useDataStore()` feeds the atlas; this zustand only holds UI state.
-
-## Accessibility & motion
-
-- `prefers-reduced-motion` detected once, mirrored into the store, used by `CameraRig` (no auto-rotate, snap tweens) and panel reveals.
-- Markers are focusable via a parallel hidden keyboard list (anchored to filter rail): Tab through visible nodes, Enter selects (same flyTo + panel).
-- Hover labels via drei `<Html>` with `pointerEvents=none`.
-
-## Technical notes
-
-- Land outlines GeoJSON kept under 30KB (Natural Earth 110m, simplified). If we can't get it under budget, ship graticule only — explicitly allowed by spec ("optionally a faint emissive land outline").
-- Marker uniform-size invariant enforced by a single `MARKER_RADIUS` constant; no code path multiplies it by band.
-- `nodes_vision.csv` lacks `layer`; treat any `VN-` prefix as vision. ID-prefix dispatch (`ST-`/`AC-`/`DP-`/`VN-`) lives in `morphology.ts` as `layerOf(id)`.
-- Existing smoke-test counts move behind a `?debug=1` query flag on `/`.
-- No backend, no Lovable Cloud in this step.
-
-## Out of scope (Prompt 2)
-
-- Predictions rendering, markers visualization, time scrubber, morphology-migration animation, prediction-status encoding on the Signature's reality ring.
-- Any size/magnitude/height encoding, choropleth, photoreal earth, bloom.
+None blocking — the brief is unusually complete. I will proceed on these defaults unless told otherwise:
+- Card placement: right-hand `Sheet` (not centered dialog) so the globe stays visible.
+- Side index: collapsed by default behind an "Index" button in the top-left.
+- GeoJSON source: Natural Earth 110m via the world-atlas project, served from `public/data/countries-110m.geojson` so there is no runtime CDN dependency.
