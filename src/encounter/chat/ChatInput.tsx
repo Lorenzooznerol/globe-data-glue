@@ -17,8 +17,9 @@ export function ChatInput({ active, placeholder = "Message…", onSubmit }: Prop
 
   useEffect(() => {
     if (active) {
-      const id = window.setTimeout(() => inputRef.current?.focus(), 120);
-      return () => window.clearTimeout(id);
+      inputRef.current?.focus();
+      const id = window.requestAnimationFrame(() => inputRef.current?.focus());
+      return () => window.cancelAnimationFrame(id);
     } else {
       setValue("");
     }
