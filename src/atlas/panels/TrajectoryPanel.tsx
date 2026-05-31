@@ -98,8 +98,8 @@ export function TrajectoryPanel({ store }: Props) {
               title="What we predict"
               subtitle="Ten dated forecasts, each with a deadline."
               count={store.allPredictions.length}
-              open={section === "register"}
-              onOpenChange={(o) => setSection(o ? "register" : "")}
+              open={isOpen("register")}
+              onOpenChange={(o) => setOpen("register", o)}
             >
               <RegisterList store={store} preds={store.allPredictions} />
             </SectionAccordion>
@@ -110,8 +110,8 @@ export function TrajectoryPanel({ store }: Props) {
               title="Why we think so"
               subtitle="Four claims the atlas is willing to be wrong about."
               count={store.atlas.markers.length}
-              open={section === "theses"}
-              onOpenChange={(o) => setSection(o ? "theses" : "")}
+              open={isOpen("theses")}
+              onOpenChange={(o) => setOpen("theses", o)}
             >
               <ThesesList
                 store={store}
@@ -126,8 +126,8 @@ export function TrajectoryPanel({ store }: Props) {
               title="What's already moved"
               subtitle="Countries whose form of governance has shifted."
               count={migrationNodes.length}
-              open={section === "migrations"}
-              onOpenChange={(o) => setSection(o ? "migrations" : "")}
+              open={isOpen("migrations")}
+              onOpenChange={(o) => setOpen("migrations", o)}
             >
               <MigrationsList nodes={migrationNodes} />
             </SectionAccordion>
