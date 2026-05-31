@@ -10,6 +10,7 @@ import { GiraiOnlyCard } from "@/atlas/panels/GiraiOnlyCard";
 import { SideIndex } from "@/atlas/panels/SideIndex";
 import { SearchCommand } from "@/atlas/panels/SearchCommand";
 import { ModeSwitch } from "@/atlas/panels/ModeSwitch";
+import { ThemeToggle } from "@/atlas/panels/ThemeToggle";
 import { TrajectoryLegend } from "@/atlas/panels/TrajectoryLegend";
 import { TrajectoryPanel } from "@/atlas/panels/TrajectoryPanel";
 import { useAtlasStore } from "@/atlas/store";
