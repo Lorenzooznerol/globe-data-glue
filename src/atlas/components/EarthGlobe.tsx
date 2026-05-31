@@ -1,15 +1,18 @@
-import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
+import { renderToStaticMarkup } from "react-dom/server";
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
-import { colorForNode, familyOf } from "@/atlas/families";
+import { colorForNode, familyOf, FAMILY_COLOR, OPAQUE_GREY } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
 import { giraiRampColor } from "@/atlas/giraiRamp";
+import { directionGlyph } from "@/atlas/trajectory";
+import { DirectionGlyph } from "@/atlas/panels/DirectionGlyph";
 
 const Globe = lazy(() => import("react-globe.gl"));
 
