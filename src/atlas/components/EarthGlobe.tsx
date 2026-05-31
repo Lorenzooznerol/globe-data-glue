@@ -300,60 +300,42 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     });
   }, [theme, themeName]);
 
-  // Glyphs at predicted-node centroids (Forecasts mode only).
-  const glyphData = useMemo(() => {
-    if (!forecastsMode) return [] as GlyphDatum[];
-    const out: GlyphDatum[] = [];
-    for (const [nodeId, preds] of store.predictionsByNode) {
-      const node = store.nodesById.get(nodeId);
-      if (!node) continue;
-      const p = preds[0];
-      let lat: number | undefined;
-      let lng: number | undefined;
-      const feat = featureByNode.get(nodeId);
-      if (nodeId !== "ST-EU" && feat) {
-        try {
-          const [cLng, cLat] = geoCentroid(feat as never);
-          if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
-            lat = cLat;
-            lng = cLng;
-          }
-        } catch {
-          /* fall through */
-        }
-      }
-      if (lat == null || lng == null) {
-        const fb = NODE_CENTROIDS[nodeId];
-        if (!fb) continue;
-        lat = fb[0];
-        lng = fb[1];
-      }
-      out.push({
-        id: nodeId,
-        lat,
-        lng,
-        kind: directionGlyph(p.direction),
-        color: theme.glyphInk,
-      });
+  // Forecast countries set (nodes with predictions, that are countries on the globe)
+  const forecastNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const [nid] of store.predictionsByNode) {
+      // only include node ids that map onto a polygon
+      if (featureByNode.has(nid)) s.add(nid);
     }
-    return out;
-  }, [forecastsMode, store, featureByNode, theme]);
+    return s;
+  }, [store, featureByNode]);
 
-  const htmlElement = useCallback(
-    (d: object) => {
-      const g = d as GlyphDatum;
-      const svg = renderToStaticMarkup(
-        <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
-      );
-      const wrapper = document.createElement("div");
-      wrapper.style.pointerEvents = "none";
-      wrapper.style.transform = "translate(-50%,-50%)";
-      wrapper.style.filter = "drop-shadow(0 0 4px rgba(0,0,0,0.6))";
-      wrapper.innerHTML = svg;
-      return wrapper;
-    },
-    [reducedMotion],
-  );
+  // Migration pulse: nodes with morphology_timeline length >= 2 that are on the globe.
+  const migrationNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const n of store.atlas.nodes) {
+      if ((n.morphology_timeline ?? []).length >= 2 && featureByNode.has(n.node_id)) {
+        s.add(n.node_id);
+      }
+    }
+    return s;
+  }, [store, featureByNode]);
+
+  // Pulse token + simple decay
+  const migrationToken = useAtlasStore((s) => s.migrationToken);
+  const [pulse, setPulse] = useState(0);
+  useEffect(() => {
+    if (reducedMotion) return;
+    if (!forecastsMode) return;
+    setPulse(1);
+    const t1 = setTimeout(() => setPulse(0.5), 500);
+    const t2 = setTimeout(() => setPulse(0), 1400);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [migrationToken, forecastsMode, reducedMotion]);
+
 
   
 
