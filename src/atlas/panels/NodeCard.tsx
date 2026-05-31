@@ -173,7 +173,24 @@ function ShortLevel({
   const headline = node.headline ?? "";
   const summary = node.summary || node.notes || node.vision?.notes || "";
 
-  if (!headline && !summary) {
+  // Resolve GIRAI for the country (or its parent country for subnational nodes).
+  const directIso = node.iso3 ?? null;
+  const parentIso = node.part_of_iso3 ?? null;
+  const girai = directIso
+    ? store.giraiByIso.get(directIso) ?? null
+    : parentIso
+      ? store.giraiByIso.get(parentIso) ?? null
+      : null;
+  const totalCountries = store.girai.countries.length;
+  const isStateNode = node.layer === "state";
+  const showUnscoredNote = isStateNode && !!directIso && !girai;
+  const subnationalNote =
+    node.subnational && parentIso && girai
+      ? `national (${parentIso}) — GIRAI does not score sub-nationally.`
+      : undefined;
+  const family = familyOf(node.morphology);
+
+  if (!headline && !summary && !girai && !showUnscoredNote) {
     return (
       <p className="mono text-[11px] uppercase tracking-wider text-muted-foreground">
         No readable summary recorded yet.
@@ -191,9 +208,24 @@ function ShortLevel({
             <Term>{headline}</Term>
           </p>
         )}
+        {girai && !node.subnational && (
+          <MorphologyVsScoreLine family={family} index_score={girai.index_score} />
+        )}
         {summary && (
           <p className="font-serif text-[15.5px] leading-relaxed text-foreground/90">
             <Term>{summary}</Term>
+          </p>
+        )}
+        {girai && (
+          <GiraiSnapshot
+            girai={girai}
+            totalCountries={totalCountries}
+            contextNote={subnationalNote}
+          />
+        )}
+        {showUnscoredNote && (
+          <p className="font-serif text-[12.5px] italic leading-relaxed text-muted-foreground">
+            Not scored by GIRAI.
           </p>
         )}
       </div>
