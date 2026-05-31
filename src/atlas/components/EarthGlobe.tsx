@@ -364,11 +364,6 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
-        htmlElementsData={glyphData}
-        htmlLat={(d: object) => (d as GlyphDatum).lat}
-        htmlLng={(d: object) => (d as GlyphDatum).lng}
-        htmlAltitude={0.04}
-        htmlElement={htmlElement}
       />
     </Suspense>
   );
