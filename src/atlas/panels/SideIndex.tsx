@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { DataStore } from "@/data/store";
 import { useAtlasStore } from "@/atlas/store";
 import { colorForNode } from "@/atlas/families";
@@ -16,7 +15,6 @@ const SECTIONS = [
 
 export function SideIndex({ store }: Props) {
   const open = useAtlasStore((s) => s.sideIndexOpen);
-  const layers = useAtlasStore((s) => s.layers);
   const toggle = useAtlasStore((s) => s.toggleSideIndex);
   const selectNode = useAtlasStore((s) => s.selectNode);
 
@@ -30,7 +28,7 @@ export function SideIndex({ store }: Props) {
       </button>
       {open && (
         <aside className="pointer-events-auto mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-md border border-border/50 bg-background/90 p-4 backdrop-blur-md">
-          {SECTIONS.filter((s) => s.layer === "deployer" || layers.has(s.layer)).map((section) => {
+          {SECTIONS.map((section) => {
             const rows = store.atlas.nodes
               .filter((n) => layerOf(n.node_id) === section.layer)
               .map((n) => ({ id: n.node_id, name: n.name, hue: colorForNode(n) }));
@@ -59,34 +57,27 @@ function Section({
   rows: { id: string; name: string; hue: string }[];
   onPick: (id: string) => void;
 }) {
-  const [open, setOpen] = useState(true);
   return (
     <section className="mb-4 last:mb-0">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="mono mb-2 flex w-full items-center justify-between text-[10px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
-      >
-        <span>{label}</span>
-        <span aria-hidden>{open ? "−" : "+"}</span>
-      </button>
-      {open && (
-        <ul className="flex flex-col">
-          {rows.map((r) => (
-            <li key={r.id}>
-              <button
-                onClick={() => onPick(r.id)}
-                className="flex w-full items-center gap-2.5 py-1.5 text-left text-[13px] text-foreground/85 hover:text-foreground"
-              >
-                <span
-                  className="h-1.5 w-1.5 shrink-0 rounded-full"
-                  style={{ background: r.hue }}
-                />
-                <span className="font-serif leading-snug">{r.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <h3 className="mono mb-2 text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </h3>
+      <ul className="flex flex-col gap-1">
+        {rows.map((r) => (
+          <li key={r.id}>
+            <button
+              onClick={() => onPick(r.id)}
+              className="grid w-full grid-cols-[8px_1fr] items-baseline gap-x-2 text-left font-serif text-[13px] text-foreground/85 hover:text-foreground"
+            >
+              <span
+                className="mt-[5px] block h-1.5 w-1.5 rounded-[1px]"
+                style={{ background: r.hue }}
+              />
+              <span>{r.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

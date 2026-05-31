@@ -1,34 +1,33 @@
 import { create } from "zustand";
-import type { Layer } from "./morphology";
 import type { Family } from "./families";
+import type { ThemeName } from "./theme";
 
-const DEFAULT_LAYERS: Layer[] = ["state", "actor", "vision"];
-
-export type AtlasMode = "overview" | "girai" | "trajectory";
+export type AtlasMode = "overview" | "girai" | "forecasts";
 
 interface AtlasState {
   selectedNodeId: string | null;
   selectedIso: string | null;
   hoveredNodeId: string | null;
   flyToken: number;
-  layers: Set<Layer>;
   families: Set<Family>;
   sideIndexOpen: boolean;
   reducedMotion: boolean;
   mode: AtlasMode;
   migrationToken: number;
+  theme: ThemeName;
 
   selectNode: (id: string | null, opts?: { fly?: boolean }) => void;
   selectIso: (iso: string | null) => void;
   clearIso: () => void;
   setHovered: (id: string | null) => void;
-  toggleLayer: (l: Layer) => void;
   toggleFamily: (f: Family) => void;
   clearFamilies: () => void;
   toggleSideIndex: () => void;
   setReducedMotion: (v: boolean) => void;
   setMode: (m: AtlasMode) => void;
   playMigrations: () => void;
+  setTheme: (t: ThemeName) => void;
+  toggleTheme: () => void;
 }
 
 export const useAtlasStore = create<AtlasState>((set) => ({
@@ -36,12 +35,12 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   selectedIso: null,
   hoveredNodeId: null,
   flyToken: 0,
-  layers: new Set(DEFAULT_LAYERS),
   families: new Set(),
   sideIndexOpen: false,
   reducedMotion: false,
   mode: "overview",
   migrationToken: 0,
+  theme: "dark",
 
   selectNode: (id, opts) =>
     set((s) => ({
@@ -52,14 +51,6 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   selectIso: (iso) => set({ selectedIso: iso, selectedNodeId: null }),
   clearIso: () => set({ selectedIso: null }),
   setHovered: (id) => set({ hoveredNodeId: id }),
-
-  toggleLayer: (l) =>
-    set((s) => {
-      const next = new Set(s.layers);
-      if (next.has(l)) next.delete(l);
-      else next.add(l);
-      return { layers: next };
-    }),
 
   toggleFamily: (f) =>
     set((s) => {
@@ -74,4 +65,6 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   setReducedMotion: (v) => set({ reducedMotion: v }),
   setMode: (m) => set({ mode: m }),
   playMigrations: () => set((s) => ({ migrationToken: s.migrationToken + 1 })),
+  setTheme: (t) => set({ theme: t }),
+  toggleTheme: () => set((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
 }));
