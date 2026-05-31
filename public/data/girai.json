@@ -1,0 +1,5538 @@
+{
+ "meta": {
+  "source": "Global Index on Responsible AI (GIRAI) 2024 Edition",
+  "publisher": "Global Center on AI Governance",
+  "license": "CC BY-NC-SA 4.0",
+  "data_year": 2023,
+  "edition": "2024 (First Edition, Corrected)",
+  "country_count": 138,
+  "note": "Index score 0-100. thematic_areas = ta_score per thematic area (0-100). Includes near-zero scorers (countries doing little) — absence of movement IS represented, not missing.",
+  "scale": {
+   "index_score": "0-100",
+   "pillars": "0-100",
+   "dimensions": "0-100"
+  }
+ },
+ "countries": [
+  {
+   "iso3": "NLD",
+   "country": "Netherlands",
+   "ranking": 1.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 86.16,
+   "pillars": {
+    "government_frameworks": 74.33,
+    "government_actions": 95.46,
+    "non_state_actors": 91.23
+   },
+   "dimensions": {
+    "human_rights": 78.74,
+    "governance": 91.12,
+    "capacities": 88.59
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "DEU",
+   "country": "Germany",
+   "ranking": 2.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 82.77,
+   "pillars": {
+    "government_frameworks": 72.69,
+    "government_actions": 93.0,
+    "non_state_actors": 82.48
+   },
+   "dimensions": {
+    "human_rights": 80.3,
+    "governance": 90.94,
+    "capacities": 64.03
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "IRL",
+   "country": "Ireland",
+   "ranking": 3.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 74.98,
+   "pillars": {
+    "government_frameworks": 81.71,
+    "government_actions": 74.17,
+    "non_state_actors": 63.16
+   },
+   "dimensions": {
+    "human_rights": 84.1,
+    "governance": 73.68,
+    "capacities": 57.6
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GBR",
+   "country": "United Kingdom of Great Britain and Northern Ireland",
+   "ranking": 4.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 73.12,
+   "pillars": {
+    "government_frameworks": 60.66,
+    "government_actions": 80.9,
+    "non_state_actors": 82.48
+   },
+   "dimensions": {
+    "human_rights": 67.59,
+    "governance": 79.62,
+    "capacities": 66.54
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "USA",
+   "country": "United States of America",
+   "ranking": 5.0,
+   "region": "North America",
+   "un_region": "Americas",
+   "un_subregion": "Northern America",
+   "index_score": 72.81,
+   "pillars": {
+    "government_frameworks": 62.41,
+    "government_actions": 79.19,
+    "non_state_actors": 80.87
+   },
+   "dimensions": {
+    "human_rights": 65.37,
+    "governance": 74.75,
+    "capacities": 84.34
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "EST",
+   "country": "Estonia",
+   "ranking": 6.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 67.61,
+   "pillars": {
+    "government_frameworks": 65.58,
+    "government_actions": 81.52,
+    "non_state_actors": 43.86
+   },
+   "dimensions": {
+    "human_rights": 65.85,
+    "governance": 72.01,
+    "capacities": 58.54
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ITA",
+   "country": "Italy",
+   "ranking": 7.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 61.8,
+   "pillars": {
+    "government_frameworks": 59.99,
+    "government_actions": 55.96,
+    "non_state_actors": 77.1
+   },
+   "dimensions": {
+    "human_rights": 66.34,
+    "governance": 66.13,
+    "capacities": 38.21
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "FRA",
+   "country": "France",
+   "ranking": 8.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 57.62,
+   "pillars": {
+    "government_frameworks": 56.23,
+    "government_actions": 58.92,
+    "non_state_actors": 57.81
+   },
+   "dimensions": {
+    "human_rights": 39.84,
+    "governance": 72.27,
+    "capacities": 55.17
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CAN",
+   "country": "Canada",
+   "ranking": 9.0,
+   "region": "North America",
+   "un_region": "Americas",
+   "un_subregion": "Northern America",
+   "index_score": 57.39,
+   "pillars": {
+    "government_frameworks": 37.8,
+    "government_actions": 80.84,
+    "non_state_actors": 49.68
+   },
+   "dimensions": {
+    "human_rights": 55.37,
+    "governance": 59.08,
+    "capacities": 57.06
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "AUS",
+   "country": "Australia",
+   "ranking": 10.0,
+   "region": "Asia and Oceania",
+   "un_region": "Oceania",
+   "un_subregion": "Australia and New Zealand",
+   "index_score": 56.22,
+   "pillars": {
+    "government_frameworks": 34.69,
+    "government_actions": 72.44,
+    "non_state_actors": 66.82
+   },
+   "dimensions": {
+    "human_rights": 71.31,
+    "governance": 52.67,
+    "capacities": 31.62
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SGP",
+   "country": "Singapore",
+   "ranking": 11.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 53.77,
+   "pillars": {
+    "government_frameworks": 43.7,
+    "government_actions": 70.68,
+    "non_state_actors": 40.09
+   },
+   "dimensions": {
+    "human_rights": 48.35,
+    "governance": 58.54,
+    "capacities": 52.1
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "JPN",
+   "country": "Japan",
+   "ranking": 12.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Eastern Asia",
+   "index_score": 52.21,
+   "pillars": {
+    "government_frameworks": 28.86,
+    "government_actions": 72.54,
+    "non_state_actors": 58.25
+   },
+   "dimensions": {
+    "human_rights": 41.67,
+    "governance": 63.07,
+    "capacities": 44.19
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SVN",
+   "country": "Slovenia",
+   "ranking": 13.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 49.58,
+   "pillars": {
+    "government_frameworks": 68.89,
+    "government_actions": 39.63,
+    "non_state_actors": 30.84
+   },
+   "dimensions": {
+    "human_rights": 51.97,
+    "governance": 47.12,
+    "capacities": 51.35
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PRT",
+   "country": "Portugal",
+   "ranking": 14.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 49.44,
+   "pillars": {
+    "government_frameworks": 66.06,
+    "government_actions": 34.74,
+    "non_state_actors": 45.61
+   },
+   "dimensions": {
+    "human_rights": 54.47,
+    "governance": 43.38,
+    "capacities": 55.89
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CHE",
+   "country": "Switzerland",
+   "ranking": 15.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 48.11,
+   "pillars": {
+    "government_frameworks": 56.15,
+    "government_actions": 50.42,
+    "non_state_actors": 27.41
+   },
+   "dimensions": {
+    "human_rights": 32.92,
+    "governance": 57.92,
+    "capacities": 54.14
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ESP",
+   "country": "Spain",
+   "ranking": 16.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 45.08,
+   "pillars": {
+    "government_frameworks": 68.02,
+    "government_actions": 33.36,
+    "non_state_actors": 22.64
+   },
+   "dimensions": {
+    "human_rights": 47.59,
+    "governance": 41.82,
+    "capacities": 48.99
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ARE",
+   "country": "United Arab Emirates",
+   "ranking": 17.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 44.66,
+   "pillars": {
+    "government_frameworks": 46.4,
+    "government_actions": 55.62,
+    "non_state_actors": 19.24
+   },
+   "dimensions": {
+    "human_rights": 40.58,
+    "governance": 45.66,
+    "capacities": 51.15
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BRA",
+   "country": "Brazil",
+   "ranking": 18.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 44.42,
+   "pillars": {
+    "government_frameworks": 44.56,
+    "government_actions": 40.86,
+    "non_state_actors": 51.26
+   },
+   "dimensions": {
+    "human_rights": 44.85,
+    "governance": 46.9,
+    "capacities": 35.97
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "URY",
+   "country": "Uruguay",
+   "ranking": 19.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 44.09,
+   "pillars": {
+    "government_frameworks": 35.64,
+    "government_actions": 54.03,
+    "non_state_actors": 41.12
+   },
+   "dimensions": {
+    "human_rights": 47.2,
+    "governance": 43.84,
+    "capacities": 37.59
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "FIN",
+   "country": "Finland",
+   "ranking": 20.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 43.07,
+   "pillars": {
+    "government_frameworks": 36.45,
+    "government_actions": 49.29,
+    "non_state_actors": 43.86
+   },
+   "dimensions": {
+    "human_rights": 36.58,
+    "governance": 47.24,
+    "capacities": 45.69
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "POL",
+   "country": "Poland",
+   "ranking": 21.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 42.73,
+   "pillars": {
+    "government_frameworks": 63.5,
+    "government_actions": 34.97,
+    "non_state_actors": 16.74
+   },
+   "dimensions": {
+    "human_rights": 43.83,
+    "governance": 42.07,
+    "capacities": 42.15
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ROU",
+   "country": "Romania",
+   "ranking": 22.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 42.11,
+   "pillars": {
+    "government_frameworks": 26.61,
+    "government_actions": 55.81,
+    "non_state_actors": 45.71
+   },
+   "dimensions": {
+    "human_rights": 36.96,
+    "governance": 48.63,
+    "capacities": 34.57
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CHL",
+   "country": "Chile",
+   "ranking": 23.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 40.38,
+   "pillars": {
+    "government_frameworks": 33.36,
+    "government_actions": 49.18,
+    "non_state_actors": 36.84
+   },
+   "dimensions": {
+    "human_rights": 42.45,
+    "governance": 43.47,
+    "capacities": 26.3
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BEL",
+   "country": "Belgium",
+   "ranking": 24.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 38.55,
+   "pillars": {
+    "government_frameworks": 57.24,
+    "government_actions": 27.13,
+    "non_state_actors": 23.99
+   },
+   "dimensions": {
+    "human_rights": 40.35,
+    "governance": 41.62,
+    "capacities": 25.11
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "IND",
+   "country": "India",
+   "ranking": 25.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 38.51,
+   "pillars": {
+    "government_frameworks": 28.42,
+    "government_actions": 52.95,
+    "non_state_actors": 29.81
+   },
+   "dimensions": {
+    "human_rights": 28.99,
+    "governance": 46.74,
+    "capacities": 36.05
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "UKR",
+   "country": "Ukraine",
+   "ranking": 26.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 38.13,
+   "pillars": {
+    "government_frameworks": 25.72,
+    "government_actions": 39.19,
+    "non_state_actors": 60.81
+   },
+   "dimensions": {
+    "human_rights": 34.35,
+    "governance": 39.31,
+    "capacities": 43.39
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KOR",
+   "country": "Republic of Korea",
+   "ranking": 27.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Eastern Asia",
+   "index_score": 36.18,
+   "pillars": {
+    "government_frameworks": 35.64,
+    "government_actions": 34.59,
+    "non_state_actors": 40.43
+   },
+   "dimensions": {
+    "human_rights": 35.08,
+    "governance": 36.4,
+    "capacities": 38.07
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GRC",
+   "country": "Greece",
+   "ranking": 28.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 35.86,
+   "pillars": {
+    "government_frameworks": 53.61,
+    "government_actions": 21.35,
+    "non_state_actors": 29.36
+   },
+   "dimensions": {
+    "human_rights": 31.14,
+    "governance": 42.25,
+    "capacities": 27.69
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LTU",
+   "country": "Lithuania",
+   "ranking": 29.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 35.78,
+   "pillars": {
+    "government_frameworks": 42.17,
+    "government_actions": 29.02,
+    "non_state_actors": 36.49
+   },
+   "dimensions": {
+    "human_rights": 35.41,
+    "governance": 39.2,
+    "capacities": 26.35
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "AUT",
+   "country": "Austria",
+   "ranking": 30.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Western Europe",
+   "index_score": 35.76,
+   "pillars": {
+    "government_frameworks": 55.85,
+    "government_actions": 26.87,
+    "non_state_actors": 13.38
+   },
+   "dimensions": {
+    "human_rights": 28.64,
+    "governance": 37.01,
+    "capacities": 48.63
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PHL",
+   "country": "Philippines",
+   "ranking": 31.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 35.46,
+   "pillars": {
+    "government_frameworks": 19.24,
+    "government_actions": 40.72,
+    "non_state_actors": 57.36
+   },
+   "dimensions": {
+    "human_rights": 34.87,
+    "governance": 37.84,
+    "capacities": 29.67
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CHN",
+   "country": "China",
+   "ranking": 32.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Eastern Asia",
+   "index_score": 35.3,
+   "pillars": {
+    "government_frameworks": 22.11,
+    "government_actions": 54.07,
+    "non_state_actors": 24.16
+   },
+   "dimensions": {
+    "human_rights": 25.4,
+    "governance": 39.13,
+    "capacities": 46.95
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "VNM",
+   "country": "Viet Nam",
+   "ranking": 33.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 34.29,
+   "pillars": {
+    "government_frameworks": 21.8,
+    "government_actions": 55.29,
+    "non_state_actors": 17.27
+   },
+   "dimensions": {
+    "human_rights": 28.61,
+    "governance": 35.22,
+    "capacities": 44.75
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TWN",
+   "country": "Taiwan",
+   "ranking": 34.0,
+   "region": "Asia and Oceania",
+   "un_region": "",
+   "un_subregion": "",
+   "index_score": 33.86,
+   "pillars": {
+    "government_frameworks": 26.49,
+    "government_actions": 44.57,
+    "non_state_actors": 27.19
+   },
+   "dimensions": {
+    "human_rights": 44.23,
+    "governance": 23.98,
+    "capacities": 39.33
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SVK",
+   "country": "Slovakia",
+   "ranking": 35.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 33.17,
+   "pillars": {
+    "government_frameworks": 47.83,
+    "government_actions": 18.82,
+    "non_state_actors": 32.55
+   },
+   "dimensions": {
+    "human_rights": 25.87,
+    "governance": 41.72,
+    "capacities": 24.57
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "HUN",
+   "country": "Hungary",
+   "ranking": 36.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 32.0,
+   "pillars": {
+    "government_frameworks": 44.79,
+    "government_actions": 21.03,
+    "non_state_actors": 28.34
+   },
+   "dimensions": {
+    "human_rights": 29.89,
+    "governance": 25.52,
+    "capacities": 56.35
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "QAT",
+   "country": "Qatar",
+   "ranking": 37.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 29.84,
+   "pillars": {
+    "government_frameworks": 27.91,
+    "government_actions": 38.33,
+    "non_state_actors": 16.72
+   },
+   "dimensions": {
+    "human_rights": 42.66,
+    "governance": 17.44,
+    "capacities": 37.1
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "JOR",
+   "country": "Jordan",
+   "ranking": 38.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 29.6,
+   "pillars": {
+    "government_frameworks": 36.88,
+    "government_actions": 28.78,
+    "non_state_actors": 16.69
+   },
+   "dimensions": {
+    "human_rights": 30.68,
+    "governance": 26.75,
+    "capacities": 35.63
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BGR",
+   "country": "Bulgaria",
+   "ranking": 39.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 29.09,
+   "pillars": {
+    "government_frameworks": 33.96,
+    "government_actions": 11.97,
+    "non_state_actors": 53.59
+   },
+   "dimensions": {
+    "human_rights": 26.08,
+    "governance": 36.73,
+    "capacities": 13.17
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SAU",
+   "country": "Saudi Arabia",
+   "ranking": 40.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 28.95,
+   "pillars": {
+    "government_frameworks": 25.6,
+    "government_actions": 42.87,
+    "non_state_actors": 7.81
+   },
+   "dimensions": {
+    "human_rights": 26.28,
+    "governance": 27.69,
+    "capacities": 38.96
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MYS",
+   "country": "Malaysia",
+   "ranking": 41.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 28.46,
+   "pillars": {
+    "government_frameworks": 38.26,
+    "government_actions": 23.01,
+    "non_state_actors": 19.74
+   },
+   "dimensions": {
+    "human_rights": 20.05,
+    "governance": 27.84,
+    "capacities": 49.92
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ZAF",
+   "country": "South Africa",
+   "ranking": 42.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 27.61,
+   "pillars": {
+    "government_frameworks": 3.26,
+    "government_actions": 31.5,
+    "non_state_actors": 68.53
+   },
+   "dimensions": {
+    "human_rights": 28.93,
+    "governance": 24.99,
+    "capacities": 32.4
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "NZL",
+   "country": "New Zealand",
+   "ranking": 43.0,
+   "region": "Asia and Oceania",
+   "un_region": "Oceania",
+   "un_subregion": "Australia and New Zealand",
+   "index_score": 27.33,
+   "pillars": {
+    "government_frameworks": 28.49,
+    "government_actions": 33.7,
+    "non_state_actors": 12.28
+   },
+   "dimensions": {
+    "human_rights": 27.87,
+    "governance": 32.2,
+    "capacities": 11.47
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CRI",
+   "country": "Costa Rica",
+   "ranking": 44.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 27.05,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 58.29,
+    "non_state_actors": 18.7
+   },
+   "dimensions": {
+    "human_rights": 33.12,
+    "governance": 27.8,
+    "capacities": 10.67
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LVA",
+   "country": "Latvia",
+   "ranking": 45.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Northern Europe",
+   "index_score": 26.74,
+   "pillars": {
+    "government_frameworks": 45.65,
+    "government_actions": 12.0,
+    "non_state_actors": 18.39
+   },
+   "dimensions": {
+    "human_rights": 24.5,
+    "governance": 25.72,
+    "capacities": 35.02
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PSE",
+   "country": "Palestine",
+   "ranking": 46.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 26.38,
+   "pillars": {
+    "government_frameworks": 17.37,
+    "government_actions": 44.06,
+    "non_state_actors": 9.05
+   },
+   "dimensions": {
+    "human_rights": 22.23,
+    "governance": 28.54,
+    "capacities": 29.59
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "THA",
+   "country": "Thailand",
+   "ranking": 47.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 23.87,
+   "pillars": {
+    "government_frameworks": 24.26,
+    "government_actions": 30.73,
+    "non_state_actors": 9.35
+   },
+   "dimensions": {
+    "human_rights": 17.78,
+    "governance": 21.0,
+    "capacities": 46.65
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "COL",
+   "country": "Colombia",
+   "ranking": 48.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 23.84,
+   "pillars": {
+    "government_frameworks": 24.51,
+    "government_actions": 18.17,
+    "non_state_actors": 33.85
+   },
+   "dimensions": {
+    "human_rights": 25.36,
+    "governance": 24.38,
+    "capacities": 18.66
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "HRV",
+   "country": "Croatia",
+   "ranking": 49.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 23.58,
+   "pillars": {
+    "government_frameworks": 33.59,
+    "government_actions": 14.76,
+    "non_state_actors": 21.2
+   },
+   "dimensions": {
+    "human_rights": 30.95,
+    "governance": 18.43,
+    "capacities": 21.85
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "DOM",
+   "country": "Dominican Republic",
+   "ranking": 50.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 23.18,
+   "pillars": {
+    "government_frameworks": 39.46,
+    "government_actions": 9.11,
+    "non_state_actors": 18.75
+   },
+   "dimensions": {
+    "human_rights": 16.58,
+    "governance": 26.45,
+    "capacities": 28.79
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MAR",
+   "country": "Morocco",
+   "ranking": 51.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Northern Africa",
+   "index_score": 22.99,
+   "pillars": {
+    "government_frameworks": 9.51,
+    "government_actions": 30.97,
+    "non_state_actors": 34.02
+   },
+   "dimensions": {
+    "human_rights": 27.99,
+    "governance": 20.24,
+    "capacities": 19.6
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "HKG",
+   "country": "China, Hong Kong Special Administrative Region",
+   "ranking": 52.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Eastern Asia",
+   "index_score": 22.07,
+   "pillars": {
+    "government_frameworks": 26.13,
+    "government_actions": 24.15,
+    "non_state_actors": 9.8
+   },
+   "dimensions": {
+    "human_rights": 12.66,
+    "governance": 28.35,
+    "capacities": 25.2
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BEN",
+   "country": "Benin",
+   "ranking": 53.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 21.96,
+   "pillars": {
+    "government_frameworks": 16.88,
+    "government_actions": 22.18,
+    "non_state_actors": 31.66
+   },
+   "dimensions": {
+    "human_rights": 19.02,
+    "governance": 22.24,
+    "capacities": 27.96
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ARG",
+   "country": "Argentina",
+   "ranking": 54.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 21.95,
+   "pillars": {
+    "government_frameworks": 10.49,
+    "government_actions": 29.47,
+    "non_state_actors": 29.85
+   },
+   "dimensions": {
+    "human_rights": 25.73,
+    "governance": 18.41,
+    "capacities": 23.77
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SRB",
+   "country": "Serbia",
+   "ranking": 55.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 21.24,
+   "pillars": {
+    "government_frameworks": 29.96,
+    "government_actions": 9.11,
+    "non_state_actors": 28.04
+   },
+   "dimensions": {
+    "human_rights": 19.89,
+    "governance": 22.23,
+    "capacities": 21.39
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SEN",
+   "country": "Senegal",
+   "ranking": 56.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 20.11,
+   "pillars": {
+    "government_frameworks": 26.76,
+    "government_actions": 13.34,
+    "non_state_actors": 20.35
+   },
+   "dimensions": {
+    "human_rights": 16.74,
+    "governance": 22.89,
+    "capacities": 19.63
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KWT",
+   "country": "Kuwait",
+   "ranking": 57.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 19.11,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 35.79,
+    "non_state_actors": 23.99
+   },
+   "dimensions": {
+    "human_rights": 23.39,
+    "governance": 15.85,
+    "capacities": 18.92
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MKD",
+   "country": "North Macedonia",
+   "ranking": 58.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 18.14,
+   "pillars": {
+    "government_frameworks": 12.69,
+    "government_actions": 14.85,
+    "non_state_actors": 35.64
+   },
+   "dimensions": {
+    "human_rights": 22.47,
+    "governance": 16.11,
+    "capacities": 14.15
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "RWA",
+   "country": "Rwanda",
+   "ranking": 59.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 18.09,
+   "pillars": {
+    "government_frameworks": 29.74,
+    "government_actions": 14.48,
+    "non_state_actors": 2.01
+   },
+   "dimensions": {
+    "human_rights": 11.94,
+    "governance": 22.92,
+    "capacities": 17.96
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GEO",
+   "country": "Georgia",
+   "ranking": 60.0,
+   "region": "Europe",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 17.83,
+   "pillars": {
+    "government_frameworks": 28.3,
+    "government_actions": 7.93,
+    "non_state_actors": 16.69
+   },
+   "dimensions": {
+    "human_rights": 17.2,
+    "governance": 20.6,
+    "capacities": 11.03
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PER",
+   "country": "Peru",
+   "ranking": 61.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 16.4,
+   "pillars": {
+    "government_frameworks": 12.56,
+    "government_actions": 16.67,
+    "non_state_actors": 23.53
+   },
+   "dimensions": {
+    "human_rights": 10.99,
+    "governance": 18.91,
+    "capacities": 21.51
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TUN",
+   "country": "Tunisia",
+   "ranking": 62.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Northern Africa",
+   "index_score": 15.8,
+   "pillars": {
+    "government_frameworks": 6.11,
+    "government_actions": 19.37,
+    "non_state_actors": 28.04
+   },
+   "dimensions": {
+    "human_rights": 19.25,
+    "governance": 14.44,
+    "capacities": 11.86
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "EGY",
+   "country": "Egypt",
+   "ranking": 63.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Northern Africa",
+   "index_score": 15.79,
+   "pillars": {
+    "government_frameworks": 24.62,
+    "government_actions": 14.54,
+    "non_state_actors": 0.62
+   },
+   "dimensions": {
+    "human_rights": 18.12,
+    "governance": 10.55,
+    "capacities": 26.07
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MEX",
+   "country": "Mexico",
+   "ranking": 64.0,
+   "region": "North America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 15.77,
+   "pillars": {
+    "government_frameworks": 3.53,
+    "government_actions": 22.73,
+    "non_state_actors": 26.32
+   },
+   "dimensions": {
+    "human_rights": 21.48,
+    "governance": 9.22,
+    "capacities": 22.09
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MNE",
+   "country": "Montenegro",
+   "ranking": 65.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 14.84,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 15.01,
+    "non_state_actors": 44.19
+   },
+   "dimensions": {
+    "human_rights": 20.61,
+    "governance": 9.63,
+    "capacities": 17.02
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "OMN",
+   "country": "Oman",
+   "ranking": 66.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 14.8,
+   "pillars": {
+    "government_frameworks": 23.54,
+    "government_actions": 13.03,
+    "non_state_actors": 0.86
+   },
+   "dimensions": {
+    "human_rights": 13.85,
+    "governance": 15.12,
+    "capacities": 16.06
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "IDN",
+   "country": "Indonesia",
+   "ranking": 67.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 13.77,
+   "pillars": {
+    "government_frameworks": 20.3,
+    "government_actions": 6.73,
+    "non_state_actors": 14.79
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 21.45,
+    "capacities": 22.86
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PAK",
+   "country": "Pakistan",
+   "ranking": 68.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 13.19,
+   "pillars": {
+    "government_frameworks": 2.21,
+    "government_actions": 23.16,
+    "non_state_actors": 15.21
+   },
+   "dimensions": {
+    "human_rights": 16.01,
+    "governance": 10.79,
+    "capacities": 13.83
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MDA",
+   "country": "Republic of Moldova",
+   "ranking": 69.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 12.99,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 29.04,
+    "non_state_actors": 6.85
+   },
+   "dimensions": {
+    "human_rights": 13.72,
+    "governance": 14.25,
+    "capacities": 7.51
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "UZB",
+   "country": "Uzbekistan",
+   "ranking": 70.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Central Asia",
+   "index_score": 11.27,
+   "pillars": {
+    "government_frameworks": 14.21,
+    "government_actions": 12.0,
+    "non_state_actors": 3.95
+   },
+   "dimensions": {
+    "human_rights": 5.78,
+    "governance": 11.15,
+    "capacities": 24.47
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KHM",
+   "country": "Cambodia",
+   "ranking": 71.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 11.26,
+   "pillars": {
+    "government_frameworks": 8.91,
+    "government_actions": 16.56,
+    "non_state_actors": 5.35
+   },
+   "dimensions": {
+    "human_rights": 14.15,
+    "governance": 7.11,
+    "capacities": 16.96
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LKA",
+   "country": "Sri Lanka",
+   "ranking": 72.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 10.92,
+   "pillars": {
+    "government_frameworks": 11.56,
+    "government_actions": 10.13,
+    "non_state_actors": 11.23
+   },
+   "dimensions": {
+    "human_rights": 9.95,
+    "governance": 11.04,
+    "capacities": 12.83
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "NAM",
+   "country": "Namibia",
+   "ranking": 73.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 10.84,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 19.83,
+    "non_state_actors": 14.56
+   },
+   "dimensions": {
+    "human_rights": 15.35,
+    "governance": 6.16,
+    "capacities": 14.37
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KAZ",
+   "country": "Kazakhstan",
+   "ranking": 74.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Central Asia",
+   "index_score": 9.91,
+   "pillars": {
+    "government_frameworks": 3.07,
+    "government_actions": 18.86,
+    "non_state_actors": 5.7
+   },
+   "dimensions": {
+    "human_rights": 14.15,
+    "governance": 6.1,
+    "capacities": 11.43
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PAN",
+   "country": "Panama",
+   "ranking": 75.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 9.14,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 22.03,
+    "non_state_actors": 1.66
+   },
+   "dimensions": {
+    "human_rights": 9.2,
+    "governance": 7.15,
+    "capacities": 14.98
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MNG",
+   "country": "Mongolia",
+   "ranking": 76.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Eastern Asia",
+   "index_score": 9.11,
+   "pillars": {
+    "government_frameworks": 10.19,
+    "government_actions": 5.31,
+    "non_state_actors": 14.56
+   },
+   "dimensions": {
+    "human_rights": 6.18,
+    "governance": 7.56,
+    "capacities": 20.62
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KEN",
+   "country": "Kenya",
+   "ranking": 77.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 8.79,
+   "pillars": {
+    "government_frameworks": 8.67,
+    "government_actions": 4.68,
+    "non_state_actors": 17.27
+   },
+   "dimensions": {
+    "human_rights": 6.03,
+    "governance": 9.46,
+    "capacities": 13.25
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BHR",
+   "country": "Bahrain",
+   "ranking": 78.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 8.71,
+   "pillars": {
+    "government_frameworks": 9.67,
+    "government_actions": 10.96,
+    "non_state_actors": 2.3
+   },
+   "dimensions": {
+    "human_rights": 9.38,
+    "governance": 5.15,
+    "capacities": 17.84
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "KGZ",
+   "country": "Kyrgyz Republic",
+   "ranking": 79.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Central Asia",
+   "index_score": 7.4,
+   "pillars": {
+    "government_frameworks": 2.14,
+    "government_actions": 10.5,
+    "non_state_actors": 11.76
+   },
+   "dimensions": {
+    "human_rights": 8.88,
+    "governance": 3.62,
+    "capacities": 15.32
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "NGA",
+   "country": "Nigeria",
+   "ranking": 80.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 7.21,
+   "pillars": {
+    "government_frameworks": 3.9,
+    "government_actions": 6.97,
+    "non_state_actors": 14.31
+   },
+   "dimensions": {
+    "human_rights": 8.59,
+    "governance": 6.1,
+    "capacities": 7.32
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TJK",
+   "country": "Tajikistan",
+   "ranking": 81.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Central Asia",
+   "index_score": 6.93,
+   "pillars": {
+    "government_frameworks": 8.18,
+    "government_actions": 7.42,
+    "non_state_actors": 3.45
+   },
+   "dimensions": {
+    "human_rights": 6.0,
+    "governance": 5.19,
+    "capacities": 14.33
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "NPL",
+   "country": "Nepal",
+   "ranking": 82.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 6.78,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 12.43,
+    "non_state_actors": 9.02
+   },
+   "dimensions": {
+    "human_rights": 7.3,
+    "governance": 2.84,
+    "capacities": 17.38
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "JAM",
+   "country": "Jamaica",
+   "ranking": 83.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 6.76,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 10.26,
+    "non_state_actors": 13.27
+   },
+   "dimensions": {
+    "human_rights": 8.22,
+    "governance": 4.29,
+    "capacities": 10.77
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "PRY",
+   "country": "Paraguay",
+   "ranking": 84.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 6.33,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 10.34,
+    "non_state_actors": 10.96
+   },
+   "dimensions": {
+    "human_rights": 6.27,
+    "governance": 3.99,
+    "capacities": 13.51
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MUS",
+   "country": "Mauritius",
+   "ranking": 85.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 6.29,
+   "pillars": {
+    "government_frameworks": 7.53,
+    "government_actions": 7.4,
+    "non_state_actors": 1.62
+   },
+   "dimensions": {
+    "human_rights": 3.27,
+    "governance": 7.62,
+    "capacities": 9.37
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GHA",
+   "country": "Ghana",
+   "ranking": 86.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 6.26,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 9.39,
+    "non_state_actors": 12.5
+   },
+   "dimensions": {
+    "human_rights": 0.85,
+    "governance": 10.0,
+    "capacities": 7.65
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ETH",
+   "country": "Ethiopia",
+   "ranking": 87.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 6.1,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 11.33,
+    "non_state_actors": 7.84
+   },
+   "dimensions": {
+    "human_rights": 6.85,
+    "governance": 4.73,
+    "capacities": 8.45
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "AZE",
+   "country": "Azerbaijan",
+   "ranking": 88.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 5.86,
+   "pillars": {
+    "government_frameworks": 3.7,
+    "government_actions": 10.09,
+    "non_state_actors": 1.73
+   },
+   "dimensions": {
+    "human_rights": 2.91,
+    "governance": 5.29,
+    "capacities": 14.49
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GUY",
+   "country": "Guyana",
+   "ranking": 89.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 5.42,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.76,
+    "non_state_actors": 21.56
+   },
+   "dimensions": {
+    "human_rights": 4.5,
+    "governance": 3.5,
+    "capacities": 13.29
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "NER",
+   "country": "Niger",
+   "ranking": 90.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 5.28,
+   "pillars": {
+    "government_frameworks": 9.81,
+    "government_actions": 2.25,
+    "non_state_actors": 2.28
+   },
+   "dimensions": {
+    "human_rights": 5.94,
+    "governance": 4.14,
+    "capacities": 7.14
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ATG",
+   "country": "Antigua and Barbuda",
+   "ranking": 91.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 4.72,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 9.38,
+    "non_state_actors": 4.81
+   },
+   "dimensions": {
+    "human_rights": 6.01,
+    "governance": 2.64,
+    "capacities": 7.92
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ZMB",
+   "country": "Zambia",
+   "ranking": 92.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 4.71,
+   "pillars": {
+    "government_frameworks": 2.6,
+    "government_actions": 6.87,
+    "non_state_actors": 4.61
+   },
+   "dimensions": {
+    "human_rights": 4.07,
+    "governance": 1.93,
+    "capacities": 14.52
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TTO",
+   "country": "Trinidad and Tobago",
+   "ranking": 93.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 4.65,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 5.67,
+    "non_state_actors": 11.9
+   },
+   "dimensions": {
+    "human_rights": 4.61,
+    "governance": 3.11,
+    "capacities": 9.33
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LBY",
+   "country": "Libya",
+   "ranking": 94.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Northern Africa",
+   "index_score": 4.53,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 6.61,
+    "non_state_actors": 9.44
+   },
+   "dimensions": {
+    "human_rights": 5.17,
+    "governance": 2.32,
+    "capacities": 9.68
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ECU",
+   "country": "Ecuador",
+   "ranking": 95.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 4.51,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.85,
+    "non_state_actors": 12.83
+   },
+   "dimensions": {
+    "human_rights": 5.42,
+    "governance": 2.05,
+    "capacities": 9.75
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ALB",
+   "country": "Albania",
+   "ranking": 96.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Southern Europe",
+   "index_score": 4.06,
+   "pillars": {
+    "government_frameworks": 3.38,
+    "government_actions": 6.07,
+    "non_state_actors": 1.41
+   },
+   "dimensions": {
+    "human_rights": 0.77,
+    "governance": 0.0,
+    "capacities": 23.95
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CMR",
+   "country": "Cameroon",
+   "ranking": 97.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 4.04,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 5.46,
+    "non_state_actors": 9.27
+   },
+   "dimensions": {
+    "human_rights": 5.6,
+    "governance": 2.68,
+    "capacities": 4.44
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ZWE",
+   "country": "Zimbabwe",
+   "ranking": 98.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 3.69,
+   "pillars": {
+    "government_frameworks": 3.34,
+    "government_actions": 3.23,
+    "non_state_actors": 5.35
+   },
+   "dimensions": {
+    "human_rights": 4.92,
+    "governance": 0.0,
+    "capacities": 11.92
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LBN",
+   "country": "Lebanon",
+   "ranking": 99.0,
+   "region": "Middle East",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 3.69,
+   "pillars": {
+    "government_frameworks": 1.86,
+    "government_actions": 1.56,
+    "non_state_actors": 11.6
+   },
+   "dimensions": {
+    "human_rights": 3.5,
+    "governance": 2.66,
+    "capacities": 7.22
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LCA",
+   "country": "Saint Lucia",
+   "ranking": 100.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 3.34,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 6.62,
+    "non_state_actors": 3.43
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 21.12
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ARM",
+   "country": "Armenia",
+   "ranking": 101.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Western Asia",
+   "index_score": 3.3,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 5.75,
+    "non_state_actors": 4.99
+   },
+   "dimensions": {
+    "human_rights": 3.8,
+    "governance": 1.58,
+    "capacities": 7.29
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BLZ",
+   "country": "Belize",
+   "ranking": 102.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 3.22,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 8.05,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 2.91,
+    "governance": 2.27,
+    "capacities": 6.8
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SLV",
+   "country": "El Salvador",
+   "ranking": 103.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 2.7,
+   "pillars": {
+    "government_frameworks": 2.48,
+    "government_actions": 2.37,
+    "non_state_actors": 3.82
+   },
+   "dimensions": {
+    "human_rights": 2.08,
+    "governance": 0.0,
+    "capacities": 12.27
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "DZA",
+   "country": "Algeria",
+   "ranking": 104.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Northern Africa",
+   "index_score": 2.66,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.53,
+    "non_state_actors": 4.25
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 1.08,
+    "capacities": 13.63
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BWA",
+   "country": "Botswana",
+   "ranking": 105.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 2.37,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 3.71,
+    "non_state_actors": 4.44
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 1.88,
+    "capacities": 9.39
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "UGA",
+   "country": "Uganda",
+   "ranking": 106.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 2.25,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.03,
+    "non_state_actors": 7.2
+   },
+   "dimensions": {
+    "human_rights": 0.56,
+    "governance": 2.6,
+    "capacities": 5.14
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BFA",
+   "country": "Burkina Faso",
+   "ranking": 107.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 2.24,
+   "pillars": {
+    "government_frameworks": 2.55,
+    "government_actions": 2.48,
+    "non_state_actors": 1.11
+   },
+   "dimensions": {
+    "human_rights": 3.38,
+    "governance": 0.0,
+    "capacities": 6.29
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TZA",
+   "country": "United Republic of Tanzania",
+   "ranking": 108.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 2.23,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.57,
+    "non_state_actors": 6.0
+   },
+   "dimensions": {
+    "human_rights": 0.54,
+    "governance": 1.69,
+    "capacities": 7.77
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "XKX",
+   "country": "Kosovo",
+   "ranking": 109.0,
+   "region": "Europe",
+   "un_region": "",
+   "un_subregion": "",
+   "index_score": 2.15,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.81,
+    "non_state_actors": 5.15
+   },
+   "dimensions": {
+    "human_rights": 2.8,
+    "governance": 0.0,
+    "capacities": 7.12
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BLR",
+   "country": "Belarus",
+   "ranking": 110.0,
+   "region": "Europe",
+   "un_region": "Europe",
+   "un_subregion": "Eastern Europe",
+   "index_score": 2.06,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.2,
+    "non_state_actors": 1.92
+   },
+   "dimensions": {
+    "human_rights": 0.26,
+    "governance": 2.18,
+    "capacities": 5.92
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TKM",
+   "country": "Turkmenistan",
+   "ranking": 111.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Central Asia",
+   "index_score": 1.98,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.51,
+    "non_state_actors": 0.88
+   },
+   "dimensions": {
+    "human_rights": 3.74,
+    "governance": 0.0,
+    "capacities": 3.81
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BRB",
+   "country": "Barbados",
+   "ranking": 112.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 1.92,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 3.93,
+    "non_state_actors": 1.75
+   },
+   "dimensions": {
+    "human_rights": 0.95,
+    "governance": 0.0,
+    "capacities": 9.96
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BTN",
+   "country": "Bhutan",
+   "ranking": 113.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 1.83,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.02,
+    "non_state_actors": 1.12
+   },
+   "dimensions": {
+    "human_rights": 0.61,
+    "governance": 0.0,
+    "capacities": 10.2
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MOZ",
+   "country": "Mozambique",
+   "ranking": 114.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.67,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.01,
+    "non_state_actors": 4.33
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 1.83,
+    "capacities": 5.1
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GAB",
+   "country": "Gabon",
+   "ranking": 115.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.66,
+   "pillars": {
+    "government_frameworks": 2.26,
+    "government_actions": 1.9,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 2.45,
+    "governance": 0.0,
+    "capacities": 4.83
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LAO",
+   "country": "Lao People's Democratic Republic",
+   "ranking": 116.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 1.66,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 4.14,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 1.75,
+    "capacities": 5.25
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BOL",
+   "country": "Bolivia (Plurinational State of)",
+   "ranking": 117.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 1.45,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.11,
+    "non_state_actors": 3.02
+   },
+   "dimensions": {
+    "human_rights": 1.64,
+    "governance": 0.0,
+    "capacities": 5.36
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GTM",
+   "country": "Guatemala",
+   "ranking": 118.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 1.42,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 3.54,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 2.02,
+    "governance": 0.0,
+    "capacities": 4.25
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MWI",
+   "country": "Malawi",
+   "ranking": 119.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.4,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.09,
+    "non_state_actors": 2.82
+   },
+   "dimensions": {
+    "human_rights": 0.77,
+    "governance": 0.0,
+    "capacities": 7.08
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TCD",
+   "country": "Chad",
+   "ranking": 120.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.2,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 3.0,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 7.59
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LSO",
+   "country": "Lesotho",
+   "ranking": 121.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.16,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.24,
+    "non_state_actors": 1.32
+   },
+   "dimensions": {
+    "human_rights": 0.71,
+    "governance": 0.0,
+    "capacities": 5.67
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "TGO",
+   "country": "Togo",
+   "ranking": 122.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.09,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.17,
+    "non_state_actors": 1.08
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 6.88
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CIV",
+   "country": "Côte d'Ivoire",
+   "ranking": 123.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.04,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.61,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 6.61
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SLE",
+   "country": "Sierra Leone",
+   "ranking": 124.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.03,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.97,
+    "non_state_actors": 1.21
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 6.52
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GMB",
+   "country": "Gambia",
+   "ranking": 125.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 1.0,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.49,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 6.31
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SOM",
+   "country": "Somalia",
+   "ranking": 126.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.97,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 2.44,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 1.32,
+    "governance": 0.0,
+    "capacities": 3.08
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "HND",
+   "country": "Honduras",
+   "ranking": 127.0,
+   "region": "South and Central America",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 0.75,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.86,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.72
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "GIN",
+   "country": "Guinea",
+   "ranking": 128.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.71,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.79,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.53
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "HTI",
+   "country": "Haiti",
+   "ranking": 129.0,
+   "region": "Caribbean",
+   "un_region": "Americas",
+   "un_subregion": "Latin America and the Caribbean",
+   "index_score": 0.71,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.29,
+    "non_state_actors": 0.99
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.53
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "BDI",
+   "country": "Burundi",
+   "ranking": 130.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.71,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.44,
+    "non_state_actors": 0.66
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.49
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MLI",
+   "country": "Mali",
+   "ranking": 131.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.7,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.76,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.46
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "COD",
+   "country": "Democratic Republic of the Congo",
+   "ranking": 132.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.7,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.3,
+    "non_state_actors": 0.89
+   },
+   "dimensions": {
+    "human_rights": 0.48,
+    "governance": 0.0,
+    "capacities": 3.3
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "LBR",
+   "country": "Liberia",
+   "ranking": 133.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.67,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.69,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 4.27
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "MMR",
+   "country": "Myanmar",
+   "ranking": 134.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "South-eastern Asia",
+   "index_score": 0.6,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.51,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 3.83
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "AFG",
+   "country": "Afghanistan",
+   "ranking": 135.0,
+   "region": "Asia and Oceania",
+   "un_region": "Asia",
+   "un_subregion": "Southern Asia",
+   "index_score": 0.57,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.44,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 3.64
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "CAF",
+   "country": "Central African Republic",
+   "ranking": 136.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.57,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.42,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 3.59
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "ERI",
+   "country": "Eritrea",
+   "ranking": 137.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.56,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.39,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 3.53
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  },
+  {
+   "iso3": "SSD",
+   "country": "South Sudan",
+   "ranking": 138.0,
+   "region": "Africa",
+   "un_region": "Africa",
+   "un_subregion": "Sub-Saharan Africa",
+   "index_score": 0.47,
+   "pillars": {
+    "government_frameworks": 0.0,
+    "government_actions": 1.18,
+    "non_state_actors": 0.0
+   },
+   "dimensions": {
+    "human_rights": 0.0,
+    "governance": 0.0,
+    "capacities": 3.0
+   },
+   "thematic_areas": {
+    "Access to Remedy and Redress": null,
+    "Bias and Unfair Discrimination": null,
+    "Children's Rights": null,
+    "Competitions Authorities": null,
+    "Cultural and Linguistic Diversity": null,
+    "Data Protection and Privacy": null,
+    "Gender Equality": null,
+    "Human Oversight and Determination": null,
+    "Impact Assessments": null,
+    "International Cooperation": null,
+    "Labour Protection and Right to Work": null,
+    "National AI Policy": null,
+    "Proportionality and Do No Harm": null,
+    "Public Participation and Awareness": null,
+    "Public Procurement": null,
+    "Public Sector Skills Development": null,
+    "Responsibility and Accountability": null,
+    "Safety, Accuracy and Reliability": null,
+    "Transparency and Explainability": null
+   }
+  }
+ ]
+}
