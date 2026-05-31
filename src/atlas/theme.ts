@@ -12,6 +12,8 @@ export interface AtlasTheme {
   glyphInk: string;        // direction glyph stroke in Forecasts mode
   giraiLow: string;        // low end of choropleth ramp (hex)
   giraiHigh: string;       // high end of choropleth ramp (hex)
+  accent: string;          // single accent for "has a forecast" in Forecasts mode
+  accentStrong: string;    // brighter accent for hovered/selected forecast country
 }
 
 export const THEMES: Record<ThemeName, AtlasTheme> = {
@@ -20,22 +22,26 @@ export const THEMES: Record<ThemeName, AtlasTheme> = {
     sphere: "#11151B",
     atmosphere: "#3a4a66",
     countryBase: "rgba(64,72,86,0.18)",
-    border: "rgba(255,255,255,0.25)",
-    borderStrong: "rgba(255,255,255,0.7)",
+    border: "rgba(255,255,255,0.28)",
+    borderStrong: "rgba(255,255,255,0.75)",
     glyphInk: "rgba(232,234,238,0.92)",
     giraiLow: "#2A3340",
     giraiHigh: "#BFE9E4",
+    accent: "rgba(229,167,82,0.92)",
+    accentStrong: "rgba(248,196,120,1)",
   },
   light: {
     bg: "#F7F8FA",
     sphere: "#FFFFFF",
     atmosphere: "#c7c2b8",
     countryBase: "rgba(228,231,236,0.95)",
-    border: "rgba(0,0,0,0.22)",
-    borderStrong: "rgba(0,0,0,0.65)",
+    border: "rgba(0,0,0,0.45)",
+    borderStrong: "rgba(0,0,0,0.7)",
     glyphInk: "rgba(26,29,33,0.92)",
     giraiLow: "#E4E7EC",
     giraiHigh: "#0E6E63",
+    accent: "rgba(181,120,26,0.95)",
+    accentStrong: "rgba(140,88,10,1)",
   },
 };
 
