@@ -3,7 +3,7 @@ import type { DataStore, DecoratedPrediction } from "@/data/store";
 import type { Marker } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { colorForNode, FAMILY_COLOR, familyOf, OPAQUE_GREY } from "@/atlas/families";
 import {
   formatCountdown,
