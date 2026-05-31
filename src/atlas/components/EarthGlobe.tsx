@@ -11,8 +11,7 @@ import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
 import { giraiColor, THEMES } from "@/atlas/theme";
-import { directionGlyph } from "@/atlas/trajectory";
-import { DirectionGlyph } from "@/atlas/panels/DirectionGlyph";
+import { plainPrediction } from "@/atlas/trajectory";
 
 const Globe = lazy(() => import("react-globe.gl"));
 
