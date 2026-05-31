@@ -24,7 +24,18 @@ type SectionKey = "register" | "theses" | "migrations";
 export function TrajectoryPanel({ store }: Props) {
   const mode = useAtlasStore((s) => s.mode);
   const [panelOpen, setPanelOpen] = useState(true);
-  const [section, setSection] = useState<SectionKey>("register");
+  const [openSections, setOpenSections] = useState<Set<SectionKey>>(
+    () => new Set<SectionKey>(["register"]),
+  );
+  const isOpen = (k: SectionKey) => openSections.has(k);
+  const setOpen = (k: SectionKey, v: boolean) => {
+    setOpenSections((prev) => {
+      const next = new Set(prev);
+      if (v) next.add(k);
+      else next.delete(k);
+      return next;
+    });
+  };
 
   // re-tick once per hour for live header stat
   const [, setTick] = useState(0);
