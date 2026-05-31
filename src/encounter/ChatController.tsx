@@ -87,15 +87,12 @@ export function ChatController() {
     (choices: string[]) =>
       new Promise<string>((resolve) => {
         const handlePick = (label: string) => {
-          // Remove the chips row before resolving.
-          setMessages((prev) =>
-            prev.filter((m) => (m as { key?: unknown })?.toString() !== "chips"),
-          );
+          // Chips are always the most recent entry — drop them before
+          // appending the user's reply so they don't linger in the timeline.
+          setMessages((prev) => prev.slice(0, -1));
           resolve(label);
         };
-        append(
-          <ChoiceChips choices={choices} onPick={handlePick} />,
-        );
+        append(<ChoiceChips choices={choices} onPick={handlePick} />);
       }),
     [append],
   );
