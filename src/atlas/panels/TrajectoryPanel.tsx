@@ -54,19 +54,13 @@ export function TrajectoryPanel({ store }: Props) {
 
   if (mode !== "trajectory") return null;
 
-  const openSection = (k: SectionKey, scroll?: boolean) => {
-    setSection(k);
+  const ensureSectionOpen = (k: SectionKey) => {
+    setOpen(k, true);
     setPanelOpen(true);
-    if (scroll) {
-      setTimeout(() => {
-        const el = document.getElementById(`section-${k}`);
-        el?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 60);
-    }
   };
 
   const scrollToForecast = (predId: string) => {
-    openSection("register");
+    ensureSectionOpen("register");
     setTimeout(() => {
       const el = document.getElementById(`forecast-${predId}`);
       if (!el) return;
