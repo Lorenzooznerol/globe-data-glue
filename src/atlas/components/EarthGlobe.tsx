@@ -349,22 +349,3 @@ function escapeHtml(s: string): string {
     : "&#39;",
   );
 }
-
-function parseHex(hex: string): [number, number, number] {
-  const m = hex.replace("#", "");
-  return [
-    parseInt(m.slice(0, 2), 16),
-    parseInt(m.slice(2, 4), 16),
-    parseInt(m.slice(4, 6), 16),
-  ];
-}
-
-function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) =>
-    c === "&" ? "&amp;"
-    : c === "<" ? "&lt;"
-    : c === ">" ? "&gt;"
-    : c === '"' ? "&quot;"
-    : "&#39;",
-  );
-}
