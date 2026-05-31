@@ -300,7 +300,7 @@ export function EarthGlobe({ store, width, height }: Props) {
         lat,
         lng,
         kind: directionGlyph(p.direction),
-        color: colorForNode(node),
+        color: "rgba(232,232,232,0.92)",
       });
     }
     return out;
