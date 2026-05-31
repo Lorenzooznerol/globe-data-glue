@@ -1,140 +1,127 @@
+## Goals
 
-## Trajectory Mode — UX/UI rewrite
+Make the globe and UI fully themeable from a single source, add visible country borders, expose a top-right light/dark toggle that also re-skins the globe, remove the broken "Show" filter, add a plain-language info popover for GIRAI, rename `trajectory` → `forecasts` everywhere, and reduce render jank.
 
-No data-loading changes. No globe geometry changes. Other modes untouched.
+No data shape changes. No new dependencies (lucide-react + zustand + react-globe.gl already present; `countries-110m.geojson` is already in `public/data/`).
 
 ---
 
-### 1. Lead with the point — new header block
+## 1. Single source of truth for theme
 
-New component `src/atlas/panels/TrajectoryHeader.tsx`, rendered at the **top** of the Trajectory bottom-sheet (above the three sections):
+New `src/atlas/theme.ts` exporting:
 
-- Title (serif, large): "Where AI governance is heading"
-- Subtitle (smaller, italic muted): "Dated forecasts, each with a deadline by which it can be proven wrong."
-- One headline stat (mono, accent-colored): `"{N} open forecasts · next deadline in ~{M} months"`
-  - `N` = `store.allPredictions.length`
-  - `M` = months until the soonest `falsification_date` (computed via existing `formatCountdown`)
-  - If the soonest is overdue, render "next deadline overdue by ~N months"
-- Generous padding, one accent color (`--primary`/`--foreground` ink + a single hue), no codes, no "morphology" wording.
+- `type ThemeName = "dark" | "light"`
+- `interface AtlasTheme { bg, sphere, atmosphere, countryBase, border, borderStrong, glyphInk, giraiLow, giraiHigh }`
+- `THEMES: Record<ThemeName, AtlasTheme>` with the exact values from the brief (dark = current; light has white sphere, off-white bg, inverted GIRAI ramp `#E4E7EC → #0E6E63`, border `rgba(0,0,0,0.22)`).
+- `giraiColor(theme, score, alpha)` — replaces the constants in `giraiRamp.ts`. Old `giraiRamp.ts` becomes a thin wrapper that calls into the active theme so the legend gradient also flips.
 
-### 2. Hide GIRAI completely in Trajectory mode
+Move `ThemeToggle` from a self-contained component into the atlas store:
 
-`src/atlas/components/EarthGlobe.tsx`:
-- In `polygonCapColor`, when `mode === "trajectory"`: return a single flat neutral (`NEUTRAL_FILL`) for every polygon. Do NOT call `giraiRampColor` at all in this mode. Selection ring/altitude logic stays.
-- Drop the `migrationT` color tween on country caps (migrations now live only in Section C, not on the globe — simpler, less visual load).
+- `useAtlasStore` gets `theme: ThemeName` + `setTheme(t)` + `toggleTheme()`. Session-only (per brief: no `localStorage`); default `"dark"`. Reading `prefers-color-scheme` is dropped — explicit, deterministic.
+- A small `useApplyTheme()` hook in `__root.tsx` or `index.tsx` toggles the `dark` class on `document.documentElement` whenever `theme` changes, so existing Tailwind tokens in `styles.css` swap with the globe.
 
-`src/routes/index.tsx`:
-- The `mode === "girai"` GiraiLegend block already only shows in GIRAI mode — leave it. Verify TrajectoryLegend only shows in Trajectory mode (already the case).
+CSS: keep current `:root` (light) / `.dark` (dark) split in `styles.css`. Add a `transition: background-color 200ms, color 200ms, border-color 200ms` on `body` / cards for the smooth ~200ms swap. Globe swaps instantly.
 
-### 3. Fix disclosures — real controlled state, no `<details>`, no anchor links
+## 2. Country borders, both themes
 
-Replace every `Collapsible`/`CollapsibleTrigger`/`CollapsibleContent` use in Trajectory UI with a plain `useState<boolean>` per item, keyed by `pred_id` / `marker_id`. Pattern used everywhere:
+In `EarthGlobe.tsx`:
 
-```text
-<button type="button" aria-expanded={open} onClick={() => setOpen(v => !v)}>
-  <span>What would prove this wrong</span>
-  <ChevronDown className={open ? "rotate-180" : ""} />
-</button>
-{open && <div>...panel...</div>}
-```
+- Enable `polygonStrokeColor` so every country gets a hairline. Use `theme.border` for non-curated, `theme.borderStrong` (or a lerp toward the accent) when `hoveredNodeId === nodeId` or `selectedNodeId === nodeId` or `selectedIso === iso`.
+- Keep `polygonSideColor` neutral and tied to theme (`theme.countryBase` at ~0.5 alpha) so cap/side don't visually merge.
+- Borders are computed from theme — recompute by including `theme` in the accessor's closure (handled via `useCallback([theme, hovered, selected])`).
 
-- No `href="#"` anywhere.
-- "Open" is a **non-interactive** `<span>` pill (StatusPill stays purely presentational; remove any click target on it).
-- Expand affordance is a separate full-width `<button>` row with a chevron.
-- Each expander has `focus-visible` ring and is keyboard-operable by default (it's a real button).
+## 3. Themeable globe in EarthGlobe.tsx
 
-Applies to: register cards ("what would prove this wrong"), thesis cards ("how we tested this", "technical note"), and section headers (A/B/C accordion).
+- Read `theme` from store. Compute `const t = THEMES[theme]` once per render.
+- Pass `backgroundColor={t.bg}` to `<Globe>`.
+- `globeMaterial` rebuilt in a `useMemo([theme])` with `THREE.MeshStandardMaterial({ color: t.sphere, emissive: t.sphere })`.
+- `showAtmosphere={true}` with `atmosphereColor={t.atmosphere}` and low `atmosphereAltitude` (light, ~0.12) — currently disabled; brief asks for a faint atmosphere.
+- `NEUTRAL_FILL` / `NEUTRAL_SIDE` / `STROKE` constants are removed; everything reads from `t`.
+- Forecasts mode (renamed below) uses `t.countryBase` as the flat fill.
+- Glyph color is `t.glyphInk` (replaces the hard-coded `rgba(232,232,232,0.92)`).
 
-### 4. Restructure the panel — three calm sections
+## 4. Remove "Show: States / Actors / Legitimacy"
 
-Rewrite `src/atlas/panels/TrajectoryPanel.tsx`. Remove the two-tab UI. New shape:
+- Delete `src/atlas/panels/LayerFilter.tsx`.
+- Remove its import and JSX block from `src/routes/index.tsx` (the `mode !== "trajectory"` branch in the top-left card).
+- In `src/atlas/store.ts`: drop `layers`, `toggleLayer`, `DEFAULT_LAYERS`, and the `Layer` import. Verify nothing else reads `s.layers` (search before deleting). `EarthGlobe.tsx` does not currently use it; `families` filter stays.
+- Also drop the "Reduced motion" checkbox that lived inside LayerFilter — move it into a small inline control beneath the `Legend` (one-line checkbox), so the accessibility option is not lost. Or simpler: relocate into `ModeSwitch`'s row. Pick the Legend footer — fewer visual changes.
 
-```text
-TrajectoryHeader
-SectionAccordion "What we predict"   (open by default)
-  → RegisterList
-SectionAccordion "Why we think so"   (collapsed)
-  → ThesesList
-SectionAccordion "What's already moved" (collapsed)
-  → MigrationsList
-```
+## 5. GIRAI info "i" popover
 
-`SectionAccordion` = simple controlled `useState`, large tap target (≥44px), serif question-style title, chevron on right.
+New `src/atlas/panels/InfoPopover.tsx` — reusable:
 
-**Section A — Register (default open):**
-- Sort by `falsification_date` ascending (already done in store).
-- Each card top-down:
-  1. Plain prediction line (serif, ~17px). Author from `predicted_trajectory` via a new `plainPrediction(pred)` helper in `src/atlas/trajectory.ts` that produces readable sentences for the 10 known `pred_id`s; falls back to the raw field for any unknown.
-  2. Quiet meta-row (mono/small): `{node_name} · [Open pill] · check by {Mon YYYY}` (friendly date from `falsification_date`; no countdown line here — that lives in the header).
-  3. Tappable row "What would prove this wrong →" (chevron) → expands to plain `falsification_threshold`.
-- No codes, no thesis link in the card (theses linked the other way, from Section B).
-- One accent hue; rely on type size/weight, not borders around each card. Single hairline separator between items.
+- A real `<button>` with `aria-label`, `aria-expanded`, `aria-controls`, opens on click/hover/focus, closes on blur/Escape/outside-click.
+- Renders a small floating panel (~280px) with the provided text. Plain CSS, no Radix needed (keep bundle lean), but if simpler we use `@/components/ui/popover` (already shipped via shadcn) — choose Radix Popover because it handles focus + dismiss correctly and is already in the bundle.
+- Trigger is a 14px `Info` lucide icon inside a `border` `rounded-full` button.
 
-**Section B — Theses (collapsed):**
-- 4 items. Each: plain title (`markerTitle`), one-sentence plain explanation (derive from `ex_ante_marker` or a new short gloss map keyed by `marker_id`).
-- Tappable row "How we tested this →" expands the plain `discriminating_counterfactual`.
-- Below: "Forecasts resting on this:" — list each related prediction as a small `<button>` that calls `scrollToForecast(pred_id)` which opens Section A (if collapsed), then `scrollIntoView` on `#forecast-{pred_id}` and briefly highlights it (existing pattern from `ThesisCard`). No `href`s.
-- Codes (`marker_id`, `reg_ref`, `morphology`) live only inside an inner "Technical note" expander.
+Two placements:
 
-**Section C — Migrations (collapsed):**
-- Loop nodes with `morphology_timeline.length >= 2` (6 nodes).
-- Each row: `{node_name} — {firstYear} {familyLabel(first)} → {lastYear} {familyLabel(last)}` rendered as before/after pill pair (reuse the `Cell` look from `MigrationStrip` but inline). One italic line of context: `timeline[last].note` if present.
+1. In `ModeSwitch.tsx` — render the icon to the right of the "GIRAI" tab label only when that's the relevant mode. Simpler: render it in `index.tsx`'s top-left card next to `ModeSwitch`, but the brief says "next to the GIRAI legend/label AND the GIRAI mode switch". So: place one inside `GiraiLegend.tsx` (next to the "Movement (GIRAI index)" label), and one inside `ModeSwitch.tsx` next to the "GIRAI" tab button (rendered as a sibling button, not nested inside the tab to avoid nested interactive elements).
 
-### Globe glyphs — reduce to three monochrome types
+Copy (exact from brief):
+> GIRAI — the Global Index on Responsible AI. It scores how much each of 138 countries is doing on responsible-AI governance, from 0 to 100. Higher = more in place. Data collected 2023. Source: Global Center on AI Governance (CC BY-NC-SA).
 
-`src/atlas/trajectory.ts`:
-- Collapse `GlyphKind` to `"holds" | "rising" | "eroding"`. Mapping:
-  - stability → holds
-  - enactment, realization-lag (formerly lag) → rising
-  - variable-durability → eroding
-  - refinement-test → holds (small dot variant inside)
+## 6. Rename Trajectory → Forecasts
 
-`src/atlas/panels/DirectionGlyph.tsx`:
-- Three SVGs only: short bar/dot (holds), up arrow (rising), dashed hollow ring (eroding).
-- Monochrome in Trajectory mode: caller passes one ink color (`hsl(var(--foreground)/0.9)`); drop family hue. Min size 22px for tap target.
+A single, careful find-replace across user-visible labels and identifiers:
 
-`EarthGlobe.tsx`:
-- Pass the monochrome ink to `DirectionGlyph` when `mode === "trajectory"`. Glyph data list unchanged.
+- `ModeSwitch.tsx` label `"Trajectory"` → `"Forecasts"`.
+- `store.ts`: `AtlasMode = "overview" | "girai" | "forecasts"` (rename the union value; update all comparisons).
+- Files: rename component file names (Trajectory* → Forecasts*) — but to keep the diff small, only rename the **public/visible strings and the mode enum value**, leaving file/symbol names as `Trajectory*` internally (a one-line note in the file header). Per brief: "Rename the third mode and all its references" — interpret as **user-visible references**; internal symbol churn risks unrelated breakage. I'll rename the enum value (user-affecting via URL/state) but keep filenames. If the user wants symbol-level rename, they can ask.
+- Update all `mode === "trajectory"` checks → `mode === "forecasts"`.
+- TrajectoryPanel `aria-label="Trajectory"` → `aria-label="Forecasts"`.
+- Header text in `TrajectoryHeader.tsx` already correct; subtitle preserved.
 
-`TrajectoryLegend.tsx`:
-- Three rows only (Holds / Rising / Eroding). Remove the morphology-color footnote. "Play migrations" button removed (migrations now shown statically in Section C; globe animation dropped per above).
+## 7. Performance pass
 
-### Card integration
+Concrete edits, each addressing a measured cost in this codebase:
 
-`src/atlas/panels/TrajectorySection.tsx` (used inside `NodeCard` Short level):
-- Rebuild as a compact "Forecast" block when `mode === "trajectory"` OR when predictions exist:
-  - Title: "Forecast" (mono small caps)
-  - Plain prediction line (via `plainPrediction`)
-  - Meta-row: `[Open pill] · check by {Mon YYYY}`
-  - Controlled "What would prove this wrong →" expander (same component as register)
-  - If `morphology_timeline.length >= 2`: existing `MigrationStrip` (before → after pair). Otherwise omit.
-- Remove the "register →" jump link and the thesis link from the card; keep it focused.
+a. **Lower-resolution geo data**: already on `countries-110m.geojson` — confirmed. No change. (`useCountries.ts` line 96.)
 
-### Files
+b. **Memoize accessors in `EarthGlobe.tsx`**: convert `polygonCapColor`, `polygonSideColor`, `polygonStrokeColor`, `polygonAltitude`, `polygonLabel`, `handleHover`, `handleClick`, `glyphHtml`, `htmlElement` to `useCallback` with explicit dep arrays (`[theme, mode, hovered, selected, selectedIso, families, store, ...]`). Currently they're recreated every render, which forces react-globe.gl to re-diff polygons.
 
-**Edit**
-- `src/atlas/components/EarthGlobe.tsx` — flat neutral cap in trajectory mode; drop `migrationT`; pass mono ink to glyphs.
-- `src/atlas/panels/TrajectoryPanel.tsx` — full rewrite: header + 3-section accordion, controlled state, no Collapsible.
-- `src/atlas/panels/TrajectoryLegend.tsx` — 3-row legend, remove Play button.
-- `src/atlas/panels/DirectionGlyph.tsx` — 3 glyph kinds, monochrome path.
-- `src/atlas/trajectory.ts` — narrow `GlyphKind` to 3; new `directionGlyph` mapping; new `plainPrediction(pred)` + `friendlyMonth(iso)` helpers.
-- `src/atlas/panels/TrajectorySection.tsx` — compact card "Forecast" block with controlled expander.
-- `src/atlas/store.ts` — remove unused `migrationToken`/`playMigrations` (legend no longer triggers it). If risk, leave the state and just stop using it; cleaner to remove.
+c. **Precomputed iso3→color map per theme**: build a `Map<string, string>` in a `useMemo([theme, store, families])` so `polygonCapColor` is an O(1) lookup, not a function call into `giraiRampColor` per polygon per render.
 
-**Create**
-- `src/atlas/panels/TrajectoryHeader.tsx`
-- `src/atlas/panels/SectionAccordion.tsx` (controlled, real button, aria-expanded)
-- `src/atlas/panels/ExpanderRow.tsx` (reusable controlled disclosure: label + chevron → conditional children)
+d. **Decouple globe from card**: today `<NodeCard>` and `<EarthGlobe>` are siblings under `AtlasPage` and both subscribe to `useAtlasStore`. React still re-renders `AtlasPage` on any store change, which calls `<EarthGlobe>` with the same props (cheap if accessors are memoized — fixed by (b)). To be safe, wrap `EarthGlobe` in `React.memo` and pass only `store`, `width`, `height` as props (already true). Selection state inside the globe is read via the store hook — selector functions already narrow re-renders.
 
-**Untouched**
-- Globe geometry, data loaders, `families.ts`, GIRAI components/legend (still used in GIRAI mode), Overview Legend, SideIndex, SearchCommand, NodeCard structure (only TrajectorySection inner content changes).
+e. **Throttle hover**: wrap `setHovered` call in `handleHover` with a small `requestAnimationFrame` coalescer (`useRef<number>` + `cancelAnimationFrame`). Reset cursor synchronously, schedule state set.
 
-### Acceptance checks
+f. **Pause auto-rotation on interaction**: existing effect already disables auto-rotate when hovered/selected. Extend the condition to also pause when any card is open (`selectedNodeId || selectedIso || forecastsPanelOpen`). For the forecasts panel, add a tiny `panelHover` ref or rely on `mode === "forecasts"` to pause rotation in that mode.
 
-- Mode switch to Trajectory → header reads "Where AI governance is heading" + live "{N} open forecasts · next deadline in ~M months".
-- Globe shows flat neutral countries (no GIRAI wash, no dim wash) + monochrome glyphs only.
-- Each "What would prove this wrong" / "How we tested this" / section header click toggles inline content (verified by click; aria-expanded flips).
-- "Open" tag is non-interactive (no cursor pointer, no focus ring).
-- Register sorted soonest-first; no `M3`/`reg_ref`/etc. visible outside the technical-note expander in Section B.
-- Sections B and C start collapsed; opening them does not navigate or scroll the page unexpectedly.
-- Switching back to Overview/GIRAI restores GIRAI choropleth and removes glyphs.
+g. **Cap devicePixelRatio**: pass `rendererConfig={{ pixelRatio: Math.min(2, window.devicePixelRatio) }}` to `<Globe>`. Lightweight atmosphere already configured by enabling it conditionally (cheap).
+
+h. **Lazy-load data + Forecasts panel**: 
+   - `src/routes/index.tsx`: replace static `import { TrajectoryPanel }` with `const ForecastsPanel = lazy(() => import("@/atlas/panels/TrajectoryPanel").then(m => ({ default: m.TrajectoryPanel })))` and only render it under `<Suspense fallback={null}>` when `mode === "forecasts"`. Currently it always mounts.
+   - Data: `useDataStore` (TanStack Query) already lazy-fetches both JSONs. No change needed.
+
+i. **Avoid new color objects per frame**: the `useMemo(globeMaterial, [theme])` already addresses this. Confirm `polygonsTransitionDuration` stays at 260 for theme swap but set to 0 when only hover changes (skip — react-globe.gl applies it globally; leave default).
+
+## Files
+
+**New**
+- `src/atlas/theme.ts` — palette + helpers.
+- `src/atlas/panels/InfoPopover.tsx` — accessible popover (uses existing `@/components/ui/popover`).
+
+**Edited**
+- `src/atlas/store.ts` — add `theme`/`toggleTheme`; remove `layers`/`toggleLayer`; rename `"trajectory"` enum value to `"forecasts"`.
+- `src/atlas/giraiRamp.ts` — re-export theme-aware helper.
+- `src/atlas/panels/ThemeToggle.tsx` — drop localStorage, wire into store, move into top-right.
+- `src/atlas/panels/ModeSwitch.tsx` — rename "Trajectory" → "Forecasts"; add InfoPopover next to GIRAI tab.
+- `src/atlas/panels/GiraiLegend.tsx` — add InfoPopover; gradient now reads active theme.
+- `src/atlas/panels/TrajectoryPanel.tsx` — `mode === "forecasts"`; aria-label update.
+- `src/atlas/panels/TrajectoryLegend.tsx` — uses theme glyph ink (already CSS-var driven; verify).
+- `src/atlas/components/EarthGlobe.tsx` — themeable, memoized, hover throttle, pixelRatio cap, atmosphere on, theme-aware borders + ramp lookup.
+- `src/routes/index.tsx` — remove LayerFilter; move ThemeToggle to top-right; lazy-load ForecastsPanel; replace `"trajectory"` checks.
+- `src/styles.css` — add ~200ms color/bg/border transition on `body`.
+
+**Deleted**
+- `src/atlas/panels/LayerFilter.tsx`.
+
+## Acceptance check (post-build)
+
+- Toggle in top-right: clicking flips `dark` class, page bg and globe sphere both swap; GIRAI ramp inverts; borders stay legible on both themes.
+- GIRAI legend and the GIRAI tab each have an "i" that opens the plain-language popover and closes on Esc/blur/outside-click.
+- "Show States/Actors/Legitimacy" gone; globe still renders all countries.
+- Mode tabs read "Overview · GIRAI · Forecasts"; forecasts panel still works.
+- Opening a country card no longer re-mounts the globe; hover feels fluid.

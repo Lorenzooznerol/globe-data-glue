@@ -1,14 +1,21 @@
-import { RAMP_GRADIENT_CSS } from "@/atlas/giraiRamp";
+import { useAtlasStore } from "@/atlas/store";
+import { giraiGradientCss, THEMES } from "@/atlas/theme";
+import { GIRAI_INFO_TEXT, InfoPopover } from "./InfoPopover";
 
 export function GiraiLegend() {
+  const theme = useAtlasStore((s) => s.theme);
+  const gradient = giraiGradientCss(THEMES[theme]);
   return (
     <div className="flex flex-col gap-2.5">
-      <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        Movement (GIRAI index)
-      </span>
+      <div className="flex items-center gap-2">
+        <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          Movement (GIRAI index)
+        </span>
+        <InfoPopover label="About GIRAI">{GIRAI_INFO_TEXT}</InfoPopover>
+      </div>
       <div
         className="h-2 w-full rounded-[1px]"
-        style={{ background: RAMP_GRADIENT_CSS }}
+        style={{ background: gradient }}
         aria-hidden
       />
       <div className="mono flex justify-between text-[9px] uppercase tracking-[0.18em] text-muted-foreground">

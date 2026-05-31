@@ -1,51 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
-
-type Theme = "light" | "dark";
-const KEY = "atlas-theme";
-
-function getInitial(): Theme {
-  if (typeof window === "undefined") return "dark";
-  const saved = localStorage.getItem(KEY) as Theme | null;
-  if (saved === "light" || saved === "dark") return saved;
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-}
-
-function apply(theme: Theme) {
-  const el = document.documentElement;
-  if (theme === "dark") el.classList.add("dark");
-  else el.classList.remove("dark");
-}
+import { useAtlasStore } from "@/atlas/store";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const theme = useAtlasStore((s) => s.theme);
+  const toggle = useAtlasStore((s) => s.toggleTheme);
 
+  // Mirror theme onto the <html> element so Tailwind's `dark:` variant flips.
   useEffect(() => {
-    const initial = getInitial();
-    setTheme(initial);
-    apply(initial);
-  }, []);
+    const el = document.documentElement;
+    if (theme === "dark") el.classList.add("dark");
+    else el.classList.remove("dark");
+  }, [theme]);
 
-  const toggle = () => {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    apply(next);
-    try {
-      localStorage.setItem(KEY, next);
-    } catch {
-      /* ignore */
-    }
-  };
-
+  const next = theme === "dark" ? "light" : "dark";
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      className="inline-flex h-7 w-7 items-center justify-center rounded-sm border border-border/60 bg-secondary/30 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      aria-label={`Toggle ${next} mode`}
+      title={`Switch to ${next} mode`}
+      className="pointer-events-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-background/85 text-muted-foreground backdrop-blur-md transition-colors hover:bg-background hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/40"
     >
-      {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
   );
 }
