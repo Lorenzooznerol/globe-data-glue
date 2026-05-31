@@ -11,7 +11,6 @@ export const MORPH_PLAIN: Record<MorphCode, string> = {
   M7: "Light by design, or not built yet — little gap because there isn't much binding rule in place.",
 };
 
-/** Short headline form (one short clause) for hover labels & summary lines. */
 export const MORPH_HEADLINE: Record<MorphCode, string> = {
   M1: "Ambitious on paper, lagging in practice.",
   M2: "Stronger in practice than on paper.",
@@ -42,6 +41,21 @@ export const BAND_PLAIN: Record<BandCode, string> = {
   C: "comprehensive",
 };
 
+// Plain words (as they appear in nodes_readable) -> 1..5 steps
+export const PLAIN_WORD_STEP: Record<string, number> = {
+  "almost none": 1,
+  minimal: 2,
+  partial: 3,
+  substantial: 4,
+  comprehensive: 5,
+};
+
+export function plainWordStep(word: string | undefined): number {
+  if (!word) return 0;
+  const k = word.trim().toLowerCase();
+  return PLAIN_WORD_STEP[k] ?? 0;
+}
+
 export function bandPlain(code: string | undefined): string {
   const u = (code ?? "").trim().toUpperCase() as BandCode;
   return BAND_PLAIN[u] ?? "—";
@@ -50,10 +64,21 @@ export function bandPlain(code: string | undefined): string {
 export function bandStep(code: string | undefined): number {
   const u = (code ?? "").trim().toUpperCase() as BandCode;
   const i = BAND_ORDER.indexOf(u);
-  return i < 0 ? 0 : i + 1; // 1..5
+  return i < 0 ? 0 : i + 1;
 }
 
-/** A one-line gap gloss derived from paper vs realization band delta. */
+/** Gap gloss from plain words. */
+export function plainGapGloss(paperWord: string, realityWord: string): string {
+  const p = plainWordStep(paperWord);
+  const r = plainWordStep(realityWord);
+  if (!p && !r) return "";
+  if (!p || !r) return "";
+  if (p === r) return "What's written and what happens are roughly aligned.";
+  if (p > r) return "Rules outrun practice — capacity is still catching up.";
+  return "Practice outruns rules — enforcement comes from elsewhere.";
+}
+
+/** Legacy gap gloss from band codes (kept for back-compat). */
 export function gapGloss(paper: string, reality: string): string {
   const p = bandStep(paper);
   const r = bandStep(reality);
