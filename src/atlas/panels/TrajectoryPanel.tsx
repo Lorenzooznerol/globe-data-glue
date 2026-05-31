@@ -149,9 +149,7 @@ function RegisterTab({
       </header>
       <ul className="flex flex-col">
         {preds.map((p) => {
-          // @ts-expect-error attached at index time
           const nodeId: string = p.node_id;
-          // @ts-expect-error attached at index time
           const nodeName: string = p.node_name;
           const node = store.nodesById.get(nodeId);
           const hue = node ? colorForNode(node) : OPAQUE_GREY;
@@ -366,7 +364,6 @@ function ThesisCard({
           </span>
           <ul className="flex flex-col gap-1">
             {preds.map((p) => {
-              // @ts-expect-error attached at index time
               const nodeName: string = p.node_name;
               const cd = formatCountdown(p.falsification_date);
               return (
