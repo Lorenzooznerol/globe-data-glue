@@ -145,14 +145,7 @@
   --encounter-vignette: rgba(0, 0, 0, 0.6);
 }
 
-/* Encounter — universal disable transitions on the encounter shell so the
-   200ms global transition rule doesn't fight our slow-fade Line primitive. */
-.encounter,
-.encounter * {
-  transition-property: opacity !important;
-  transition-duration: inherit !important;
-}
-
+/* Encounter — keyframe used to fade in the pinned nickname after the gate. */
 @keyframes encounter-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
