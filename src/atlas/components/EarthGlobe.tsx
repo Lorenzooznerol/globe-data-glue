@@ -154,19 +154,28 @@ export function EarthGlobe({ store, width, height }: Props) {
     const r = obj as Resolved;
     let base: string;
     if (r.girai) {
-      base = giraiRampColor(r.girai.index_score, 1);
+      const alpha = trajectoryMode ? 0.25 : 1;
+      base = giraiRampColor(r.girai.index_score, alpha);
       if (r.nodeId && r.nodeId === hoveredNodeId) {
-        // tiny brighten on hover
-        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
+        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), alpha);
       }
     } else {
       base = NEUTRAL_FILL;
+    }
+    // Trajectory mode: migration nodes interpolate between first/last family color.
+    if (trajectoryMode && r.node && r.node.morphology_timeline && r.node.morphology_timeline.length >= 2) {
+      const tl = r.node.morphology_timeline;
+      const a = familyOf(tl[0].morphology);
+      const b = familyOf(tl[tl.length - 1].morphology);
+      const colA = a ? FAMILY_COLOR[a] : OPAQUE_GREY;
+      const colB = b ? FAMILY_COLOR[b] : OPAQUE_GREY;
+      return lerpHex(colA, colB, migrationT);
     }
     // Family filter: dim countries whose curated node is filtered out.
     if (families.size > 0 && r.node) {
       const fam = familyOf(r.node.morphology);
       if (!fam || !families.has(fam)) {
-        return r.girai ? giraiRampColor(r.girai.index_score, 0.25) : NEUTRAL_FILL;
+        return r.girai ? giraiRampColor(r.girai.index_score, 0.2) : NEUTRAL_FILL;
       }
     }
     return base;
