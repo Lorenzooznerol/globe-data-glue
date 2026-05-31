@@ -370,7 +370,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         atmosphereAltitude={0.12}
         showGraticules={false}
         globeMaterial={globeMaterial}
-        rendererConfig={{ pixelRatio } as never}
+        
         polygonsData={resolved}
         polygonGeoJsonGeometry={(obj: object) =>
           (obj as Resolved).feature.geometry as never
