@@ -4,7 +4,6 @@ import type { Layer } from "@/atlas/morphology";
 const LAYERS: { key: Layer; label: string }[] = [
   { key: "state", label: "States" },
   { key: "actor", label: "Actors" },
-  { key: "deployer", label: "Deployers" },
   { key: "vision", label: "Legitimacy" },
 ];
 
@@ -15,18 +14,18 @@ export function LayerFilter() {
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
 
   return (
-    <div className="pointer-events-auto flex flex-col gap-2 rounded-md border border-border/50 bg-background/85 p-3 backdrop-blur-md">
+    <div className="flex flex-col gap-3">
       <span className="mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
         Show
       </span>
-      <ul className="flex flex-wrap gap-1.5">
+      <ul className="flex flex-col gap-1.5">
         {LAYERS.map((l) => {
           const on = layers.has(l.key);
           return (
             <li key={l.key}>
               <button
                 onClick={() => toggle(l.key)}
-                className="mono border px-2 py-1 text-[10px] uppercase tracking-[0.15em]"
+                className="mono w-full whitespace-nowrap border px-3 py-1.5 text-left text-[10.5px] uppercase tracking-[0.18em]"
                 style={{
                   borderColor: on ? "rgba(180,190,210,0.4)" : "rgba(120,130,150,0.18)",
                   color: on ? "var(--foreground)" : "var(--muted-foreground)",
@@ -39,7 +38,7 @@ export function LayerFilter() {
           );
         })}
       </ul>
-      <label className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
+      <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
         <input
           type="checkbox"
           checked={reducedMotion}

@@ -15,10 +15,11 @@ export function SearchCommand({ store }: Props) {
   const selectNode = useAtlasStore((s) => s.selectNode);
 
   const all = useMemo(() => {
-    return [
-      ...store.raw.nodesBanded.map((n) => ({ id: n.node_id, name: n.name, kind: n.layer })),
-      ...store.raw.nodesVision.map((n) => ({ id: n.node_id, name: n.name, kind: "vision" })),
-    ];
+    return store.atlas.nodes.map((n) => ({
+      id: n.node_id,
+      name: n.name,
+      kind: layerOf(n.node_id),
+    }));
   }, [store]);
 
   const results = useMemo(() => {

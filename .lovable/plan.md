@@ -1,105 +1,95 @@
-## What changes
 
-A new readable content layer is added on top of the existing banded/morphology data. The node card is rebuilt to lead with plain prose; codes are demoted to a closed accordion. A small glossary safety-net wraps any jargon in dotted-underline popovers. The globe and side index are otherwise untouched.
+## Scope
 
-## Data (1) — drop CSVs into `/public/data`
+Two changes only. The globe geometry, NodeCard internals, side index, and search command stay as-is — they just read from a new store shape and a new family-color helper.
 
-Copy the 4 uploads in as-is:
-- `nodes_readable.csv`
-- `glossary.csv`
-- `sources_v2.csv`
-- `node_sources.csv`
+---
 
-## Data (2) — extend the store
+## Change 1 — Single data source: `/public/data/atlas.json`
 
-`src/data/types.ts`: add `NodeReadable`, `GlossaryTerm`, `SourceV2`, `NodeSourceLink`, `NodeDocumentGroup` types.
+### Wiring
 
-`src/data/loader.ts`: add four `fetchCsv` calls (papaparse, same pattern as today).
+- Copy the uploaded `atlas.json` to `public/data/atlas.json`.
+- Delete the 12 CSV fetches and all per-table cross-joining. Remove the four "readable" CSVs added earlier plus the original 8 CSVs from `public/data/` (atlas.json is the only source now).
+- Rewrite `src/data/loader.ts` to a single `fetch('/data/atlas.json').then(r => r.json())` returning the parsed `Atlas` object.
+- Rewrite `src/data/types.ts` to mirror the JSON shape:
+  - `AtlasMeta`, `GlossaryTerm`, `Marker`, `LegitimacyEdge` (unchanged fields).
+  - `AtlasNode` with everything pre-joined: `node_id, name, layer, headline, summary, morphology_plain, paper_plain, reality_plain, morphology, sub_mechanism, paper_band, realization_band, realization_mode, epistemic_level, evidence_strength, region, notes, claims[]` (each with inline `sources[]`), `documents: { primary[], secondary[], context[] }`, `morphology_timeline[]`, `predictions[]`, and optional `vision: { source_of_authority, scope, mode_of_influence, dated_anchor, notes }` for `VN-*` nodes.
+  - `AtlasSource` / `AtlasDocument` shapes derived from the JSON.
+- Rewrite `src/data/store.ts`:
+  - `buildStore(atlas)` indexes `nodesById: Map<string, AtlasNode>`, `glossaryByTerm`, `glossaryList`, `edgesById`, `markersById`.
+  - Provide read-only convenience getters used by existing UI: `getNode(id)`, `documentGroupsForNode(id) → node.documents`, `claimsForNode(id) → node.claims`, `morphologyHistory(id) → node.morphology_timeline`, `edgesFrom/To`. All are O(1) map lookups; no joining.
+  - Remove `sourcesById`, `sourcesV2ById`, `nodesBandedById`, `nodesVisionById`, `readableById` and any "two-namespace" code. Callers below are updated to use `nodesById` + the layer/vision discriminator on the node itself.
+- Update `src/data/useDataStore.ts` query to the new loader.
 
-`src/data/store.ts`: extend `DataStore` with
-- `readableById: Map<string, NodeReadable>`
-- `glossaryByTerm: Map<string, GlossaryTerm>` (lowercased keys; also keep an ordered list for the Glossary panel)
-- `sourcesV2ById: Map<string, SourceV2>`
-- `documentGroupsForNode(nodeId): { primary, secondary, context }`
-  - join `node_sources` → `sources_v2`
-  - bucket by `tier`
-  - sort each bucket by `pub_date` desc; empty/unknown dates sort last
-  - dedupe by `source_id`
+### Call-site updates (read-only refactor, no UX change)
 
-Leave the legacy `documentsForNode` in place — the new card consumes `documentGroupsForNode`; nothing else has to change.
+- `NodeCard.tsx`: replace `nodesBandedById.get` / `nodesVisionById.get` / `readableById.get` with one `store.nodesById.get(id)`. `headline/summary/morphology_plain/paper_plain/reality_plain` come straight off the node; `isVision = node.layer === 'vision'` (or `node.node_id.startsWith('VN-')`); vision fields come from `node.vision`. Documents come from `node.documents`. Claims/predictions from `node.claims` / `node.predictions`.
+- `EarthGlobe.tsx`: same — one map lookup; `headline` is `node.headline`.
+- `SideIndex.tsx`: derive rows from `Array.from(store.nodesById.values())` filtered by `layer`.
+- `Legend.tsx` / `LayerFilter.tsx`: see Change 2 (rebuilt anyway).
+- `SearchCommand.tsx`, `AnalysisTab.tsx`, `DocumentsTab.tsx`, `ClaimItem.tsx`, `GlossaryPanel.tsx`, `Term.tsx`, `plainLanguage.ts`: swept for the old map names; same logic, new lookups.
 
-## UI (1) — rebuild `NodeCard`
+---
 
-`src/atlas/panels/NodeCard.tsx` becomes a segmented-control progressive disclosure. Default level = 1. Selecting a new node resets to level 1; switching levels animates (opacity + 4px translate, ~140ms; skipped under `prefers-reduced-motion`).
+## Change 2 — Rebuild the left control panel
 
-Header (unchanged structure): layer chip · region · serif name. The italic morphology headline under the name is removed — the new Level 1 carries that role.
+### A) "SHAPE OF GOVERNANCE" — 3 family rows + grey footnote
 
-Segmented control (shadcn `Tabs` styled as a 4-segment pill, or a custom radiogroup): `In short` · `How it works` · `Documents` · `Technical detail`.
+Add a new module `src/atlas/families.ts`:
 
-### Level 1 — In short (default)
-- Large serif `headline` from `nodes_readable`.
-- Body paragraph `summary`.
-- No codes, no meters, no chips beyond `<Term>` highlights.
+```text
+Family       Swatch     Covers (morphology codes)        One-line gloss
+Gap          #6E8FB8    M1, M4                            Rules outrun practice.
+Enforced     #5C9E8F    M3, M2                            Control is real and applied.
+Provisional  #C99A4E    M6, M7                            Light, fragile, or not built yet.
+```
 
-### Level 2 — How it works
-- One line of `morphology_plain` in the morphology hue (`colorFor(node.morphology)`).
-- Two labeled plain meters: "On paper" = `paper_plain`, "In practice" = `reality_plain`. Reuse `BandMeter` but extend it to accept a plain word (`almost none|minimal|partial|substantial|comprehensive`) and map to 1–5 segments. Labels stay as words; codes never appear here.
-- One-line gap gloss derived from headline/summary contrast (simple rule: if both plain words equal → "Roughly aligned"; if `paper > reality` → "Rules outrun practice"; reverse → "Practice outruns rules"; missing → blank).
-- **Opaque variant**: if both `paper_plain` and `reality_plain` are empty, hide meters and render `Closed — cannot be assessed from outside.` in muted serif.
-- **Legitimacy (VN-\*) variant**: replace this whole panel with `source_of_authority` / `scope` / `mode_of_influence` / `dated_anchor` from `nodes_vision`, each as a short prose paragraph (no labels stacked like a form — labels are small mono caps above each prose block).
+- `familyOf(morphology: string): 'gap' | 'enforced' | 'provisional' | null` — splits the raw morphology string (handles `M3+M4`, `M7-then-enacted`) and maps the primary code via the table above.
+- `FAMILY_COLOR`, `FAMILY_LABEL`, `FAMILY_GLOSS` constants.
+- `colorForNode(node): string` — returns the family swatch, or neutral grey `#7A828E` when `evidence_strength === 'OPAQUE'` or no family match.
 
-### Level 3 — Documents
-- Render `documentGroupsForNode(nodeId)` in this fixed order:
-  1. **Official & primary** (tier=primary) — always visible if non-empty.
-  2. **Analysis & commentary** (tier=secondary) — visible if non-empty.
-  3. **More references** (tier=context) — collapsed by default behind a quiet toggle showing the count.
-- Row: title (linked to `url`, opens new tab, `rel="noopener"`), then a thin meta line: publisher · year (omitted if `date_status === 'unknown'` or `pub_date` empty) · small uppercase mono `source_type` tag.
-- `origin === 'curated'` gets a 4px hue-tinted dot before the title.
-- Visual hierarchy: primary rows use slightly larger serif and full opacity; secondary one notch down; context collapsed and muted — context can never visually dominate primary.
-- Tab label shows total count (sum of three groups) — replaces the existing `documents.length`.
+Rewrite `src/atlas/panels/Legend.tsx`:
+- Header `SHAPE OF GOVERNANCE` (existing mono caps style).
+- Three rows, each: swatch (10×10) · family name (serif) · gloss (smaller, muted). Same alignment grid for all three.
+- Click toggles `families` filter in the store (replaces `morphologies`). Clear button when any filter active.
+- Single quiet footnote below: serif italic, muted: "Grey = not assessable from outside."
+- Opacity is NOT a row. No 7-item list.
 
-### Level 4 — Technical detail
-- Single closed `Collapsible` (already in shadcn/ui). When open:
-  - `morphology` codes (M1..M7, including secondary)
-  - `paper_band` / `realization_band` (CI/IN/AS/S/C)
-  - `realization_mode`, `epistemic_level`, `evidence_strength`
-  - `reg_refs` if present
-- Mono font, two-column `dt/dd` grid like today's `TechnicalDetail`. This is the ONLY place codes appear in the card.
+### B) "SHOW" — 3 toggles, no truncation
 
-## UI (2) — Inline glossary
+Rewrite `src/atlas/panels/LayerFilter.tsx`:
+- Three toggles only: **States · Actors · Legitimacy**. Drop the Deployers toggle entirely (deployer nodes still load and still render in cards; they are simply not a filter).
+- Layout: full-width vertical stack, one toggle per row, full panel width, no flex wrap, no truncation. Equal height, left-aligned labels.
+- Keep the "Reduced motion" checkbox under it, exactly as-is.
 
-New `src/atlas/panels/Term.tsx`:
-- `<TermScope>{children}</TermScope>` — wraps a card section; tracks already-highlighted terms within the section (max 3) so the same term is only chipped once per section.
-- Internally walks text children, matches against `store.glossaryByTerm` (whole-word, case-insensitive, longest-match-first), wraps hits in `<span>` with dotted underline + cursor-help. Hover/focus opens shadcn `HoverCard`/`Popover` showing the plain definition.
-- Scanned sections: Level 1 headline+summary, Level 2 `morphology_plain` line + the two meter labels ("On paper", "In practice"). Level 4 is NOT scanned (codes section stays mono and untouched).
+### C) Store + globe coloring
 
-New `src/atlas/panels/GlossaryPanel.tsx`:
-- Small "Glossary" link in the card header (next to close), opens a shadcn `Sheet` from the right with the full term list (term · definition), alphabetical, search filter input.
+- `src/atlas/store.ts`: replace `morphologies: Set<MorphCode>` with `families: Set<Family>` and matching toggle/clear actions. Remove `state.layers` for `deployer` (default set becomes `['state','actor','vision']`).
+- `EarthGlobe.tsx` polygon colors: switch from `colorFor(node.morphology)` to `colorForNode(node)` so the globe uses the 3 family swatches (and grey for OPAQUE). The dim-on-filter logic now keys on `familyOf(node.morphology) ∈ state.families`. This replaces the 7-hue scheme globe-wide for consistency, as the spec allows.
+- `SideIndex.tsx` row dots: also use `colorForNode`.
+- `NodeCard.tsx` accent hue: also use `colorForNode` (header rule + Level-1 headline).
 
-## UI (3) — Globe hover label
+### D) Spacing & consistency in the panel container
 
-`src/atlas/components/EarthGlobe.tsx`: in the `polygonLabel` HTML, replace the current morphology line with `headline` from `readableById.get(nodeId)`. Falls back to the existing text if no readable row exists. Never shows a code.
+- Single panel `<aside>` wrapping both sections with one consistent vertical rhythm (`gap-5`), one swatch size, one type scale, left-aligned content.
+- Hairline `border-t border-border/40` divider between SHAPE and SHOW.
+- Generous padding; no element overlaps at the current panel width (verified at 1062 CSS px viewport).
+- The existing "INDEX" footer button stays exactly as-is.
+
+---
 
 ## Files touched
 
-Created:
-- `public/data/nodes_readable.csv`, `glossary.csv`, `sources_v2.csv`, `node_sources.csv`
-- `src/atlas/panels/Term.tsx`
-- `src/atlas/panels/GlossaryPanel.tsx`
+- **Add**: `public/data/atlas.json`, `src/atlas/families.ts`.
+- **Rewrite**: `src/data/loader.ts`, `src/data/types.ts`, `src/data/store.ts`, `src/atlas/store.ts`, `src/atlas/panels/Legend.tsx`, `src/atlas/panels/LayerFilter.tsx`.
+- **Touch (lookup-only)**: `src/atlas/panels/NodeCard.tsx`, `src/atlas/panels/SideIndex.tsx`, `src/atlas/panels/SearchCommand.tsx`, `src/atlas/panels/AnalysisTab.tsx`, `src/atlas/panels/DocumentsTab.tsx`, `src/atlas/panels/ClaimItem.tsx`, `src/atlas/panels/GlossaryPanel.tsx`, `src/atlas/panels/Term.tsx`, `src/atlas/components/EarthGlobe.tsx`, `src/data/useDataStore.ts`.
+- **Delete**: all 12 CSVs in `public/data/`.
 
-Edited:
-- `src/data/types.ts`, `src/data/loader.ts`, `src/data/store.ts`
-- `src/atlas/panels/NodeCard.tsx` (rebuilt)
-- `src/atlas/panels/BandMeter.tsx` (accept plain words)
-- `src/atlas/panels/DocumentsTab.tsx` (replaced by inline Level-3 renderer inside NodeCard; file can be removed or repurposed)
-- `src/atlas/panels/AnalysisTab.tsx` (removed from the card flow; kept on disk only if you want — otherwise deleted)
-- `src/atlas/components/EarthGlobe.tsx` (hover label)
-- `src/atlas/plainLanguage.ts` (small `plainWordToBand` helper + gap-gloss rule)
+## Acceptance check
 
-## Acceptance check (manual)
-
-- Click EU → Level 1 shows the EU headline + summary, no codes visible. Switch to "How it works" → see plain meters with words. Switch to "Documents" → primary EU sources first (e.g. SRC-015 group), context group collapsed. Open "Technical detail" → codes appear.
-- Click a VN-\* node → Level 2 shows the legitimacy prose variant.
-- Hover any country on the globe → tooltip shows the plain headline, not "M3 · …".
-- Hover "Open gap" in the EU summary → dotted underline + popover with the glossary definition.
-- A document row with `date_status='unknown'` shows publisher · type, no year.
+- Boot: a single network request for `/data/atlas.json`, no CSV calls.
+- NodeCard still renders: headline + summary, On paper / In practice meters with gap gloss, documents grouped Primary / Secondary / Context, Technical detail collapsible with raw codes.
+- Left panel shows exactly 3 family rows + grey footnote and exactly 3 layer toggles with full labels at 1062 px viewport, no truncation.
+- Globe uses the 3 family swatches; OPAQUE nodes render grey.
+- No overlap or clipping in the panel column.

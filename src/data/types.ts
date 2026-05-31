@@ -1,47 +1,19 @@
-// Types mirror CSV columns 1:1. Semicolon-delimited fields become string[].
+// Types mirror /public/data/atlas.json. Everything is pre-joined.
 
-export interface NodeBanded {
-  node_id: string;
-  layer: string;
-  name: string;
-  region: string;
-  morphology: string;
-  sub_mechanism: string;
-  paper_band: string;
-  realization_band: string;
-  realization_mode: string;
-  epistemic_level: string;
-  evidence_strength: string;
-  notes: string;
+export interface AtlasMeta {
+  title: string;
+  generated: string;
+  reference_date: string;
+  namespaces_resolved?: boolean;
+  note?: string;
+  counts?: Record<string, number>;
+  node_count?: number;
+  unassigned_document_count?: number;
 }
 
-export interface NodeVision {
-  node_id: string;
-  name: string;
-  source_of_authority: string;
-  scope: string;
-  mode_of_influence: string;
-  dated_anchor: string;
-  notes: string;
-}
-
-export interface MorphologyTimeIndexed {
-  node_id: string;
-  as_of: string;
-  morphology: string;
-  sub_mechanism: string;
-  source_id: string;
-  note: string;
-}
-
-export interface LegitimacyEdge {
-  edge_id: string;
-  edge_type: string;
-  from_node: string;
-  to_node: string;
-  layer_target: string;
-  justification: string;
-  included: string;
+export interface GlossaryTerm {
+  term: string;
+  plain_definition: string;
 }
 
 export interface Marker {
@@ -56,83 +28,112 @@ export interface Marker {
   reg_ref: string;
 }
 
-export interface Prediction {
-  pred_id: string;
-  node_id: string;
-  marker: string;
-  direction: string;
-  as_of_snapshot: string;
-  marker_evidence: string;
-  predicted_trajectory: string;
-  falsification_threshold: string;
-  falsification_date: string;
-  confidence: string;
-  status: string;
-  source_ids: string[];
+export interface LegitimacyEdge {
+  edge_id: string;
+  edge_type: string;
+  from_node: string;
+  to_node: string;
+  layer_target: string;
+  justification: string;
+  included: string;
 }
 
-export interface Claim {
+export interface AtlasSource {
+  source_id: string;
+  title: string;
+  publisher?: string;
+  url?: string;
+  pub_date?: string;
+  source_type?: string;
+}
+
+export interface AtlasDocument {
+  source_id: string;
+  title: string;
+  publisher?: string;
+  url?: string;
+  pub_date?: string;
+  date_status?: string;
+  source_type?: string;
+  tier?: string;
+  origin?: string;
+}
+
+export interface AtlasClaim {
   claim_id: string;
-  node_id: string;
   claim_text: string;
   as_of_date: string;
   epistemic_level: string;
-  source_ids: string[];
-  reg_ref: string;
+  reg_ref?: string;
+  sources: AtlasSource[];
 }
 
-export interface Source {
-  source_id: string;
-  title: string;
-  publisher: string;
-  url: string;
-  pub_date: string;
-  source_type: string;
-  topic: string;
-  reliability: string;
-  url_status: string;
-  date_status: string;
+export interface AtlasMorphologyEntry {
+  as_of: string;
+  morphology: string;
+  sub_mechanism?: string;
+  source_id?: string;
+  note?: string;
 }
 
-// === Readable layer (new) ===
+export interface AtlasPrediction {
+  pred_id: string;
+  marker?: string;
+  direction?: string;
+  as_of_snapshot?: string;
+  marker_evidence?: string;
+  predicted_trajectory?: string;
+  falsification_threshold?: string;
+  falsification_date?: string;
+  confidence?: string;
+  status?: string;
+  sources?: AtlasSource[];
+}
 
-export interface NodeReadable {
+export interface AtlasVision {
+  source_of_authority?: string;
+  scope?: string;
+  mode_of_influence?: string;
+  dated_anchor?: string;
+  notes?: string;
+}
+
+export interface AtlasDocumentGroups {
+  primary: AtlasDocument[];
+  secondary: AtlasDocument[];
+  context: AtlasDocument[];
+}
+
+export interface AtlasNode {
   node_id: string;
   name: string;
-  layer: string;
-  headline: string;
-  summary: string;
-  morphology_plain: string;
-  paper_plain: string;
-  reality_plain: string;
+  layer: string; // "state" | "actor" | "deployer" | "legitimacy"
+  headline?: string;
+  summary?: string;
+  morphology_plain?: string;
+  paper_plain?: string;
+  reality_plain?: string;
+  morphology?: string;
+  sub_mechanism?: string;
+  paper_band?: string;
+  realization_band?: string;
+  realization_mode?: string;
+  epistemic_level?: string;
+  evidence_strength?: string;
+  region?: string;
+  notes?: string;
+  claims?: AtlasClaim[];
+  documents?: AtlasDocumentGroups;
+  morphology_timeline?: AtlasMorphologyEntry[];
+  predictions?: AtlasPrediction[];
+  vision?: AtlasVision;
 }
 
-export interface GlossaryTerm {
-  term: string;
-  plain_definition: string;
-}
-
-export interface SourceV2 {
-  source_id: string;
-  title: string;
-  publisher: string;
-  url: string;
-  pub_date: string;
-  date_status: string;
-  source_type: string;
-  tier: string; // primary | secondary | context
-  origin: string;
-}
-
-export interface NodeSourceLink {
-  node_id: string;
-  source_id: string;
-  node_confidence: string;
-  match_basis: string;
-}
-
-export interface NodeDocumentGroups {
-  primary: SourceV2[];
-  secondary: SourceV2[];
-  context: SourceV2[];
+export interface Atlas {
+  meta: AtlasMeta;
+  glossary: GlossaryTerm[];
+  markers: Marker[];
+  legitimacy_edges: LegitimacyEdge[];
+  nodes: AtlasNode[];
+  unassigned_documents?: AtlasDocument[];
 }
