@@ -1,4 +1,4 @@
-import { loadAtlas } from "./loader";
+import { loadAll } from "./loader";
 import type {
   Atlas,
   AtlasClaim,
@@ -6,6 +6,8 @@ import type {
   AtlasMorphologyEntry,
   AtlasNode,
   AtlasPrediction,
+  Girai,
+  GiraiCountry,
   GlossaryTerm,
   LegitimacyEdge,
   Marker,
@@ -15,13 +17,18 @@ const EMPTY_GROUPS: AtlasDocumentGroups = { primary: [], secondary: [], context:
 
 export interface DataStore {
   atlas: Atlas;
+  girai: Girai;
   nodesById: Map<string, AtlasNode>;
+  nodeByIso: Map<string, AtlasNode>;
+  giraiByIso: Map<string, GiraiCountry>;
   edgesById: Map<string, LegitimacyEdge>;
   markersById: Map<string, Marker>;
-  glossaryByTerm: Map<string, GlossaryTerm>; // lowercased key
-  glossaryList: GlossaryTerm[]; // alphabetized
+  glossaryByTerm: Map<string, GlossaryTerm>;
+  glossaryList: GlossaryTerm[];
 
   getNode: (id: string) => AtlasNode | undefined;
+  getNodeByIso: (iso: string) => AtlasNode | undefined;
+  getGirai: (iso: string) => GiraiCountry | undefined;
   documentGroupsForNode: (id: string) => AtlasDocumentGroups;
   claimsForNode: (id: string) => AtlasClaim[];
   predictionsForNode: (id: string) => AtlasPrediction[];
@@ -39,8 +46,16 @@ function indexBy<T>(rows: T[], key: (r: T) => string): Map<string, T> {
   return m;
 }
 
-export function buildStore(atlas: Atlas): DataStore {
+export function buildStore(atlas: Atlas, girai: Girai): DataStore {
   const nodesById = indexBy(atlas.nodes, (n) => n.node_id);
+
+  const nodeByIso = new Map<string, AtlasNode>();
+  for (const n of atlas.nodes) {
+    if (n.iso3) nodeByIso.set(n.iso3, n);
+  }
+
+  const giraiByIso = indexBy(girai.countries, (c) => c.iso3);
+
   const edgesById = indexBy(atlas.legitimacy_edges ?? [], (e) => e.edge_id);
   const markersById = indexBy(atlas.markers ?? [], (m) => m.marker_id);
 
@@ -54,13 +69,18 @@ export function buildStore(atlas: Atlas): DataStore {
 
   return {
     atlas,
+    girai,
     nodesById,
+    nodeByIso,
+    giraiByIso,
     edgesById,
     markersById,
     glossaryByTerm,
     glossaryList,
 
     getNode: (id) => nodesById.get(id),
+    getNodeByIso: (iso) => nodeByIso.get(iso),
+    getGirai: (iso) => giraiByIso.get(iso),
     documentGroupsForNode: (id) => nodesById.get(id)?.documents ?? EMPTY_GROUPS,
     claimsForNode: (id) => nodesById.get(id)?.claims ?? [],
     predictionsForNode: (id) => nodesById.get(id)?.predictions ?? [],
@@ -71,6 +91,6 @@ export function buildStore(atlas: Atlas): DataStore {
 }
 
 export async function loadStore(): Promise<DataStore> {
-  const atlas = await loadAtlas();
-  return buildStore(atlas);
+  const { atlas, girai } = await loadAll();
+  return buildStore(atlas, girai);
 }

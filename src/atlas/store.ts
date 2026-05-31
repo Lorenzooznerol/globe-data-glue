@@ -6,14 +6,17 @@ const DEFAULT_LAYERS: Layer[] = ["state", "actor", "vision"];
 
 interface AtlasState {
   selectedNodeId: string | null;
+  selectedIso: string | null;
   hoveredNodeId: string | null;
-  flyToken: number; // bump to request a camera fly to the current selection
+  flyToken: number;
   layers: Set<Layer>;
-  families: Set<Family>; // empty = no filter
+  families: Set<Family>;
   sideIndexOpen: boolean;
   reducedMotion: boolean;
 
   selectNode: (id: string | null, opts?: { fly?: boolean }) => void;
+  selectIso: (iso: string | null) => void;
+  clearIso: () => void;
   setHovered: (id: string | null) => void;
   toggleLayer: (l: Layer) => void;
   toggleFamily: (f: Family) => void;
@@ -24,6 +27,7 @@ interface AtlasState {
 
 export const useAtlasStore = create<AtlasState>((set) => ({
   selectedNodeId: null,
+  selectedIso: null,
   hoveredNodeId: null,
   flyToken: 0,
   layers: new Set(DEFAULT_LAYERS),
@@ -34,8 +38,11 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   selectNode: (id, opts) =>
     set((s) => ({
       selectedNodeId: id,
+      selectedIso: id ? null : s.selectedIso,
       flyToken: id && opts?.fly !== false ? s.flyToken + 1 : s.flyToken,
     })),
+  selectIso: (iso) => set({ selectedIso: iso, selectedNodeId: null }),
+  clearIso: () => set({ selectedIso: null }),
   setHovered: (id) => set({ hoveredNodeId: id }),
 
   toggleLayer: (l) =>

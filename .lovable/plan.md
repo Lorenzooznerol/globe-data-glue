@@ -1,95 +1,73 @@
+## GIRAI base layer + merged country card
 
-## Scope
+Add a worldwide GIRAI data layer beneath the existing 26 curated atlas nodes, joined by ISO3. Keep globe interaction, the 3-family SHAPE legend, side index, and Atlas card structure untouched.
 
-Two changes only. The globe geometry, NodeCard internals, side index, and search command stay as-is — they just read from a new store shape and a new family-color helper.
+### 1. Data
 
----
+- Replace `public/data/atlas.json` with the new uploaded `atlas-2.json` (carries iso3 / part_of_iso3 / subnational / supranational / girai_has_data fields on state nodes).
+- Add `public/data/girai.json` from the upload.
+- Extend `src/data/types.ts`: add `GiraiCountry`, `GiraiData`, and optional `iso3`, `part_of_iso3`, `subnational`, `supranational`, `girai_has_data` on `AtlasNode`.
+- `src/data/loader.ts`: fetch both files in parallel.
+- `src/data/store.ts`: build `giraiByIso: Map<string, GiraiCountry>` and `nodeByIso: Map<string, AtlasNode>` (state nodes with iso3 only). Expose `getGirai(iso3)` and `getNodeByIso(iso3)`.
 
-## Change 1 — Single data source: `/public/data/atlas.json`
+### 2. Globe base layer (choropleth)
 
-### Wiring
+In `EarthGlobe.tsx`:
+- For every polygon, look up `giraiByIso.get(iso)`. If present, fill with a sequential ramp from `#2A3340` (score 0) → `#BFE9E4` (score 100), interpolated in OKLCH. Apply ramp as `polygonCapColor`.
+- Polygons with no GIRAI entry keep the current inert neutral fill.
+- The 26 curated nodes (already resolved via `isoToNodeId`) get a **family-coloured overlay ring**: render a second polygons layer (or use `polygonStrokeColor` + raised `polygonAltitude` + thicker side colour in family hue) so the ring sits visibly on top of the GIRAI glow. EU members all ring in ST-EU's family colour. Selection / hover behaviour unchanged.
+- Hover label: if curated → existing headline; else if GIRAI-only → country name + `index_score / 100 · rank N of 138`; else → country name only.
+- Click: dispatch by iso → merged / GIRAI-only / Atlas-only / unmeasured (ignore).
 
-- Copy the uploaded `atlas.json` to `public/data/atlas.json`.
-- Delete the 12 CSV fetches and all per-table cross-joining. Remove the four "readable" CSVs added earlier plus the original 8 CSVs from `public/data/` (atlas.json is the only source now).
-- Rewrite `src/data/loader.ts` to a single `fetch('/data/atlas.json').then(r => r.json())` returning the parsed `Atlas` object.
-- Rewrite `src/data/types.ts` to mirror the JSON shape:
-  - `AtlasMeta`, `GlossaryTerm`, `Marker`, `LegitimacyEdge` (unchanged fields).
-  - `AtlasNode` with everything pre-joined: `node_id, name, layer, headline, summary, morphology_plain, paper_plain, reality_plain, morphology, sub_mechanism, paper_band, realization_band, realization_mode, epistemic_level, evidence_strength, region, notes, claims[]` (each with inline `sources[]`), `documents: { primary[], secondary[], context[] }`, `morphology_timeline[]`, `predictions[]`, and optional `vision: { source_of_authority, scope, mode_of_influence, dated_anchor, notes }` for `VN-*` nodes.
-  - `AtlasSource` / `AtlasDocument` shapes derived from the JSON.
-- Rewrite `src/data/store.ts`:
-  - `buildStore(atlas)` indexes `nodesById: Map<string, AtlasNode>`, `glossaryByTerm`, `glossaryList`, `edgesById`, `markersById`.
-  - Provide read-only convenience getters used by existing UI: `getNode(id)`, `documentGroupsForNode(id) → node.documents`, `claimsForNode(id) → node.claims`, `morphologyHistory(id) → node.morphology_timeline`, `edgesFrom/To`. All are O(1) map lookups; no joining.
-  - Remove `sourcesById`, `sourcesV2ById`, `nodesBandedById`, `nodesVisionById`, `readableById` and any "two-namespace" code. Callers below are updated to use `nodesById` + the layer/vision discriminator on the node itself.
-- Update `src/data/useDataStore.ts` query to the new loader.
+### 3. Left panel: add GIRAI ramp legend
 
-### Call-site updates (read-only refactor, no UX change)
+New `GiraiLegend.tsx` rendered under the existing SHAPE legend with the same hairline-divider rhythm:
+- Title `MOVEMENT (GIRAI INDEX)` in the same mono caps style.
+- A thin horizontal gradient bar (same ramp) with end labels `barely moving` ↔ `comprehensive`.
+- One-line italic footnote: *138 countries scored on responsible-AI governance. Grey = not measured. Data: GIRAI 2024 (2023 data), CC BY-NC-SA.*
 
-- `NodeCard.tsx`: replace `nodesBandedById.get` / `nodesVisionById.get` / `readableById.get` with one `store.nodesById.get(id)`. `headline/summary/morphology_plain/paper_plain/reality_plain` come straight off the node; `isVision = node.layer === 'vision'` (or `node.node_id.startsWith('VN-')`); vision fields come from `node.vision`. Documents come from `node.documents`. Claims/predictions from `node.claims` / `node.predictions`.
-- `EarthGlobe.tsx`: same — one map lookup; `headline` is `node.headline`.
-- `SideIndex.tsx`: derive rows from `Array.from(store.nodesById.values())` filtered by `layer`.
-- `Legend.tsx` / `LayerFilter.tsx`: see Change 2 (rebuilt anyway).
-- `SearchCommand.tsx`, `AnalysisTab.tsx`, `DocumentsTab.tsx`, `ClaimItem.tsx`, `GlossaryPanel.tsx`, `Term.tsx`, `plainLanguage.ts`: swept for the old map names; same logic, new lookups.
+SHAPE legend and SHOW toggles are not touched.
 
----
+### 4. Country card routing
 
-## Change 2 — Rebuild the left control panel
+The current selection model is keyed on `node_id`. Extend the atlas store to also accept an `iso3` selection for GIRAI-only countries:
+- `selectByIso(iso3)`: if a curated node exists for that iso, select its node_id (existing flow); else set a new `selectedIso` state and open a `GiraiOnlyCard`.
+- `EarthGlobe` click handler calls `selectByIso(iso)` for any polygon with GIRAI data; for unmeasured + non-curated polygons, no-op.
 
-### A) "SHAPE OF GOVERNANCE" — 3 family rows + grey footnote
+New components in `src/atlas/panels/`:
+- `GiraiSnapshot.tsx` — compact block: `index_score / 100 · rank N of 138`, then three slim horizontal bars (Human Rights / Governance / Capacities) in neutral ink, with a `<details>`-style disclosure "Thematic detail" that reveals a small 19-area radar (SVG, reduced-motion safe, keyboard focusable). Values come from `dimensions` and `thematic_areas`; null thematic values are rendered as muted dashes.
+- `GiraiOnlyCard.tsx` — country name, region, GiraiSnapshot, and a quiet note: *Not yet covered by the Atlas's morphological analysis.*
+- `MorphologyVsScoreLine.tsx` — pure function `(family, index_score) => string` rendered as a single italic line near the headline in merged cards. Example mapping (computed, no per-country hardcoding):
+  - `Gap` + high (≥60) → "Comprehensive on paper; the Atlas reads the gap between rules and practice as wide."
+  - `Gap` + mid (30–60) → "Mixed rulebook; gap between paper and practice is visible."
+  - `Gap` + low (<30) → "Thin rulebook and a visible gap in what's enforced."
+  - `Enforced` + high → "Comprehensive on paper, and the Atlas reads enforcement as real."
+  - `Enforced` + mid/low → "Enforcement is real where it lands, even if the broader rulebook is partial."
+  - `Provisional` + high → "Scores high on paper; the Atlas reads its commitments as self-imposed and reversible."
+  - `Provisional` + mid/low → "Light or fragile commitments; little binding rule yet in place."
+  - OPAQUE / no family → no line.
 
-Add a new module `src/atlas/families.ts`:
+`NodeCard.tsx` changes (minimal, additive):
+- When the selected node has `iso3` and a matching GIRAI entry → render `MorphologyVsScoreLine` under the headline and `GiraiSnapshot` between summary and the existing "How it works / Documents / Technical detail" sections.
+- When the selected node has `iso3` but no GIRAI entry (ISR, TUR, RUS, IRN) → show a single quiet line: *Not scored by GIRAI.*
+- Subnational nodes (ST-US-CA, ST-US-CO): use `part_of_iso3` to fetch USA's GIRAI score and render the snapshot labelled `national (USA) — GIRAI does not score sub-nationally.`
+- ST-EU (supranational): no GIRAI snapshot (GIRAI scores member states individually); render the existing card unchanged.
 
-```text
-Family       Swatch     Covers (morphology codes)        One-line gloss
-Gap          #6E8FB8    M1, M4                            Rules outrun practice.
-Enforced     #5C9E8F    M3, M2                            Control is real and applied.
-Provisional  #C99A4E    M6, M7                            Light, fragile, or not built yet.
-```
+The Atlas headline and existing levels remain the lead; GIRAI block uses muted/neutral ink so it substantiates rather than outshouts.
 
-- `familyOf(morphology: string): 'gap' | 'enforced' | 'provisional' | null` — splits the raw morphology string (handles `M3+M4`, `M7-then-enacted`) and maps the primary code via the table above.
-- `FAMILY_COLOR`, `FAMILY_LABEL`, `FAMILY_GLOSS` constants.
-- `colorForNode(node): string` — returns the family swatch, or neutral grey `#7A828E` when `evidence_strength === 'OPAQUE'` or no family match.
+### 5. Acceptance verification
 
-Rewrite `src/atlas/panels/Legend.tsx`:
-- Header `SHAPE OF GOVERNANCE` (existing mono caps style).
-- Three rows, each: swatch (10×10) · family name (serif) · gloss (smaller, muted). Same alignment grid for all three.
-- Click toggles `families` filter in the store (replaces `morphologies`). Clear button when any filter active.
-- Single quiet footnote below: serif italic, muted: "Grey = not assessable from outside."
-- Opacity is NOT a row. No 7-item list.
+After build, manually check via preview at 1062px:
+- All 138 GIRAI countries show graded fill; unmeasured stay grey; near-zero scorers visible at the dark end.
+- 26 curated nodes show family-coloured rings over GIRAI fill.
+- Click VNM / KOR / BRA → merged card with snapshot + computed interpretive line.
+- Click Ghana / Peru → GIRAI-only card with "not yet covered" note.
+- Click ISR / TUR / RUS / IRN → Atlas card with "Not scored by GIRAI."
+- Two stacked legends, same type scale, hairline divider; existing SHOW toggles and side index untouched.
 
-### B) "SHOW" — 3 toggles, no truncation
+### Files
 
-Rewrite `src/atlas/panels/LayerFilter.tsx`:
-- Three toggles only: **States · Actors · Legitimacy**. Drop the Deployers toggle entirely (deployer nodes still load and still render in cards; they are simply not a filter).
-- Layout: full-width vertical stack, one toggle per row, full panel width, no flex wrap, no truncation. Equal height, left-aligned labels.
-- Keep the "Reduced motion" checkbox under it, exactly as-is.
-
-### C) Store + globe coloring
-
-- `src/atlas/store.ts`: replace `morphologies: Set<MorphCode>` with `families: Set<Family>` and matching toggle/clear actions. Remove `state.layers` for `deployer` (default set becomes `['state','actor','vision']`).
-- `EarthGlobe.tsx` polygon colors: switch from `colorFor(node.morphology)` to `colorForNode(node)` so the globe uses the 3 family swatches (and grey for OPAQUE). The dim-on-filter logic now keys on `familyOf(node.morphology) ∈ state.families`. This replaces the 7-hue scheme globe-wide for consistency, as the spec allows.
-- `SideIndex.tsx` row dots: also use `colorForNode`.
-- `NodeCard.tsx` accent hue: also use `colorForNode` (header rule + Level-1 headline).
-
-### D) Spacing & consistency in the panel container
-
-- Single panel `<aside>` wrapping both sections with one consistent vertical rhythm (`gap-5`), one swatch size, one type scale, left-aligned content.
-- Hairline `border-t border-border/40` divider between SHAPE and SHOW.
-- Generous padding; no element overlaps at the current panel width (verified at 1062 CSS px viewport).
-- The existing "INDEX" footer button stays exactly as-is.
-
----
-
-## Files touched
-
-- **Add**: `public/data/atlas.json`, `src/atlas/families.ts`.
-- **Rewrite**: `src/data/loader.ts`, `src/data/types.ts`, `src/data/store.ts`, `src/atlas/store.ts`, `src/atlas/panels/Legend.tsx`, `src/atlas/panels/LayerFilter.tsx`.
-- **Touch (lookup-only)**: `src/atlas/panels/NodeCard.tsx`, `src/atlas/panels/SideIndex.tsx`, `src/atlas/panels/SearchCommand.tsx`, `src/atlas/panels/AnalysisTab.tsx`, `src/atlas/panels/DocumentsTab.tsx`, `src/atlas/panels/ClaimItem.tsx`, `src/atlas/panels/GlossaryPanel.tsx`, `src/atlas/panels/Term.tsx`, `src/atlas/components/EarthGlobe.tsx`, `src/data/useDataStore.ts`.
-- **Delete**: all 12 CSVs in `public/data/`.
-
-## Acceptance check
-
-- Boot: a single network request for `/data/atlas.json`, no CSV calls.
-- NodeCard still renders: headline + summary, On paper / In practice meters with gap gloss, documents grouped Primary / Secondary / Context, Technical detail collapsible with raw codes.
-- Left panel shows exactly 3 family rows + grey footnote and exactly 3 layer toggles with full labels at 1062 px viewport, no truncation.
-- Globe uses the 3 family swatches; OPAQUE nodes render grey.
-- No overlap or clipping in the panel column.
+- **Add**: `public/data/girai.json`, `src/atlas/giraiRamp.ts`, `src/atlas/panels/GiraiLegend.tsx`, `src/atlas/panels/GiraiSnapshot.tsx`, `src/atlas/panels/GiraiOnlyCard.tsx`, `src/atlas/panels/MorphologyVsScoreLine.tsx`.
+- **Replace**: `public/data/atlas.json` (new upload).
+- **Edit**: `src/data/types.ts`, `src/data/loader.ts`, `src/data/store.ts`, `src/atlas/store.ts` (add selectedIso + selectByIso), `src/atlas/components/EarthGlobe.tsx` (ramp fill + overlay rings + iso click dispatch), `src/atlas/panels/NodeCard.tsx` (snapshot + interpretive line + subnational/unscored cases), `src/routes/index.tsx` (mount GiraiLegend and GiraiOnlyCard in the existing panel slots).
+- **Not touched**: globe geometry, SHAPE legend, SHOW toggles, side index, families.ts, iso.ts mappings.

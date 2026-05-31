@@ -3,8 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useDataStore } from "@/data/useDataStore";
 import { EarthGlobe } from "@/atlas/components/EarthGlobe";
 import { Legend } from "@/atlas/panels/Legend";
+import { GiraiLegend } from "@/atlas/panels/GiraiLegend";
 import { LayerFilter } from "@/atlas/panels/LayerFilter";
 import { NodeCard } from "@/atlas/panels/NodeCard";
+import { GiraiOnlyCard } from "@/atlas/panels/GiraiOnlyCard";
 import { SideIndex } from "@/atlas/panels/SideIndex";
 import { SearchCommand } from "@/atlas/panels/SearchCommand";
 import { useAtlasStore } from "@/atlas/store";
@@ -91,6 +93,8 @@ function AtlasPage() {
           <Legend />
           <div className="border-t border-border/40" />
           <LayerFilter />
+          <div className="border-t border-border/40" />
+          <GiraiLegend />
         </div>
         <SideIndex store={store} />
       </div>
@@ -110,6 +114,7 @@ function AtlasPage() {
       {/* Right-side card (controlled by store) */}
       <div className="absolute inset-0 z-30 pointer-events-none">
         <NodeCard store={store} />
+        <GiraiOnlyCard store={store} />
       </div>
     </div>
   );

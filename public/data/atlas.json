@@ -20,7 +20,8 @@
    "glossary": 18
   },
   "node_count": 62,
-  "unassigned_document_count": 118
+  "unassigned_document_count": 118,
+  "iso3_mapping": "Added ISO3 to state nodes for join with girai.json. Subnational (CA/CO) carry part_of_iso3=USA + subnational=true. EU carries supranational=true. girai_has_data flags overlap."
  },
  "glossary": [
   {
@@ -656,7 +657,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": null,
+   "supranational": true
   },
   {
    "node_id": "ST-US",
@@ -1017,7 +1020,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "USA",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-US-CA",
@@ -1189,7 +1194,10 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": null,
+   "part_of_iso3": "USA",
+   "subnational": true
   },
   {
    "node_id": "ST-US-CO",
@@ -1341,7 +1349,10 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": null,
+   "part_of_iso3": "USA",
+   "subnational": true
   },
   {
    "node_id": "ST-CN",
@@ -1556,7 +1567,9 @@
      "status": "OPEN",
      "source_ids": "S035;S036"
     }
-   ]
+   ],
+   "iso3": "CHN",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-UK",
@@ -1616,7 +1629,9 @@
      "status": "OPEN",
      "source_ids": "S058"
     }
-   ]
+   ],
+   "iso3": "GBR",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-IN",
@@ -1846,7 +1861,9 @@
      "status": "OPEN",
      "source_ids": "S037;S038"
     }
-   ]
+   ],
+   "iso3": "IND",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-SG",
@@ -2035,7 +2052,9 @@
      "status": "OPEN",
      "source_ids": "S034"
     }
-   ]
+   ],
+   "iso3": "SGP",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-JP",
@@ -2101,7 +2120,9 @@
     "context": []
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "JPN",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-AU",
@@ -2284,7 +2305,9 @@
      "note": "National AI Plan Dec 2025 rejected mandatory guardrails — migration is the datum"
     }
    ],
-   "predictions": []
+   "predictions": [],
+   "iso3": "AUS",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-MX",
@@ -2486,7 +2509,9 @@
      "note": "INAI dissolved; built capacity dismantled"
     }
    ],
-   "predictions": []
+   "predictions": [],
+   "iso3": "MEX",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-BR",
@@ -2817,7 +2842,9 @@
      "status": "OPEN",
      "source_ids": "S044;S045;S046"
     }
-   ]
+   ],
+   "iso3": "BRA",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-CL",
@@ -3007,7 +3034,9 @@
      "status": "OPEN",
      "source_ids": "S047;S048;S068"
     }
-   ]
+   ],
+   "iso3": "CHL",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-CO",
@@ -3128,7 +3157,9 @@
      "status": "OPEN",
      "source_ids": "S049;S066"
     }
-   ]
+   ],
+   "iso3": "COL",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-ID",
@@ -3301,7 +3332,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "IDN",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-NG",
@@ -3439,7 +3472,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "NGA",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-KE",
@@ -3576,7 +3611,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "KEN",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-ZA",
@@ -3665,7 +3702,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "ZAF",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-RW",
@@ -3705,7 +3744,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "RWA",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-EG",
@@ -3745,7 +3786,9 @@
     "context": []
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "EGY",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-AE",
@@ -3949,7 +3992,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "ARE",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-SA",
@@ -4050,7 +4095,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "SAU",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-IL",
@@ -4176,7 +4223,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "ISR",
+   "girai_has_data": false
   },
   {
    "node_id": "ST-VN",
@@ -4459,7 +4508,9 @@
      "status": "OPEN",
      "source_ids": "S026;S027"
     }
-   ]
+   ],
+   "iso3": "VNM",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-CH",
@@ -4609,7 +4660,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "CHE",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-KR",
@@ -4710,7 +4763,9 @@
      "status": "OPEN",
      "source_ids": "S031"
     }
-   ]
+   ],
+   "iso3": "KOR",
+   "girai_has_data": true
   },
   {
    "node_id": "ST-TR",
@@ -4762,7 +4817,9 @@
     "context": []
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "TUR",
+   "girai_has_data": false
   },
   {
    "node_id": "ST-RU",
@@ -4863,7 +4920,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "RUS",
+   "girai_has_data": false
   },
   {
    "node_id": "ST-IR",
@@ -4903,7 +4962,9 @@
     ]
    },
    "morphology_timeline": [],
-   "predictions": []
+   "predictions": [],
+   "iso3": "IRN",
+   "girai_has_data": false
   },
   {
    "node_id": "AC-ANT",
