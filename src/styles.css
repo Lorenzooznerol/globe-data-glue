@@ -96,6 +96,9 @@
   --encounter-ink-faint: rgba(22, 22, 26, 0.42);
   --encounter-rule: rgba(22, 22, 26, 0.7);
   --encounter-vignette: rgba(120, 120, 120, 0.22);
+  --encounter-bubble: rgba(22, 22, 26, 0.05);
+  --encounter-input-bg: #ffffff;
+  --encounter-input-border: rgba(22, 22, 26, 0.14);
 }
 
 .dark {
