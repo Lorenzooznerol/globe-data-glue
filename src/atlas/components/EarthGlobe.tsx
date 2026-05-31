@@ -272,6 +272,57 @@ export function EarthGlobe({ store, width, height }: Props) {
     });
   }, []);
 
+  // Trajectory mode: glyphs at predicted-node centroids.
+  const glyphData = useMemo(() => {
+    if (!trajectoryMode) return [] as GlyphDatum[];
+    const out: GlyphDatum[] = [];
+    for (const [nodeId, preds] of store.predictionsByNode) {
+      const node = store.nodesById.get(nodeId);
+      if (!node) continue;
+      const p = preds[0];
+      let lat: number | undefined;
+      let lng: number | undefined;
+      const feat = featureByNode.get(nodeId);
+      if (nodeId !== "ST-EU" && feat) {
+        try {
+          const [cLng, cLat] = geoCentroid(feat as never);
+          if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
+            lat = cLat;
+            lng = cLng;
+          }
+        } catch {
+          /* fall back below */
+        }
+      }
+      if (lat == null || lng == null) {
+        const fb = NODE_CENTROIDS[nodeId];
+        if (!fb) continue;
+        lat = fb[0];
+        lng = fb[1];
+      }
+      out.push({
+        id: nodeId,
+        lat,
+        lng,
+        kind: directionGlyph(p.direction),
+        color: colorForNode(node),
+      });
+    }
+    return out;
+  }, [trajectoryMode, store, featureByNode]);
+
+  const glyphHtml = (obj: object): string => {
+    const g = obj as GlyphDatum;
+    const svg = renderToStaticMarkup(
+      <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
+    );
+    return `<div style="
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+    ">${svg}</div>`;
+  };
+
   return (
     <Suspense fallback={null}>
       <Globe
@@ -294,9 +345,44 @@ export function EarthGlobe({ store, width, height }: Props) {
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
+        htmlElementsData={glyphData}
+        htmlLat={(d: object) => (d as GlyphDatum).lat}
+        htmlLng={(d: object) => (d as GlyphDatum).lng}
+        htmlAltitude={0.04}
+        htmlElement={(d: object) => {
+          const el = document.createElement("div");
+          el.innerHTML = glyphHtml(d);
+          return el.firstElementChild as HTMLElement;
+        }}
       />
     </Suspense>
   );
+}
+
+interface GlyphDatum {
+  id: string;
+  lat: number;
+  lng: number;
+  kind: ReturnType<typeof directionGlyph>;
+  color: string;
+}
+
+function lerpHex(a: string, b: string, t: number): string {
+  const pa = parseHex(a);
+  const pb = parseHex(b);
+  const r = Math.round(pa[0] + (pb[0] - pa[0]) * t);
+  const g = Math.round(pa[1] + (pb[1] - pa[1]) * t);
+  const bl = Math.round(pa[2] + (pb[2] - pa[2]) * t);
+  return `rgb(${r},${g},${bl})`;
+}
+
+function parseHex(hex: string): [number, number, number] {
+  const m = hex.replace("#", "");
+  return [
+    parseInt(m.slice(0, 2), 16),
+    parseInt(m.slice(2, 4), 16),
+    parseInt(m.slice(4, 6), 16),
+  ];
 }
 
 function escapeHtml(s: string): string {
