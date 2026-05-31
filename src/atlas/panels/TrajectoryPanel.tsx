@@ -27,9 +27,8 @@ interface Props {
 
 type SectionKey = "register" | "theses" | "migrations";
 
-export function TrajectoryPanel({ store }: Props) {
+export function TrajectoryPanel({ store, open, onClose }: Props) {
   const mode = useAtlasStore((s) => s.mode);
-  const [panelOpen, setPanelOpen] = useState(true);
   const [openSections, setOpenSections] = useState<Set<SectionKey>>(
     () => new Set<SectionKey>(["register"]),
   );
@@ -60,13 +59,8 @@ export function TrajectoryPanel({ store }: Props) {
 
   if (mode !== "forecasts") return null;
 
-  const ensureSectionOpen = (k: SectionKey) => {
-    setOpen(k, true);
-    setPanelOpen(true);
-  };
-
   const scrollToForecast = (predId: string) => {
-    ensureSectionOpen("register");
+    setOpen("register", true);
     setTimeout(() => {
       const el = document.getElementById(`forecast-${predId}`);
       if (!el) return;
@@ -77,25 +71,17 @@ export function TrajectoryPanel({ store }: Props) {
   };
 
   return (
-    <aside
-      className="pointer-events-auto fixed bottom-0 left-0 right-0 z-30 mx-auto flex max-w-[760px] flex-col border border-border/50 bg-background/95 backdrop-blur-md"
-      style={{ maxHeight: "72vh" }}
-      role="dialog"
-      aria-label="Forecasts"
-    >
-      <div className="flex shrink-0 items-center justify-end gap-2 border-b border-border/30 px-3 py-2">
-        <button
-          type="button"
-          onClick={() => setPanelOpen((v) => !v)}
-          aria-expanded={panelOpen}
-          aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
-          className="flex h-8 w-8 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground/40"
-        >
-          {panelOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
-        </button>
-      </div>
+    <Sheet open={open} onOpenChange={(v) => (v ? null : onClose())}>
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:max-w-[640px]"
+      >
+        <SheetHeader className="shrink-0 border-b border-border/40 px-6 py-4 text-left">
+          <SheetTitle className="font-serif text-[18px] font-medium tracking-tight">
+            All forecasts
+          </SheetTitle>
+        </SheetHeader>
 
-      {panelOpen && (
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-8 sm:px-7">
           <TrajectoryHeader store={store} />
 
@@ -139,20 +125,21 @@ export function TrajectoryPanel({ store }: Props) {
             </SectionAccordion>
           </div>
         </div>
-      )}
 
-      <style>{`
-        .trajectory-flash {
-          animation: trajectoryFlash 1.8s ease-out;
-        }
-        @keyframes trajectoryFlash {
-          0% { background: hsl(var(--foreground) / 0.10); }
-          100% { background: transparent; }
-        }
-      `}</style>
-    </aside>
+        <style>{`
+          .trajectory-flash {
+            animation: trajectoryFlash 1.8s ease-out;
+          }
+          @keyframes trajectoryFlash {
+            0% { background: hsl(var(--foreground) / 0.10); }
+            100% { background: transparent; }
+          }
+        `}</style>
+      </SheetContent>
+    </Sheet>
   );
 }
+
 
 /* ---------- Status pill (non-interactive) ---------- */
 
