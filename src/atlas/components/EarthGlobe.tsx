@@ -152,24 +152,19 @@ export function EarthGlobe({ store, width, height }: Props) {
 
   const polygonCapColor = (obj: object): string => {
     const r = obj as Resolved;
+    // Trajectory mode: every polygon is a single flat neutral. No GIRAI bleed-through,
+    // no migration tweens, no family hues on caps.
+    if (trajectoryMode) {
+      return NEUTRAL_FILL;
+    }
     let base: string;
     if (r.girai) {
-      const alpha = trajectoryMode ? 0.25 : 1;
-      base = giraiRampColor(r.girai.index_score, alpha);
+      base = giraiRampColor(r.girai.index_score, 1);
       if (r.nodeId && r.nodeId === hoveredNodeId) {
-        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), alpha);
+        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
       }
     } else {
       base = NEUTRAL_FILL;
-    }
-    // Trajectory mode: migration nodes interpolate between first/last family color.
-    if (trajectoryMode && r.node && r.node.morphology_timeline && r.node.morphology_timeline.length >= 2) {
-      const tl = r.node.morphology_timeline;
-      const a = familyOf(tl[0].morphology);
-      const b = familyOf(tl[tl.length - 1].morphology);
-      const colA = a ? FAMILY_COLOR[a] : OPAQUE_GREY;
-      const colB = b ? FAMILY_COLOR[b] : OPAQUE_GREY;
-      return lerpHex(colA, colB, migrationT);
     }
     // Family filter: dim countries whose curated node is filtered out.
     if (families.size > 0 && r.node) {
