@@ -52,8 +52,45 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
-/* Always-dark atlas — no light theme. */
-:root,
+:root {
+  --radius: 0.375rem;
+  --background: oklch(0.98 0.003 80);
+  --foreground: oklch(0.18 0.008 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.008 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.008 250);
+  --primary: oklch(0.22 0.008 250);
+  --primary-foreground: oklch(0.98 0.003 80);
+  --secondary: oklch(0.95 0.005 80);
+  --secondary-foreground: oklch(0.22 0.008 250);
+  --muted: oklch(0.95 0.005 80);
+  --muted-foreground: oklch(0.45 0.012 250);
+  --accent: oklch(0.93 0.006 80);
+  --accent-foreground: oklch(0.22 0.008 250);
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.98 0.003 80);
+  --border: oklch(0.88 0.006 250 / 80%);
+  --input: oklch(0.88 0.006 250);
+  --ring: oklch(0.6 0.01 250);
+  --sidebar: oklch(0.96 0.004 80);
+  --sidebar-foreground: oklch(0.18 0.008 250);
+  --sidebar-primary: oklch(0.22 0.008 250);
+  --sidebar-primary-foreground: oklch(0.98 0.003 80);
+  --sidebar-accent: oklch(0.93 0.006 80);
+  --sidebar-accent-foreground: oklch(0.22 0.008 250);
+  --sidebar-border: oklch(0.88 0.006 250 / 80%);
+  --sidebar-ring: oklch(0.6 0.01 250);
+
+  --morph-m1: #5b7a99;
+  --morph-m2: #5a8a86;
+  --morph-m3: #5f8c63;
+  --morph-m4: #7d6a96;
+  --morph-m5: #7a7a7a;
+  --morph-m6: #a98a52;
+  --morph-m7: #6b7385;
+}
+
 .dark {
   --radius: 0.375rem;
   --background: oklch(0.14 0.005 250);
