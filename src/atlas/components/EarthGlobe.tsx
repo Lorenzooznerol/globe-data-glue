@@ -288,26 +288,6 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       } else {
         return "";
       }
-
-  const polygonLabel = useCallback(
-    (obj: object): string => {
-      const r = obj as Resolved;
-      if (!r.node && !r.girai) return "";
-      let subtitle: string;
-      let line: string;
-      if (r.node) {
-        const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
-        subtitle = isEU ? "European Union (member state)" : r.node.name;
-        line = r.node.headline || plainHeadline(r.node.morphology);
-        if (r.girai) line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
-      } else if (r.girai) {
-        subtitle = r.girai.country;
-        line = `GIRAI ${r.girai.index_score.toFixed(1)} / 100 · rank ${Math.round(
-          r.girai.ranking,
-        )} of ${store.girai.countries.length}`;
-      } else {
-        return "";
-      }
       const bg = themeName === "dark" ? "rgba(10,13,18,0.92)" : "rgba(255,255,255,0.95)";
       const fg = themeName === "dark" ? "#e8e8e8" : "#1a1d21";
       const sub = themeName === "dark" ? "#b8b8b8" : "#4a4d52";
@@ -330,7 +310,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
           </div>
         </div>`;
     },
-    [store, theme, themeName],
+    [store, theme, themeName, forecastsMode, forecastNodeIds],
   );
 
   // rAF-coalesced hover handler
