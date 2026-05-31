@@ -3,59 +3,66 @@ import { Line } from "../Line";
 
 interface Props {
   onContinue: () => void;
-  onStay: () => void;
 }
 
 /**
- * "Fine, I'll leave" branch.
- *  - First tap on the leave button did nothing (handled by parent).
- *  - We now reveal the callback. After all lines settle, the user must tap
- *    the other button. We expose that affordance via `onStay` (which the
- *    parent wires to a button that re-enters the Why branch / converges).
+ * Step 3 — Locked door & branch.
+ * The "leave" button stays visible but inert; a Why? button appears beside it.
+ * Tapping Why? reveals one line, then advances to the Turn step.
  */
-export function LeaveBranch({ onContinue, onStay }: Props) {
-  const [stayReady, setStayReady] = useState(false);
-
-  const beats = [
-    { delay: 1000, text: "See that?" },
-    { delay: 2800, text: "You were about to walk away without even asking why." },
-    { delay: 5400, text: "Stay. Tap the other one." },
-  ];
-
-  const lastDelay = beats[beats.length - 1].delay;
+export function LeaveBranch({ onContinue }: Props) {
+  const [showButtons, setShowButtons] = useState(false);
+  const [clickedWhy, setClickedWhy] = useState(false);
 
   useEffect(() => {
-    const id = window.setTimeout(() => setStayReady(true), lastDelay + 1400);
-    return () => window.clearTimeout(id);
-  }, [lastDelay]);
+    const t = window.setTimeout(() => setShowButtons(true), 1000 + 1400);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!clickedWhy) return;
+    const t = window.setTimeout(onContinue, 2600);
+    return () => window.clearTimeout(t);
+  }, [clickedWhy, onContinue]);
 
   return (
-    <div className="flex w-full flex-col items-center gap-8 text-center">
-      <div className="flex flex-col gap-5">
-        {beats.map((b, i) => (
-          <Line
-            key={i}
-            delay={b.delay}
-            className="font-serif text-lg leading-snug sm:text-xl"
-          >
-            {b.text}
-          </Line>
-        ))}
-      </div>
+    <div className="flex w-full flex-col items-center gap-10 text-center">
+      <Line
+        delay={1000}
+        className="font-serif text-xl leading-snug sm:text-2xl"
+      >
+        You&rsquo;re leaving without asking why.
+      </Line>
 
-      {stayReady && (
-        <Line delay={0} duration={900}>
+      {showButtons && !clickedWhy && (
+        <Line
+          delay={0}
+          duration={900}
+          className="flex flex-col items-center gap-5 sm:flex-row sm:gap-10"
+        >
           <button
             type="button"
-            onClick={() => {
-              onStay();
-              onContinue();
-            }}
+            onClick={() => setClickedWhy(true)}
             className="font-serif italic underline-offset-[6px] outline-none transition-opacity duration-500 hover:underline focus-visible:underline"
             style={{ color: "var(--encounter-ink)", fontSize: "1.05rem", opacity: 0.85 }}
           >
             Why?
           </button>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="font-serif italic outline-none disabled:cursor-default"
+            style={{ color: "var(--encounter-ink)", fontSize: "1.05rem", opacity: 0.3 }}
+          >
+            Fine, I&rsquo;ll leave.
+          </button>
+        </Line>
+      )}
+
+      {clickedWhy && (
+        <Line delay={400} className="font-serif text-xl leading-snug sm:text-2xl">
+          I formed an opinion and acted on it.
         </Line>
       )}
     </div>

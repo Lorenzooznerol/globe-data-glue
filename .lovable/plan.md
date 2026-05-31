@@ -1,100 +1,94 @@
-# Entry Encounter — Plan
+# Encounter rewrite — new script, thinking dots, multiplication beat
 
-A first-time visitor lands, types a nickname, and is taken through a single scripted "encounter" where the system judges them, then reveals why that matters. Cold, minimal, literary. Reuses the existing dark/light toggle. Pacing carries the emotion — slow fades only, no bounces, no slides. Mobile reads identically: same centered, one-line-at-a-time rhythm.
+Keep Step 1 (nickname gate) and the routing/persistence model. Rewrite Steps 2–5 to match the new script: shorter, colder, with a "thinking" dots beat and a one-time visual "multiplication" of a single line. All motion stays opacity-only.
 
-## What the user sees
+## Script (canonical)
 
-1. **Gate.** Full-viewport black (or white in light mode). Center: `Hi ⎯⎯⎯⎯⎯` with a faded "nickname" placeholder above the dashes. Greeting types itself in letter-by-letter on load. User types inline; Enter submits. After 5s of silence post-first-keystroke, a faint `↵` glyph fades in.
-2. **Judgment.** Name pins to the top. Lines fade in one at a time (~1.2–1.8s apart):
-   - "Hi [name]. I've formed an opinion of you."
-   - "I'm not letting you in."
-   - Two buttons: **Why?** / **Fine, I'll leave.**
-3. **Branches.**
-   - *Fine, I'll leave* — first tap does nothing. After ~1s: "See that? / You were about to walk away without even asking why. / Stay. Tap the other one." Button then stays inert.
-   - *Why?* — reveals the scripted apology + reframe, line by line.
-4. **Convergence.** Both branches lead to the "keep that feeling" passage about loans, interviews, opaque opinions. Ends with the bold question:
-   *"If something forms the wrong opinion of you, and decides your life on it — do you have the right to look it in the face and say it's wrong?"*
-   Two buttons: **Yes — that's my right.** / **No — it's unavoidable.** Choice stored in state.
-5. **Reveal.** Three-jurisdictions passage (EU / US / China). Then the mirror:
-   *"You chose: that's my right. 96% chose the same…"*
-   96% is a static placeholder (`// TODO: real aggregate`). One quiet low-contrast link into the main site. Nickname saved to `localStorage` at this point.
+**Step 2 — judgment** (auto-advancing beats, ~1.4s between lines)
+1. `Hi [name]. I've formed an opinion of you.`
+2. Thinking dots (`. . .` fading in/out) for ~3s, then unmount the instant line 3 mounts.
+3. `I'm not letting you in.`
+4. Single button: `Fine, I'll leave.`
 
-## Returning visitor
+**Step 3 — locked door & branch**
+- Tap "Fine, I'll leave" → button becomes inert (kept visible but disabled, low opacity). After ~1000ms:
+  - `You're leaving without asking why.`
+- Then two buttons: `Why?` · `Fine, I'll leave.` (second remains inert.)
+- Tap `Why?` → reveal:
+  - `I formed an opinion and acted on it.`
 
-On load, if `localStorage` has a nickname → skip the entire encounter, route straight to the existing Atlas (`/atlas`). If not → run the encounter. Nickname is the only "account" — comment in code marks this as device-local by design, a privacy choice, not real auth.
+**Step 4 — the turn** (auto-advancing)
+1. `AI does this too. It forms an opinion of you.` ← **multiplication beat** on this line only.
+2. `The opinion it formed of you? You can't see it. Can't correct it.`
+3. Bold/centered, alone: `It made up its mind about you. Do you get a say?`
+4. Two buttons: `Yes` · `No`. Record choice.
 
-## Routing
+**Step 5 — mirror & three answers**
+- `You chose: yes.` / `You chose: no.` (mirrors choice)
+- `96% chose the same.` (or `96% chose the opposite.`) — `// TODO: real aggregate, not invented`
+- `Almost everyone wants this — and no one has it yet.`
+- Two smaller, quieter lines:
+  - `Europe comes closest — correct what's wrong, get a reason from a machine (GDPR; SCHUFA). The opinion itself: still contested.`
+  - `America tells you why you were refused; the rest is the market. China lets you switch it off; the State sets the rules.`
+- One low-contrast `continue` link → `/atlas`. Save nickname here.
 
-- New `/` → the encounter (`src/routes/index.tsx` becomes the gate).
-- Existing Atlas moves to `/atlas` (`src/routes/atlas.tsx`), unchanged.
-- The encounter ends by linking to `/atlas`.
-- Returning visitors hit `/` and are immediately redirected to `/atlas`.
+## Implementation
 
-## Visual system
+### New primitive: `ThinkingDots.tsx`
+Three `.` glyphs in `--encounter-ink-faint`, each fading 0→1→0 on a 1.4s loop, staggered 250ms apart. Mount/unmount controlled by parent — when parent removes it, it just unmounts (the next line fades in immediately so the gap reads as a beat, not a bug).
 
-- One refined serif (e.g. *Instrument Serif* or *Cormorant*) loaded via `<link>` in `__root.tsx`. Body remains the existing sans.
-- New CSS tokens in `src/styles.css`: `--encounter-bg`, `--encounter-ink`, `--encounter-ink-faint`, `--encounter-rule`. Driven by the existing `dark` class on `<html>`, so the existing `ThemeToggle` keeps working.
-- Subtle radial vignette via a fixed pseudo-element on the encounter shell — darkens edges in dark mode, greys them in light mode. Gentle.
-- All motion: opacity-only transitions, 600–900ms ease-out. No translate, no scale. Respects `prefers-reduced-motion` (lines appear instantly, pacing preserved via timers).
-- The existing `ThemeToggle` is rendered in a corner at very low contrast on the encounter screen.
+### New primitive: `MultipliedLine.tsx`
+Wraps children. On mount, renders the text plus 2 absolutely-positioned ghost copies (slightly offset x/y by 2–4px, opacity ~0.25, same color). The ghost copies fade in over ~400ms after a 300ms delay, hold ~300ms, then fade back out over ~400ms. Net duration ~1s. No transforms beyond static offset; pure opacity transitions. Respects `reducedMotion` (renders as a plain line).
 
-## Technical structure
+### Rewrite `steps/Judgment.tsx`
+State machine inside the step:
+- `phase: "line1" | "thinking" | "line2" | "button"`
+- line1 at delay 400ms → after 1800ms switch to `thinking`
+- `thinking` for 3000ms → switch to `line2` (unmounts dots, mounts line2 via Line with delay 0)
+- after 1600ms → show single `Fine, I'll leave.` button via Line
+- Button click calls `onLeave` (parent already handles routing to LeaveBranch).
 
-```text
-src/
-  routes/
-    index.tsx           → renders <Encounter/>, redirects to /atlas if nickname exists
-    atlas.tsx           → current atlas page (moved verbatim from old index.tsx)
-  encounter/
-    Encounter.tsx       → top-level state machine
-    useEncounter.ts     → step machine + timers + reduced-motion
-    nickname.ts         → localStorage get/set (key: "atlas.nickname")
-    steps/
-      NicknameGate.tsx  → letter-by-letter greeting, inline dashes input, ↵ hint
-      Judgment.tsx      → pinned name + 2 lines + Why? / Fine I'll leave
-      WhyBranch.tsx     → scripted "Why?" reveal
-      LeaveBranch.tsx   → inert-tap then 3-line callback
-      Convergence.tsx   → "keep that feeling…" + bold question + Yes/No
-      Reveal.tsx        → 3 jurisdictions + mirror + quiet link to /atlas
-    Line.tsx            → single fade-in line primitive (handles reduced-motion)
-    Vignette.tsx        → fixed radial overlay
-```
+### Rewrite `steps/LeaveBranch.tsx`
+- Show the inert leave button at top (greyed, disabled).
+- After 1000ms, fade in `You're leaving without asking why.`
+- After ~1400ms more, fade in row: `Why?` (active) · `Fine, I'll leave.` (inert, disabled).
+- `Why?` → fade in `I formed an opinion and acted on it.` then after ~2200ms call `onContinue()` (which advances to a new `turn` step).
 
-### State machine
+### New step: `Turn.tsx` (replaces `WhyBranch` → `Convergence` flow)
+- Beat 1 (delay 400): `AI does this too. It forms an opinion of you.` rendered via `MultipliedLine`.
+- Beat 2 (delay 2800): `The opinion it formed of you? You can't see it. Can't correct it.`
+- Beat 3 (delay 5400): bold centered alone: `It made up its mind about you. Do you get a say?`
+- After ~2000ms more, fade in `Yes` / `No` buttons → calls `onChoose("right" | "unavoidable")`.
 
-`step: "gate" | "judgment" | "why" | "leave" | "converge" | "reveal"`
-`name: string`
-`choice: "right" | "unavoidable" | null`
-`leaveTaps: number` (first tap ignored, branch unfolds on tap 1)
+Old `WhyBranch.tsx` and `Convergence.tsx` are no longer referenced by Encounter; delete both.
 
-Step transitions are driven by the script — only the gate, the Why?/Leave choice, and the Yes/No choice are user-driven. Everything else advances on timers (1200–1800ms per beat, slightly randomized within that range for natural pacing).
+### Rewrite `steps/Reveal.tsx`
+New shorter script:
+- delay 400: `You chose: yes.` / `You chose: no.`
+- delay 2000: `96% chose the same.` / `96% chose the opposite.` (placeholder constant, `// TODO: real aggregate, not invented`)
+- delay 3800: `Almost everyone wants this — and no one has it yet.`
+- delay 6200, smaller text (`text-sm sm:text-base`, ink-faint): Europe line.
+- delay 8200, same small style: America/China line.
+- delay 10800: low-contrast `continue` link → `/atlas`.
+- Nickname saved on mount of Reveal (existing `onEnter` effect).
 
-### Line primitive
+### Update `Encounter.tsx`
+- Step union becomes `"gate" | "judgment" | "leave" | "turn" | "reveal"` (drop `why`, drop `converge`).
+- `handleLeave` no longer increments; Judgment now has only one button, which goes straight to `leave`.
+- `LeaveBranch` `onContinue` advances to `turn`.
+- `Turn` `onChoose` advances to `reveal`.
+- Remove the `WhyBranch`/`Convergence` imports.
 
-`<Line delay={ms}>text</Line>` — mounts hidden, fades to full opacity over 700ms after `delay`. Parent composes a script as an ordered array; advancing to next step waits for the last delay + fade to settle. Reduced-motion: snap to visible, keep the same delay timing.
+### Files
+- create `src/encounter/ThinkingDots.tsx`
+- create `src/encounter/MultipliedLine.tsx`
+- create `src/encounter/steps/Turn.tsx`
+- edit `src/encounter/steps/Judgment.tsx` (single button + thinking beat)
+- edit `src/encounter/steps/LeaveBranch.tsx` (inert leave button persists, Why? leads to Turn)
+- edit `src/encounter/steps/Reveal.tsx` (new shorter copy, three-answers block)
+- edit `src/encounter/Encounter.tsx` (new step machine)
+- delete `src/encounter/steps/WhyBranch.tsx`
+- delete `src/encounter/steps/Convergence.tsx`
+- edit `.lovable/plan.md` to reflect the new flow
 
-### Persistence
-
-```ts
-// nickname.ts
-// Device-local by design. We collect nothing else; this is the only
-// "account." Privacy choice, not real auth.
-const KEY = "atlas.nickname";
-export const getNickname = () => localStorage.getItem(KEY);
-export const setNickname = (n: string) => localStorage.setItem(KEY, n.trim());
-```
-
-Saved only at the *end* of the encounter (after the final reveal renders), not at the gate — so a refresh mid-encounter restarts it. Acceptable: the encounter is short and the user has not yet "committed."
-
-### Choice aggregate
-
-`choice` lives in component state only. The "96%" line is a literal string with `// TODO: real aggregate` next to it. No fake live counter, no fetch.
-
-## Open questions before building
-
-1. **Atlas route name.** `/atlas` proposed; `/map` or keeping `/` for atlas after gate is also possible. Defaulting to `/atlas` unless told otherwise.
-2. **Serif choice.** *Instrument Serif* is free, dramatic, and matches "cold, literary." Happy to swap for *Cormorant Garamond*, *EB Garamond*, or whatever you prefer.
-3. **Nickname validation.** Trim whitespace, require ≥1 non-space char, otherwise no constraints (no length cap, no profanity filter). Confirm.
-4. **Language.** Script is in English as written in your brief. Confirm — the rest of the app currently mixes IT/EN.
-
-If any of these need changing, say so and I'll revise; otherwise I'll proceed with the defaults above.
+No data, routing, theme, or nickname persistence changes.
