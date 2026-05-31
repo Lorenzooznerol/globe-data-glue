@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
@@ -8,7 +8,7 @@ import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
-import { colorForNode, familyOf, FAMILY_COLOR, OPAQUE_GREY } from "@/atlas/families";
+import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
 import { giraiRampColor } from "@/atlas/giraiRamp";
 import { directionGlyph } from "@/atlas/trajectory";
@@ -60,29 +60,7 @@ export function EarthGlobe({ store, width, height }: Props) {
   const setHovered = useAtlasStore((s) => s.setHovered);
 
   const trajectoryMode = mode === "trajectory";
-
-  // Migration animation progress 0..1 for the 6 nodes with timelines.
-  const [migrationT, setMigrationT] = useState(0);
-  useEffect(() => {
-    if (!trajectoryMode) {
-      setMigrationT(0);
-      return;
-    }
-    if (reducedMotion) {
-      setMigrationT(1);
-      return;
-    }
-    let raf = 0;
-    const start = performance.now();
-    const dur = 1400;
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / dur);
-      setMigrationT(p);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [trajectoryMode, migrationToken, reducedMotion]);
+  void migrationToken; // legacy: migrations are now shown only in the panel
 
   useEffect(() => {
     const g = globeRef.current;
@@ -152,24 +130,19 @@ export function EarthGlobe({ store, width, height }: Props) {
 
   const polygonCapColor = (obj: object): string => {
     const r = obj as Resolved;
+    // Trajectory mode: every polygon is a single flat neutral. No GIRAI bleed-through,
+    // no migration tweens, no family hues on caps.
+    if (trajectoryMode) {
+      return NEUTRAL_FILL;
+    }
     let base: string;
     if (r.girai) {
-      const alpha = trajectoryMode ? 0.25 : 1;
-      base = giraiRampColor(r.girai.index_score, alpha);
+      base = giraiRampColor(r.girai.index_score, 1);
       if (r.nodeId && r.nodeId === hoveredNodeId) {
-        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), alpha);
+        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
       }
     } else {
       base = NEUTRAL_FILL;
-    }
-    // Trajectory mode: migration nodes interpolate between first/last family color.
-    if (trajectoryMode && r.node && r.node.morphology_timeline && r.node.morphology_timeline.length >= 2) {
-      const tl = r.node.morphology_timeline;
-      const a = familyOf(tl[0].morphology);
-      const b = familyOf(tl[tl.length - 1].morphology);
-      const colA = a ? FAMILY_COLOR[a] : OPAQUE_GREY;
-      const colB = b ? FAMILY_COLOR[b] : OPAQUE_GREY;
-      return lerpHex(colA, colB, migrationT);
     }
     // Family filter: dim countries whose curated node is filtered out.
     if (families.size > 0 && r.node) {
@@ -305,7 +278,7 @@ export function EarthGlobe({ store, width, height }: Props) {
         lat,
         lng,
         kind: directionGlyph(p.direction),
-        color: colorForNode(node),
+        color: "rgba(232,232,232,0.92)",
       });
     }
     return out;
@@ -365,24 +338,6 @@ interface GlyphDatum {
   lng: number;
   kind: ReturnType<typeof directionGlyph>;
   color: string;
-}
-
-function lerpHex(a: string, b: string, t: number): string {
-  const pa = parseHex(a);
-  const pb = parseHex(b);
-  const r = Math.round(pa[0] + (pb[0] - pa[0]) * t);
-  const g = Math.round(pa[1] + (pb[1] - pa[1]) * t);
-  const bl = Math.round(pa[2] + (pb[2] - pa[2]) * t);
-  return `rgb(${r},${g},${bl})`;
-}
-
-function parseHex(hex: string): [number, number, number] {
-  const m = hex.replace("#", "");
-  return [
-    parseInt(m.slice(0, 2), 16),
-    parseInt(m.slice(2, 4), 16),
-    parseInt(m.slice(4, 6), 16),
-  ];
 }
 
 function escapeHtml(s: string): string {
