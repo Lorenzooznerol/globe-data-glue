@@ -1,36 +1,31 @@
-## Goal
+## Read of your snippet
 
-Install `react-globe.gl`, `topojson-client`, and `d3-geo`, then fix the two runtime errors blocking the globe:
+Your reference does three things our current `EarthGlobe.tsx` doesn't:
 
-1. `window is not defined` — `react-globe.gl` touches `window` at import time, so it crashes during SSR/prerender of `/`.
-2. `undefined is not an object (evaluating 'geoJson.type')` — `public/data/countries-110m.geojson` is actually a TopoJSON file (the world-atlas `countries-110m.json` format), not GeoJSON. `react-globe.gl` expects GeoJSON Features, so we need to convert via `topojson-client`.
+1. Loads `world-atlas@2/countries-110m.json` (TopoJSON) and converts via `topojson.feature(...)`.
+2. Pauses auto-rotate while hovering or while a country is selected (not only on user drag).
+3. Centers the camera using `d3-geo`'s `geoCentroid(feature)` — works for every country, not just the 26 we hardcoded.
 
-## Changes
+Items 1 (loader is already topojson-aware) and the panel/tab UI are already in place. The real upgrades are 2 and 3, plus aligning hover/click handlers to pass the underlying feature.
 
-### 1. Dependencies
-- `bun add react-globe.gl topojson-client d3-geo`
-- `bun add -d @types/topojson-client @types/d3-geo` (types)
+## Proposed changes
 
-### 2. SSR-safe globe component (`src/atlas/components/EarthGlobe.tsx`)
-- Convert to a default export and load `react-globe.gl` lazily so it never runs on the server:
-  ```ts
-  const Globe = lazy(() => import("react-globe.gl"));
-  ```
-- Wrap render in `<Suspense fallback={null}>` and guard with `typeof window !== "undefined"` before rendering.
-- Keep all current props/handlers unchanged.
+### `src/atlas/components/EarthGlobe.tsx`
+- **Camera fly-to via geoCentroid.** Replace the `NODE_CENTROIDS` lookup in the selection effect with `geoCentroid(feature)` of the selected node's feature. Build a `nodeId → feature` index alongside `resolved` so the effect can find the right geometry. Falls back to the centroid table only if no feature matched (rare — e.g. `ST-EU` resolves across 27 members; for `ST-EU` keep the Brussels centroid as a special case).
+- **Pause rotation on hover or selection.** Add an effect on `[hoveredNodeId, selectedNodeId, reducedMotion]` that sets `controls.autoRotate = !reducedMotion && !hoveredNodeId && !selectedNodeId`. Keep the existing "pause on user drag" listener.
+- Leave hover/click handlers, label, polygon styling, and the Suspense lazy-load as-is.
 
-### 3. Lazy-load the consumer (`src/routes/index.tsx`)
-- Import `EarthGlobe` via `React.lazy` + `Suspense`, rendered only client-side (e.g. `const [mounted, setMounted] = useState(false)` + `useEffect`), so the route's SSR pass never pulls `react-globe.gl` into the server bundle.
+### `src/atlas/iso.ts`
+- Keep `NODE_CENTROIDS` only as the `ST-EU` fallback (or trim it entirely if we decide Brussels can be the hardcoded EU centroid inline). No other consumer changes.
 
-### 4. TopoJSON → GeoJSON in `src/atlas/useCountries.ts`
-- Detect payload shape: if `data.type === "Topology"`, use `topojson-client`'s `feature(topology, topology.objects.countries)` and take `.features`; otherwise assume it's already a `FeatureCollection` and read `.features`.
-- Normalize properties so `ADM0_A3` is always populated. The world-atlas 110m file uses numeric `id` (ISO 3166-1 numeric) and a `name` property — map numeric id → ISO_A3 via a small lookup (use `d3-geo`'s data isn't enough; ship a tiny `numericToIso3.ts` map covering all ~250 codes, or inline it in `useCountries.ts`).
-- Cache the resulting `CountryFeature[]` as today.
-
-### 5. No changes to data layer, panels, store, or routing beyond the lazy wrapper.
+### Nothing else touched
+- `useCountries.ts`: already handles TopoJSON + GeoJSON.
+- Panel, store, route, filters: unchanged.
+- `d3-geo` is already installed.
 
 ## Acceptance
 
-- Preview `/` renders the globe with no SSR error and no `geoJson.type` error.
-- Hover/click/fly-to and morphology coloring all still work because the resolved `nodeId` path is unchanged.
-- Build (`build:dev`) succeeds.
+- Clicking any of the 26 governed countries flies the camera to its real geographic centroid (more accurate than the current hand-coded table).
+- The globe auto-rotates only when nothing is hovered and nothing is selected; resumes when the card is closed and the cursor leaves a country.
+- Reduced-motion still disables rotation entirely.
+- No regression to hover lift, color, or the card.
