@@ -86,9 +86,12 @@ function AtlasPage() {
       />
 
       {/* Top-left: legend + filters + index */}
-      <div className="pointer-events-none absolute left-4 top-4 z-20 flex w-[260px] flex-col gap-3">
-        <Legend />
-        <LayerFilter />
+      <div className="pointer-events-none absolute left-4 top-4 z-20 flex w-[240px] flex-col gap-3">
+        <div className="pointer-events-auto flex flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
+          <Legend />
+          <div className="border-t border-border/40" />
+          <LayerFilter />
+        </div>
         <SideIndex store={store} />
       </div>
 
