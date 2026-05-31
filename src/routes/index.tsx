@@ -1,17 +1,21 @@
-import { useEffect } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { Encounter } from "@/encounter/Encounter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [{ title: "Atlas of AI Governance" }],
+    meta: [
+      { title: "—" },
+      {
+        name: "description",
+        content:
+          "Before the atlas: a one-minute encounter on the right to face your accuser.",
+      },
+    ],
   }),
   component: IndexPage,
 });
 
 function IndexPage() {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate({ to: "/atlas", replace: true });
-  }, [navigate]);
-  return <div style={{ background: "var(--encounter-bg)" }} className="min-h-[100dvh] w-full" />;
+  // Always show the encounter from the start — no returning-visitor skip.
+  return <Encounter />;
 }
