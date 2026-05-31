@@ -21,7 +21,7 @@ const FILES = {
   sources: "/data/sources.csv",
 } as const;
 
-async function fetchCsv<T extends Record<string, unknown>>(url: string): Promise<T[]> {
+async function fetchCsv<T>(url: string): Promise<T[]> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
   const text = await res.text();
