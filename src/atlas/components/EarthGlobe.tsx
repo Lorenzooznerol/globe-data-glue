@@ -29,13 +29,6 @@ interface Resolved {
   girai: GiraiCountry | null;
 }
 
-interface GlyphDatum {
-  id: string;
-  lat: number;
-  lng: number;
-  kind: ReturnType<typeof directionGlyph>;
-  color: string;
-}
 
 function hexToRgba(hex: string, alpha: number): string {
   const m = hex.replace("#", "");
