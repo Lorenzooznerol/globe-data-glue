@@ -89,6 +89,13 @@
   --morph-m5: #7a7a7a;
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
+
+  /* Encounter (entry experience) — light mode */
+  --encounter-bg: #f6f5f1;
+  --encounter-ink: #16161a;
+  --encounter-ink-faint: rgba(22, 22, 26, 0.42);
+  --encounter-rule: rgba(22, 22, 26, 0.7);
+  --encounter-vignette: rgba(120, 120, 120, 0.22);
 }
 
 .dark {
