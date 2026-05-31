@@ -1,76 +1,100 @@
-# Plan: Forecast as Globe Mode + Visible Borders
+# Entry Encounter — Plan
 
-## Change 1 — Forecast as a globe mode
+A first-time visitor lands, types a nickname, and is taken through a single scripted "encounter" where the system judges them, then reveals why that matters. Cold, minimal, literary. Reuses the existing dark/light toggle. Pacing carries the emotion — slow fades only, no bounces, no slides. Mobile reads identically: same centered, one-line-at-a-time rhythm.
 
-### Goal
-Globe stays full/central in Forecast mode (like Overview/GIRAI). The ~9 countries with predictions are lit in one accent color; everything else is the flat neutral base. The big bottom sheet stops opening by default. The full register (predictions / theses / migrations) moves to an on-demand drawer.
+## What the user sees
 
-### Header (lightweight, no panel chrome)
-New `ForecastHeader.tsx` rendered in `routes/index.tsx` only when `mode === "forecasts"`:
-- Top-center, transparent background, max two lines.
-- Line 1 (serif): "Where AI governance is heading".
-- Line 2 (mono, accent): "N open forecasts · next deadline in ~M months" (reuse `formatCountdown` + `store.allPredictions`).
-- Right side: small ghost button "View all forecasts" (list icon) → opens the drawer.
-- Optional small "xAI" chip next to it that opens the xAI forecast in `NodeCard` (xAI isn't a polygon).
+1. **Gate.** Full-viewport black (or white in light mode). Center: `Hi ⎯⎯⎯⎯⎯` with a faded "nickname" placeholder above the dashes. Greeting types itself in letter-by-letter on load. User types inline; Enter submits. After 5s of silence post-first-keystroke, a faint `↵` glyph fades in.
+2. **Judgment.** Name pins to the top. Lines fade in one at a time (~1.2–1.8s apart):
+   - "Hi [name]. I've formed an opinion of you."
+   - "I'm not letting you in."
+   - Two buttons: **Why?** / **Fine, I'll leave.**
+3. **Branches.**
+   - *Fine, I'll leave* — first tap does nothing. After ~1s: "See that? / You were about to walk away without even asking why. / Stay. Tap the other one." Button then stays inert.
+   - *Why?* — reveals the scripted apology + reframe, line by line.
+4. **Convergence.** Both branches lead to the "keep that feeling" passage about loans, interviews, opaque opinions. Ends with the bold question:
+   *"If something forms the wrong opinion of you, and decides your life on it — do you have the right to look it in the face and say it's wrong?"*
+   Two buttons: **Yes — that's my right.** / **No — it's unavoidable.** Choice stored in state.
+5. **Reveal.** Three-jurisdictions passage (EU / US / China). Then the mirror:
+   *"You chose: that's my right. 96% chose the same…"*
+   96% is a static placeholder (`// TODO: real aggregate`). One quiet low-contrast link into the main site. Nickname saved to `localStorage` at this point.
 
-### Globe highlighting (`EarthGlobe.tsx`)
-- Add `accent: string` to `AtlasTheme` (warm amber). E.g. dark `#E5A752`, light `#B5781A`.
-- Precompute `forecastNodeIds = new Set(store.predictionsByNode.keys())`.
-- In `polygonCapColor`, when `forecastsMode`:
-  - if `r.nodeId && forecastNodeIds.has(r.nodeId)` → `theme.accent` (slightly brighter on hover/selected).
-  - else → `theme.countryBase` (dimmed; no GIRAI fill in this mode).
-- In `polygonAltitude`, give forecast countries a small raise (e.g. 0.03) so they read as active; hovered/selected raise more (existing logic).
-- Remove the on-globe direction glyphs in Forecast mode (`glyphData = []`). They're replaced by the simple accent fill.
-- Migration pulse: when `migrationToken` ticks (entry into Forecast mode), briefly raise altitude of the 6 morphology-timeline countries for ~1.4s, then settle. Skip if `reducedMotion`. Trigger `playMigrations()` from `routes/index.tsx` in a `useEffect([mode === "forecasts"])`.
+## Returning visitor
 
-### Interaction
-- Click highlighted country → existing `selectNode(nodeId, { fly: true })` → existing `NodeCard` opens. Inside `ShortLevel`, `TrajectorySection` already shows the forecast block (prediction, deadline, "what would prove this wrong", migration before→after if any). Verify it renders cleanly for forecast nodes; no changes to data flow.
-- Hover label: already shows headline; for forecast nodes, append the one-line prediction in `polygonLabel` (use `plainPrediction(p)` from `trajectory.ts`).
+On load, if `localStorage` has a nickname → skip the entire encounter, route straight to the existing Atlas (`/atlas`). If not → run the encounter. Nickname is the only "account" — comment in code marks this as device-local by design, a privacy choice, not real auth.
 
-### Drawer (on-demand)
-Rename `TrajectoryPanel.tsx` content to a controlled drawer:
-- New prop `open: boolean; onClose: () => void`.
-- Replace the fixed bottom `aside` with shadcn `Sheet` (`side="bottom"` on mobile, `side="right"` on desktop ≥768px) OR `Drawer` from vaul — both are already available. Use `Sheet` with a max-width on desktop for consistency with `NodeCard`.
-- Header inside drawer: title "All forecasts" + close button. Body keeps the three existing `SectionAccordion` sections exactly as they are (register / theses / migrations) with the working `ExpanderRow` items. xAI naturally appears in the register list.
-- `routes/index.tsx`: add `const [registerOpen, setRegisterOpen] = useState(false)`. Pass setter to `ForecastHeader`. Remove the unconditional render; mount the drawer only when `mode === "forecasts"`.
+## Routing
 
-### Cleanup
-- `TrajectoryLegend` reference in the top-left stack: replace with a tiny inline legend "● has a forecast" using the accent color (or drop entirely — the header + lit countries already explain it). Keep `TrajectoryLegend` file but simplify content.
-- Auto-rotate: keep disabled in forecasts mode (already done).
+- New `/` → the encounter (`src/routes/index.tsx` becomes the gate).
+- Existing Atlas moves to `/atlas` (`src/routes/atlas.tsx`), unchanged.
+- The encounter ends by linking to `/atlas`.
+- Returning visitors hit `/` and are immediately redirected to `/atlas`.
 
-## Change 2 — Visible country borders (all modes)
+## Visual system
 
-In `theme.ts`:
-- `light.border`: `rgba(0,0,0,0.45)` (was `0.22`).
-- `light.borderStrong`: keep `rgba(0,0,0,0.7)`.
-- `dark.border`: `rgba(255,255,255,0.28)` (was `0.25`).
-- `dark.borderStrong`: keep `rgba(255,255,255,0.75)`.
+- One refined serif (e.g. *Instrument Serif* or *Cormorant*) loaded via `<link>` in `__root.tsx`. Body remains the existing sans.
+- New CSS tokens in `src/styles.css`: `--encounter-bg`, `--encounter-ink`, `--encounter-ink-faint`, `--encounter-rule`. Driven by the existing `dark` class on `<html>`, so the existing `ThemeToggle` keeps working.
+- Subtle radial vignette via a fixed pseudo-element on the encounter shell — darkens edges in dark mode, greys them in light mode. Gentle.
+- All motion: opacity-only transitions, 600–900ms ease-out. No translate, no scale. Respects `prefers-reduced-motion` (lines appear instantly, pacing preserved via timers).
+- The existing `ThemeToggle` is rendered in a corner at very low contrast on the encounter screen.
 
-In `EarthGlobe.tsx`:
-- `polygonStrokeColor`: always return `theme.border` (or `theme.borderStrong` when hovered/selected). Currently it returns `colorForNode(r.node)` for any node — this overrides the hairline border with the family color and makes adjacent countries blend. Replace with: focused → `borderStrong`; otherwise → `border` (uniform hairline). Family color stays in the cap fill / side wall, not the stroke.
-- Add a `Globe` prop or `polygonStrokeWidth` if supported by react-globe.gl (otherwise the existing 0.75px default is fine — three-globe draws strokes at a fixed thinness; contrast bump alone solves visibility).
+## Technical structure
 
-Applies uniformly in Overview, GIRAI, and Forecast — no per-mode branching for borders.
+```text
+src/
+  routes/
+    index.tsx           → renders <Encounter/>, redirects to /atlas if nickname exists
+    atlas.tsx           → current atlas page (moved verbatim from old index.tsx)
+  encounter/
+    Encounter.tsx       → top-level state machine
+    useEncounter.ts     → step machine + timers + reduced-motion
+    nickname.ts         → localStorage get/set (key: "atlas.nickname")
+    steps/
+      NicknameGate.tsx  → letter-by-letter greeting, inline dashes input, ↵ hint
+      Judgment.tsx      → pinned name + 2 lines + Why? / Fine I'll leave
+      WhyBranch.tsx     → scripted "Why?" reveal
+      LeaveBranch.tsx   → inert-tap then 3-line callback
+      Convergence.tsx   → "keep that feeling…" + bold question + Yes/No
+      Reveal.tsx        → 3 jurisdictions + mirror + quiet link to /atlas
+    Line.tsx            → single fade-in line primitive (handles reduced-motion)
+    Vignette.tsx        → fixed radial overlay
+```
 
-## Files
+### State machine
 
-**New**
-- `src/atlas/panels/ForecastHeader.tsx`
+`step: "gate" | "judgment" | "why" | "leave" | "converge" | "reveal"`
+`name: string`
+`choice: "right" | "unavoidable" | null`
+`leaveTaps: number` (first tap ignored, branch unfolds on tap 1)
 
-**Edited**
-- `src/atlas/theme.ts` — add `accent`; bump border alphas.
-- `src/atlas/components/EarthGlobe.tsx` — forecast-mode cap coloring; uniform borders; disable glyphs in forecast mode; migration pulse via `migrationToken`; hover label appends prediction.
-- `src/atlas/panels/TrajectoryPanel.tsx` — wrap content in shadcn `Sheet`; accept `open`/`onClose` props; remove fixed bottom layout.
-- `src/routes/index.tsx` — render `ForecastHeader` in forecast mode; controlled drawer state; trigger `playMigrations()` on entering forecast mode; drop the always-mounted `ForecastsPanel`.
-- `src/atlas/panels/TrajectoryLegend.tsx` — simplify to one-line "● has a forecast" using `theme.accent`.
+Step transitions are driven by the script — only the gate, the Why?/Leave choice, and the Yes/No choice are user-driven. Everything else advances on timers (1200–1800ms per beat, slightly randomized within that range for natural pacing).
 
-**Unchanged**
-- Data (`data/store.ts`, JSON files), GIRAI choropleth, all forecast content (predictions/theses/migrations), `NodeCard`, `TrajectorySection`, `SectionAccordion`, `ExpanderRow`, theme toggle.
+### Line primitive
 
-## Acceptance check
-- Enter Forecast: globe stays full; ~9 countries amber; rest neutral; header at top with deadline stat; no covering sheet.
-- Click a lit country → NodeCard with forecast block + migration before→after if present.
-- "View all forecasts" opens drawer with three working sections; close returns to globe; xAI shows in the list.
-- Brief pulse on the 6 migration countries on entry (skipped when reduced-motion).
-- Borders visible in light mode between adjacent pale countries; same in dark and across all three modes.
-- Overview and GIRAI behavior untouched; theme toggle works.
+`<Line delay={ms}>text</Line>` — mounts hidden, fades to full opacity over 700ms after `delay`. Parent composes a script as an ordered array; advancing to next step waits for the last delay + fade to settle. Reduced-motion: snap to visible, keep the same delay timing.
+
+### Persistence
+
+```ts
+// nickname.ts
+// Device-local by design. We collect nothing else; this is the only
+// "account." Privacy choice, not real auth.
+const KEY = "atlas.nickname";
+export const getNickname = () => localStorage.getItem(KEY);
+export const setNickname = (n: string) => localStorage.setItem(KEY, n.trim());
+```
+
+Saved only at the *end* of the encounter (after the final reveal renders), not at the gate — so a refresh mid-encounter restarts it. Acceptable: the encounter is short and the user has not yet "committed."
+
+### Choice aggregate
+
+`choice` lives in component state only. The "96%" line is a literal string with `// TODO: real aggregate` next to it. No fake live counter, no fetch.
+
+## Open questions before building
+
+1. **Atlas route name.** `/atlas` proposed; `/map` or keeping `/` for atlas after gate is also possible. Defaulting to `/atlas` unless told otherwise.
+2. **Serif choice.** *Instrument Serif* is free, dramatic, and matches "cold, literary." Happy to swap for *Cormorant Garamond*, *EB Garamond*, or whatever you prefer.
+3. **Nickname validation.** Trim whitespace, require ≥1 non-space char, otherwise no constraints (no length cap, no profanity filter). Confirm.
+4. **Language.** Script is in English as written in your brief. Confirm — the rest of the app currently mixes IT/EN.
+
+If any of these need changing, say so and I'll revise; otherwise I'll proceed with the defaults above.
