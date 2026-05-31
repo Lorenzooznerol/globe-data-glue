@@ -1,0 +1,13 @@
+node_id,as_of,morphology,sub_mechanism,source_id,note
+ST-AU,2024-05,M7,legislative-pending,S039,"Husic preparing Sept 2024 mandatory-guardrails proposals paper"
+ST-AU,2026-05,M7,deliberate-light-touch,S039,"National AI Plan Dec 2025 rejected mandatory guardrails — migration is the datum"
+ST-IN,2024-05,M7,nascent-capacity,S038,"MeitY advisory-based soft governance"
+ST-IN,2026-05,M7,deliberate-light-touch,S038,"Voluntary Guidelines 5 Nov 2025; explicit stated choice"
+ST-MX,2024-05,M7,legislative-pending,S042,"INAI still operating; reform proposal emerging Nov 2024"
+ST-MX,2026-05,M7,institutional-regression,S043,"INAI dissolved; built capacity dismantled"
+ST-VN,2024-05,M7,developmental-promotional,S028,"Active PDPL consultation + digital-tech pipeline; NO stated light-touch — enactment-capable profile"
+ST-VN,2026-05,M7-then-enacted,hard-law,S026,"Law 134/2025 enacted; comprehensive risk-tiered framework"
+ST-KR,2024-05,M7,legislative-pending,S031,"AI Basic Act bills consolidating"
+ST-KR,2026-05,M7-then-enacted,hard-law,S031,"AI Basic Act effective 22 Jan 2026"
+ST-CO,2024-05,M7,nascent-capacity,S049,"Pre-CONPES; no consolidated bill"
+ST-CO,2026-05,M7,legislative-pending,S049,"Bill to Senate but fragmented across 20+ proposals"

@@ -1,0 +1,26 @@
+claim_id,node_id,claim_text,as_of_date,epistemic_level,source_ids,reg_ref
+C001,ST-EU,"High-risk obligations deferred to 2 Dec 2027 / 2 Aug 2028 by the Digital Omnibus political agreement; standards not ready before Q4 2026",2026-05-07,VERIFIED,S001;S002;S003,REG-021
+C002,ST-EU,"GPAI regime is notification-not-gate (notify within 2 weeks above 10^25 FLOPs; Code of Practice voluntary)",2025-08-01,VERIFIED,S005;S006;S007,REG-027
+C003,ST-US,"Biden EO 14110 rescinded within hours (EO 14148, 20 Jan 2025); EO 14179 issued 23 Jan 2025",2025-01-23,VERIFIED,S016;S017;S018,REG-027
+C004,ST-US,"Federal preemption attempt: Cruz 10-year moratorium defeated 99-1; EO 14365 (11 Dec 2025) DOJ litigation task force",2026-01-20,VERIFIED,S019;S021;S023,REG-027
+C005,ST-US-CA,"SB 53 (TFAIA) signed 29 Sep 2025, effective 1 Jan 2026; survived federal preemption attempt; governors affirmed enforcement",2025-09-29,VERIFIED,S009;S010;S022,REG-027
+C006,ST-US-CO,"SB 24-205 delayed (Aug 2025) then repealed/replaced by narrower SB 26-189 (14 May 2026) before taking effect",2026-05-14,VERIFIED,S013;S014,REG-020
+C007,ST-CN,"Realization S via registration gate; Labeling Measures effective 1 Sep 2025; CSL AI provision effective 1 Jan 2026; sustained CAC filing enforcement",2026-01-01,INFERRED,S035;S036,REG-021
+C008,ST-VN,"Enacted Law 134/2025/QH15 (10 Dec 2025, 429/434 votes), effective 1 Mar 2026; comprehensive risk-tiered hard law — clean falsifier of the developmental-promotional prediction",2025-12-10,VERIFIED,S025;S026;S027,REG-028
+C009,ST-VN,"At t-24 had active PDPL consultation (Sep 2024) + digital-tech legislative pipeline + 'era of national rise' (To Lam 2024) + benchmarked up vs Korea/Japan; NO stated light-touch declaration",2024-09-24,INFERRED,S028;S029;S030,REG-027
+C010,ST-KR,"AI Basic Act signed Jan 2025, effective 22 Jan 2026; MSIT Enforcement Decree sets 10^26 FLOP threshold",2026-01-22,VERIFIED,S031,REG-020
+C011,ST-JP,"AI Promotion Act effective 4 Jun 2025; no monetary penalties (reputational/cooperative enforcement)",2025-06-04,VERIFIED,S032;S033,REG-020
+C012,ST-AU,"National AI Plan (Dec 2025) explicitly rejected mandatory guardrails; migrated from legislative-pending (t-12) to deliberate-light-touch (t-0)",2025-12-01,VERIFIED,S039,REG-024
+C013,ST-IN,"MeitY AI Governance Guidelines (5 Nov 2025) explicitly voluntary; IT Secretary: 'consciously chosen not to lead with regulation'",2025-11-05,VERIFIED,S037;S038,REG-024
+C014,ST-MX,"INAI dissolved by constitutional reform (effective 20 Dec 2024); functions transferred 21 Mar 2025 — built capacity dismantled",2025-03-21,VERIFIED,S042;S043,REG-019
+C015,ST-UK,"2026 King's Speech: Regulating for Growth Bill, no standalone AI bill; DSIT/DBT joint letter to 19 regulators (Jan 2026) — explicit stated light-touch",2026-01-01,VERIFIED,S058,REG-028
+C016,ST-BR,"PL 2338 Senate-approved 10 Dec 2024; Chamber plenary vote scheduled 27 May 2026 (outcome unconfirmed as of 31 May 2026); ANPD as residual authority; fines to BRL 50M",2026-05-18,ATTESTED,S044;S045;S046,REG-028
+C017,ST-CL,"Bill 16821-19 introduced by Executive 7 May 2024; Chamber-approved 13 Oct 2025; in Senate (2nd constitutional review); no AI law in force as of Feb 2026",2026-02-17,VERIFIED,S047;S048,REG-028
+C018,ST-CO,"Government bill to Senate 28 Jul 2025; one of 20+ competing proposals; not enacted as of early 2026 — fragmented pipeline",2026-01-01,VERIFIED,S049;S066,REG-028
+C019,ST-AE,"Charter for AI (Jun 2024) non-binding; National AI System as Cabinet advisory member (Jun 2025); Regulatory Intelligence Office (Apr 2025); no binding AI Act",2026-01-01,INFERRED,S051,REG-020
+C020,DP-D2,"Mobley v. Workday agent theory survived (Jul 2024); ADEA-covers-applicants ruling 6 Mar 2026; 10,000+ employer-deployers exposed",2026-03-06,VERIFIED,,REG-022
+C021,DP-D4,"Financial-services model-risk deployers are S/S — the Atlas's highest-realization node; SR 11-7 (2011) lineage predates AI; 'deployers lag' is false",2026-01-01,INFERRED,,REG-022
+C022,AC-XAI,"Missed self-imposed Frontier Safety Policy deadline twice; Grok 4 shipped without a system card despite Seoul commitments",2026-04-26,ATTESTED,S058;S061,REG-027
+C023,VN-SAFE,"Of 20 Seoul signatories, 12 published frontier safety frameworks by Dec 2025; commitments carry a self-revision clause",2025-12-09,VERIFIED,S058;S059,REG-027
+C024,VN-COE,"EU ratified the CoE Framework Convention on AI on 15 May 2026 in Chisinau",2026-05-15,VERIFIED,S008,REG-023
+C025,ST-EU,"GDP-GIRAI correlation R^2=0.5656 (third-party re-analysis of GIRAI 138-country dataset) — the magnitude/capacity baseline morphology must beat",2025-08-23,INFERRED,S063,REG-027
