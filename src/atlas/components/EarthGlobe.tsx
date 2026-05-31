@@ -2,7 +2,7 @@ import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef, useState
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
-import { renderToStaticMarkup } from "react-dom/server";
+
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
