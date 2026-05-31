@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { DataStore, DecoratedPrediction } from "@/data/store";
 import type { AtlasNode, Marker } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { FAMILY_COLOR, FAMILY_LABEL, familyOf, OPAQUE_GREY } from "@/atlas/families";
 import {
   friendlyMonth,
