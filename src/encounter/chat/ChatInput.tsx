@@ -51,6 +51,7 @@ export function ChatInput({ active, placeholder = "Message…", onSubmit }: Prop
       >
         <input
           ref={inputRef}
+          autoFocus
           type="text"
           value={value}
           maxLength={40}
