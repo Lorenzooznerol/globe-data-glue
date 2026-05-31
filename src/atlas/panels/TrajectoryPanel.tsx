@@ -2,21 +2,27 @@ import { useEffect, useMemo, useState } from "react";
 import type { DataStore, DecoratedPrediction } from "@/data/store";
 import type { AtlasNode, Marker } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { FAMILY_COLOR, FAMILY_LABEL, familyOf, OPAQUE_GREY } from "@/atlas/families";
 import {
   friendlyMonth,
   markerGloss,
   markerTitle,
   plainPrediction,
-  resolveMarkerId,
 } from "@/atlas/trajectory";
 import { TrajectoryHeader } from "./TrajectoryHeader";
 import { SectionAccordion } from "./SectionAccordion";
 import { ExpanderRow } from "./ExpanderRow";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 interface Props {
   store: DataStore;
+  open: boolean;
+  onClose: () => void;
 }
 
 type SectionKey = "register" | "theses" | "migrations";
