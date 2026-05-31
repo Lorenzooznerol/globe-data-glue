@@ -1,0 +1,502 @@
+source_id,title,publisher,url,pub_date,date_status,source_type,tier,origin
+SRC-001,meta approach frontier ai,Fb,https://about.fb.com/news/2025/02/meta-approach-frontier-ai,2025-02-01,from_url-month,other,context,backfill
+SRC-002,Access Partnership,Accesspartnership,https://accesspartnership.com/opinion/access-alert-rwandan-government-approves-national-ai-policy,,unknown,other,context,backfill
+SRC-003,ai.gov.ae,Gov,https://ai.gov.ae,,unknown,official_gov,primary,backfill
+SRC-004,AI Lab Watch,Ailabwatch,https://ailabwatch.org/resources/commitments,,unknown,other,context,backfill
+SRC-005,AI Safety in China #15,Substack,https://aisafetychina.substack.com/p/ai-safety-in-china-15,,unknown,other,context,backfill
+SRC-006,ai safety in china 25,Substack,https://aisafetychina.substack.com/p/ai-safety-in-china-25,,unknown,other,context,backfill
+SRC-007,Discussion Paper,AI Verify Foundation,https://aiverifyfoundation.sg/downloads/Discussion_Paper.pdf,,unknown,official_gov,primary,backfill
+SRC-008,PROPOSED MODEL AI GOVERNANCE FRAMEWORK FOR GENERATIVE AI,AI Verify Foundation,https://aiverifyfoundation.sg/downloads/Proposed_MGF_Gen_AI_2024.pdf,,unknown,official_gov,primary,backfill
+SRC-009,Model AI Governance Framework for Generative AI,AI Verify Foundation,https://aiverifyfoundation.sg/wp-content/uploads/2024/05/Model-AI-Governance-Framework-for-Generative-AI-May-2024-1-1.pdf,2024-05-01,from_url-month,official_gov,primary,backfill
+SRC-010,Bill Regulating Artificial Intelligence Introduced to Congress - Alessandri Attorneys at Law,Alessandri,https://alessandri.legal/en/bill-regulating-artificial-intelligence-introduced-to-congress,,unknown,other,context,backfill
+SRC-011,Anu Bradford on why India should build a hybrid AI governance model,Americanbazaaronline,https://americanbazaaronline.com/2026/05/11/anu-bradford-on-why-india-should-build-a-hybrid-ai-governance-model,2026-05-11,from_url,news,context,backfill
+SRC-012,Brazil AI Act | Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.com/brazil-ai-act,,unknown,other,context,backfill
+SRC-013,Article 26: Obligations of Deployers of High-Risk AI Systems | EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/article/26,,unknown,other,context,backfill
+SRC-014,Article 27: Fundamental Rights Impact Assessment for High-Risk AI Systems | EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/article/27,,unknown,other,context,backfill
+SRC-015,Overview of Guidelines for GPAI Models | EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/gpai-guidelines-overview,,unknown,other,context,backfill
+SRC-016,High-level summary of the AI Act | EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/high-level-summary,,unknown,other,context,backfill
+SRC-017,Implementation Timeline | EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/implementation-timeline,,unknown,other,context,backfill
+SRC-018,EU Artificial Intelligence Act,Artificialintelligenceact,https://artificialintelligenceact.eu/introduction-to-code-of-practice,,unknown,other,context,backfill
+SRC-019,arXiv,arXiv,https://arxiv.org/html/2406.01399v1,2024-06-01,from_arxiv,research_report,primary,backfill
+SRC-020,arXiv,arXiv,https://arxiv.org/html/2506.09440v1,2025-06-01,from_arxiv,research_report,primary,backfill
+SRC-021,arXiv,arXiv,https://arxiv.org/html/2512.01166,2025-12-01,from_arxiv,research_report,primary,backfill
+SRC-022,arXiv,arXiv,https://arxiv.org/html/2512.10169v1,2025-12-01,from_arxiv,research_report,primary,backfill
+SRC-023,atrc.gov.ae,Gov,https://atrc.gov.ae,,unknown,official_gov,primary,backfill
+SRC-024,Indonesia Launches Public Consultation on National AI Roadmap and Ethics Guidelines - BABL AI,Babl,https://babl.ai/indonesia-launches-public-consultation-on-national-ai-roadmap-and-ethics-guidelines,,unknown,other,context,backfill
+SRC-025,russia updates national ai strategy,Babl,https://babl.ai/russia-updates-national-ai-strategy,,unknown,other,context,backfill
+SRC-026,Mic,MIC (VN),https://beta-en.mic.gov.vn/first-ever-law-on-artificial-intelligence-approved-197251215231241888.htm,,unknown,official_gov,primary,backfill
+SRC-027,Mobley v. Workday and AI Discrimination | Black Pre-Law Society,Columbia,https://blackprelaw.studentgroups.columbia.edu/news/mobley-v-workday-and-ai-discrimination,,unknown,other,context,backfill
+SRC-028,AI Ethics and Accountability Bill 2025 Explained,Ipleaders,https://blog.ipleaders.in/ai-ethics-and-accountability-bill-2025-indias-first-dedicated-ai-bill-explained,,unknown,other,context,backfill
+SRC-029,Duanemorris,Duanemorris,https://blogs.duanemorris.com/duanemorrisandselvam/2026/03/03/singapores-digital-ai-governance-a-pro-innovation-framework-driven-model,2026-03-03,from_url,law_firm_analysis,secondary,backfill
+SRC-030,Duane Morris Vietnam,Duanemorris,https://blogs.duanemorris.com/vietnam/2026/03/03/vietnam-the-first-law-on-artificial-intelligence-what-you-must-know,2026-03-03,from_url,law_firm_analysis,secondary,backfill
+SRC-031,Microsoft Blogs,Microsoft,https://blogs.microsoft.com/blog/2024/03/19/mustafa-suleyman-deepmind-and-inflection-co-founder-joins-microsoft-to-lead-copilot,2024-03-19,from_url,other,context,backfill
+SRC-032,Digital Empires: The Global Battle to Regulate Technology - Anu Bradford - Google Books,Google,https://books.google.com/books/about/Digital_Empires.html?id=PwTOEAAAQBAJ,,unknown,other,context,backfill
+SRC-033,Kenya: Unveiling of the National AI Strategy 2025-2030 - A bold step into the future | Bowmans,Bowmanslaw,https://bowmanslaw.com/insights/kenya-unveiling-of-the-national-ai-strategy-2025-2030-a-bold-step-into-the-future,,unknown,law_firm_analysis,secondary,backfill
+SRC-034,Built In,Builtin,https://builtin.com/articles/what-is-thinking-machines-lab,,unknown,other,context,backfill
+SRC-035,Chile’s Artificial Intelligence Regulation Bill Advances to the Senate - CADE – Civil Society Alliances for Digital Empowerment,Cadeproject,https://cadeproject.org/updates/chiles-artificial-intelligence-regulation-bill-advances-to-the-senate,,unknown,other,secondary,backfill
+SRC-036,Capital Research Center,Capitalresearch,https://capitalresearch.org/article/profits-and-nonprofits-the-odd-evolution-of-openai,,unknown,other,context,backfill
+SRC-037,Captain Compliance,Captaincompliance,https://captaincompliance.com/education/legal-remedies-in-mexico-under-the-new-transparency-and-data-protection-framework,,unknown,other,context,backfill
+SRC-038,"The UAE’s AI Governance Laws: PDPL, DIFC Rules, and Human-Centric Principles - Captain Compliance",Captaincompliance,https://captaincompliance.com/education/uaes-ai-governance-laws-pdpl-difc-rules-and-human-centric-principles,,unknown,other,context,backfill
+SRC-039,Carnegie,Carnegie,https://carnegie.ru/commentary/82422,,unknown,other,secondary,backfill
+SRC-040,Carnegie Endowment for International Peace,Carnegie,https://carnegieendowment.org/research/2024/08/china-artificial-intelligence-ai-safety-regulation?lang=en&center=china,2024-08-01,from_url-month,other,secondary,backfill
+SRC-041,India’s Advance on AI Regulation | Carnegie Endowment for International Peace,Carnegie,https://carnegieendowment.org/research/2024/11/indias-advance-on-ai-regulation?lang=en,2024-11-01,from_url-month,other,secondary,backfill
+SRC-042,DeepSeek and Other Chinese Firms Converge with Western Companies on AI Promises | Carnegie Endowment for International Peace,Carnegie,https://carnegieendowment.org/research/2025/01/deepseek-and-other-chinese-firms-converge-with-western-companies-on-ai-promises,2025-01-01,from_url-month,other,secondary,backfill
+SRC-043,How Some of China’s Top AI Thinkers Built Their Own AI Safety Institute | Carnegie Endowment for International Peace,Carnegie,https://carnegieendowment.org/research/2025/06/how-some-of-chinas-top-ai-thinkers-built-their-own-ai-safety-institute?lang=en,2025-06-01,from_url-month,other,secondary,backfill
+SRC-044,Carnegie Endowment for International Peace,Carnegie,https://carnegieendowment.org/research/2025/10/how-china-views-ai-risks-and-what-to-do-about-them,2025-10-01,from_url-month,other,secondary,backfill
+SRC-045,"Amendment Decree on Transparency, Access to Public Information and Personal Data Protection – Cacheaux, Cavazos & Newton",Ccn Law,https://ccn-law.com/en/amendment-decree-on-transparency-access-to-public-information-and-personal-data-protection,,unknown,other,context,backfill
+SRC-046,AI Seoul Summit Stocktake: Reflections and Projections | Centre for Emerging Technology and Security,Ac,https://cetas.turing.ac.uk/publications/ai-seoul-summit-stocktake-reflections-and-projections,,unknown,other,context,backfill
+SRC-047,AI in UAE: The Legal Blueprint That's Reshaping Tech Compliance in 2025 | Article | Chambers and Partners,Chambers,https://chambers.com/articles/ai-in-uae-the-legal-blueprint-thats-reshaping-tech-compliance-in-2025,,unknown,other,secondary,backfill
+SRC-048,bill regulating artificial intelligence introduced to congress,Chambers,https://chambers.com/articles/bill-regulating-artificial-intelligence-introduced-to-congress,,unknown,other,secondary,backfill
+SRC-049,CIO Africa,Cioafrica,https://cioafrica.co/ai-data-privacy-cybersecurity-to-drive-it-sector-in-2025,,unknown,other,context,backfill
+SRC-050,Civil Rights Litigation Clearinghouse,Clearinghouse,https://clearinghouse.net/case/44074,,unknown,other,context,backfill
+SRC-051,Climate Action Tracker,Climateactiontracker,https://climateactiontracker.org/countries/rating-system,,unknown,other,context,backfill
+SRC-052,Climate Action Tracker,Climateactiontracker,https://climateactiontracker.org/documents/1348/CAT_2025-11-13_GlobalUpdate_COP30.pdf,,unknown,other,context,backfill
+SRC-053,Enforcement Tracker Report Overview of GDPR Fines,CMS,https://cms.law/en/deu/legal-updates/Enforcement-Tracker-Report-Overview-of-GDPR-Fines,,unknown,law_firm_analysis,secondary,backfill
+SRC-054,AI laws and regulations in Brazil| CMS Expert Guide,CMS,https://cms.law/en/int/expert-guides/ai-regulation-scanner/brazil,,unknown,law_firm_analysis,secondary,backfill
+SRC-055,AI laws and regulations in Chile| CMS Expert Guide,CMS,https://cms.law/en/int/expert-guides/ai-regulation-scanner/chile,,unknown,law_firm_analysis,secondary,backfill
+SRC-056,AI laws and regulations in Switzerland| CMS Expert Guide,CMS,https://cms.law/en/int/expert-guides/ai-regulation-scanner/switzerland,,unknown,law_firm_analysis,secondary,backfill
+SRC-057,united arab emirates,CMS,https://cms.law/en/int/expert-guides/ai-regulation-scanner/united-arab-emirates,,unknown,law_firm_analysis,secondary,backfill
+SRC-058,numbers and figures,CMS,https://cms.law/en/int/publication/GDPR-Enforcement-Tracker-Report/numbers-and-figures,,unknown,law_firm_analysis,secondary,backfill
+SRC-059,executive summary,CMS,https://cms.law/en/mkd/publication/gdpr-enforcement-tracker-report/executive-summary,,unknown,law_firm_analysis,secondary,backfill
+SRC-060,executive summary,CMS,https://cms.law/en/rou/publication/gdpr-enforcement-tracker-report/executive-summary,,unknown,law_firm_analysis,secondary,backfill
+SRC-061,Introducing Cohere’s Secure AI Frontier Model Framework,Cohere,https://cohere.com/blog/secure-model-framework,,unknown,official_gov,primary,backfill
+SRC-062,Cohere's Secure AI Frontier Model Framework,Cohere,https://cohere.com/security/the-cohere-secure-ai-frontier-model-framework-february-2025.pdf,,unknown,official_gov,primary,backfill
+SRC-063,The Cohere Secure AI Frontier Model Framework,Cohere,https://cohere.com/security/the-cohere-secure-ai-frontier-model-framework-february-2025.pdf?b60bd69c_page=2,,unknown,official_gov,primary,backfill
+SRC-064,Colorado AI Act News,Coloradoaiact,https://coloradoaiact.news/colorado-ai-act-vs-texas-traiga-key-differences,,unknown,other,context,backfill
+SRC-065,Complete AI Training,Completeaitraining,https://completeaitraining.com/news/indonesia-pushes-back-ai-roadmap-to-early-2026-ethics-first,,unknown,other,context,backfill
+SRC-066,Complete AI Training,Completeaitraining,https://completeaitraining.com/news/indonesia-to-regulate-ai-with-new-presidential-regulation,,unknown,other,context,backfill
+SRC-067,Crypto Briefing,Cryptobriefing,https://cryptobriefing.com/google-synthid-watermarking-openai-partnerships,,unknown,other,context,backfill
+SRC-068,fefe1 russia sberbank to unveil reasoning llm,Cryptorank,https://cryptorank.io/news/feed/fefe1-russia-sberbank-to-unveil-reasoning-llm,,unknown,other,context,backfill
+SRC-069,anu bradford,Harvard,https://cyber.harvard.edu/people/anu-bradford,,unknown,other,context,backfill
+SRC-070,New Pathway of Regulating Artificial Intelligence in Switzerland: Competitive Edge or Challenge? | Data Matters Privacy Blog,Sidley,https://datamatters.sidley.com/2025/04/07/new-pathway-of-regulating-artificial-intelligence-in-switzerland-competitive-edge-or-challenge,2025-04-07,from_url,other,context,backfill
+SRC-071,does ilya sutskevers safe superintelligence,Substack,https://davefriedman.substack.com/p/does-ilya-sutskevers-safe-superintelligence,,unknown,other,context,backfill
+SRC-072,Israel's Policy on Artificial Intelligence Regulation and Ethics | Digital Watch Observatory,Dig,https://dig.watch/resource/israels-policy-on-artificial-intelligence-regulation-and-ethics,,unknown,other,context,backfill
+SRC-073,Hiroshima Process International Code of Conduct for Advanced AI Systems | Shaping Europe’s digital future,European Commission,https://digital-strategy.ec.europa.eu/en/library/hiroshima-process-international-code-conduct-advanced-ai-systems,,unknown,official_gov,primary,backfill
+SRC-074,Guidelines for providers of general-purpose AI models | Shaping Europe’s digital future,European Commission,https://digital-strategy.ec.europa.eu/en/policies/guidelines-gpai-providers,,unknown,official_gov,primary,backfill
+SRC-075,AI Act | Shaping Europe's digital future - European Union,European Commission,https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai,,unknown,official_gov,primary,backfill
+SRC-076,AI Regulation Chile 2025: Key Rules & Compliance Guide,Nemko,https://digital.nemko.com/regulations/ai-regulation-chile,,unknown,other,secondary,backfill
+SRC-077,Nemko Group AS,Nemko,https://digital.nemko.com/regulations/ai-regulation-in-south-africa,,unknown,other,secondary,backfill
+SRC-078,Nemko Group AS,Nemko,https://digital.nemko.com/regulations/ai-regulation-in-turkey,,unknown,other,secondary,backfill
+SRC-079,AI Regulation Israel 2025: Key Principles & Compliance ...,Nemko,https://digital.nemko.com/regulations/ai-regulation-israel,,unknown,other,secondary,backfill
+SRC-080,Nemko Group AS,Nemko,https://digital.nemko.com/regulations/ai-regulation-japan,,unknown,other,secondary,backfill
+SRC-081,UAE AI Regulation 2025: Key Federal & DIFC Rules Explained,Nemko,https://digital.nemko.com/regulations/uae-ai-regulations,,unknown,other,secondary,backfill
+SRC-082,Draft legislation to implement the Council of Europe ...,Digital,https://digital.swiss/en/action-plan/measures/draft-legislation-to-implement-the-council-of-europe-framework-convention-on-artificial-intelligence-and-human-rights,,unknown,other,context,backfill
+SRC-083,Design requirements in Bill regulating Artificial Intelligence ...,Digital Policy Alert,https://digitalpolicyalert.org/change/9657-draft-law-on-ai-regulation,,unknown,ngo_index,secondary,backfill
+SRC-084,Chile: Introduced Bill regulating Artificial Intelligence systems (Nr. 16821-19) including data protection requirements - Digital Policy Alert,Digital Policy Alert,https://digitalpolicyalert.org/event/19946-introduced-draft-law-regulating-artificial-intelligence-into-parliament,,unknown,ngo_index,secondary,backfill
+SRC-085,Digital Policy Alert,Digital Policy Alert,https://digitalpolicyalert.org/event/21970-published-ncair-national-artificial-intelligence-strategy,,unknown,ngo_index,secondary,backfill
+SRC-086,Digital Policy Alert,Digital Policy Alert,https://digitalpolicyalert.org/event/25904-adopted-chinese-cyberspace-administration-registration-of-generative-ai-services,,unknown,ngo_index,secondary,backfill
+SRC-087,"Ministry of Information, Communications and the Digital Economy published Artificial Intelligence Strategy 2025-2030",Digital Policy Alert,https://digitalpolicyalert.org/event/28710-government-released-kenya-artificial-intelligence-strategy-2025-2030,,unknown,ngo_index,secondary,backfill
+SRC-088,edit,Google,https://docs.google.com/document/d/1q5JoJSIjXOIYrrUsT5DZH-_HNBLaW9bDDIN335gDX4s/edit?usp=drivesdk&ouid=101385531194725851094,,unknown,other,context,backfill
+SRC-089,edit,Google,https://docs.google.com/document/d/1zHrftsTlU27EI-PYSGggKcRnepasDYpsWrWopQ5ZVb4/edit?usp=drivesdk&ouid=101385531194725851094,,unknown,other,context,backfill
+SRC-090,General-Purpose AI Code of Practice,European Commission,https://ec.europa.eu/newsroom/dae/redirection/document/118119,,unknown,official_gov,primary,backfill
+SRC-091,Economy Middle East,Economymiddleeast,https://economymiddleeast.com/news/aws-humain-announce-major-ai-infrastructure-deal-with-nvidia-to-boost-global-innovation,,unknown,other,context,backfill
+SRC-092,Al Majalla,Majalla,https://en.majalla.com/node/328215/science-technology/humain-artificial-intelligence-saudi-imprint,,unknown,other,context,backfill
+SRC-093,Indonesia Expected to Complete AI Regulations Draft This Month - Sci & Tech En.tempo.co,Tempo,https://en.tempo.co/amp/2050472/indonesia-expected-to-complete-ai-regulations-draft-this-month,,unknown,other,context,backfill
+SRC-094,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/AI_Action_Summit_2025,,unknown,tertiary,context,backfill
+SRC-095,AI Safety Summit,Wikipedia,https://en.wikipedia.org/wiki/AI_Safety_Summit_2023,,unknown,tertiary,context,backfill
+SRC-096,AI Seoul Summit 2024,Wikipedia,https://en.wikipedia.org/wiki/AI_Seoul_Summit_2024,,unknown,tertiary,context,backfill
+SRC-097,AI safety,Wikipedia,https://en.wikipedia.org/wiki/AI_safety,,unknown,tertiary,context,backfill
+SRC-098,Aguinaldo Ribeiro,Wikipedia,https://en.wikipedia.org/wiki/Aguinaldo_Ribeiro,,unknown,tertiary,context,backfill
+SRC-099,Antiqua et nova,Wikipedia,https://en.wikipedia.org/wiki/Antiqua_et_nova,,unknown,tertiary,context,backfill
+SRC-100,artificial intelligence,Wikipedia,https://en.wikipedia.org/wiki/Artificial_intelligence,,unknown,tertiary,context,backfill
+SRC-101,Baptist,Wikipedia,https://en.wikipedia.org/wiki/Baptists,,unknown,tertiary,context,backfill
+SRC-102,Brazilian Congressional Bill No. 1151,Wikipedia,https://en.wikipedia.org/wiki/Brazilian_Congressional_Bill_No._1151,,unknown,tertiary,context,backfill
+SRC-103,Campina Grande,Wikipedia,https://en.wikipedia.org/wiki/Campina_Grande,,unknown,tertiary,context,backfill
+SRC-104,Catholic Church,Wikipedia,https://en.wikipedia.org/wiki/Catholic_Church,,unknown,tertiary,context,backfill
+SRC-105,Chamber of Deputies (Brazil),Wikipedia,https://en.wikipedia.org/wiki/Chamber_of_Deputies_(Brazil,,unknown,tertiary,context,backfill
+SRC-106,Chamber of Deputies,Wikipedia,https://en.wikipedia.org/wiki/Chamber_of_Deputies_(Mexico,,unknown,tertiary,context,backfill
+SRC-107,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Comparative_Constitutions_Project,,unknown,tertiary,context,backfill
+SRC-108,Daniella,Wikipedia,https://en.wikipedia.org/wiki/Daniella_Ribeiro,,unknown,tertiary,context,backfill
+SRC-109,Dicastery for Culture and Education,Wikipedia,https://en.wikipedia.org/wiki/Dicastery_for_Culture_and_Education,,unknown,tertiary,context,backfill
+SRC-110,Dicastery for the Doctrine of the Faith,Wikipedia,https://en.wikipedia.org/wiki/Dicastery_for_the_Doctrine_of_the_Faith,,unknown,tertiary,context,backfill
+SRC-111,Dilexit nos,Wikipedia,https://en.wikipedia.org/wiki/Dilexit_nos,,unknown,tertiary,context,backfill
+SRC-112,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Executive_Order_14110,,unknown,tertiary,context,backfill
+SRC-113,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Executive_Order_14179,,unknown,tertiary,context,backfill
+SRC-114,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Framework_Convention_on_Artificial_Intelligence,,unknown,tertiary,context,backfill
+SRC-115,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/G42_(company,,unknown,tertiary,context,backfill
+SRC-116,Gavin Newsom,Wikipedia,https://en.wikipedia.org/wiki/Gavin_Newsom,,unknown,tertiary,context,backfill
+SRC-117,Hugo Motta,Wikipedia,https://en.wikipedia.org/wiki/Hugo_Motta,,unknown,tertiary,context,backfill
+SRC-118,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Interim_Measures_for_the_Management_of_Generative_AI_Services,,unknown,tertiary,context,backfill
+SRC-119,Latin,Wikipedia,https://en.wikipedia.org/wiki/Latin_language,,unknown,tertiary,context,backfill
+SRC-120,lower house,Wikipedia,https://en.wikipedia.org/wiki/Lower_house,,unknown,tertiary,context,backfill
+SRC-121,Milestone thesis,Wikipedia,https://en.wikipedia.org/wiki/Milestone_thesis,,unknown,tertiary,context,backfill
+SRC-122,National Congress of Brazil,Wikipedia,https://en.wikipedia.org/wiki/National_Congress_of_Brazil,,unknown,tertiary,context,backfill
+SRC-123,National Institute of Transparency for Access to Information and Personal Data Protection,Wikipedia,https://en.wikipedia.org/wiki/National_Institute_of_Transparency_for_Access_to_Information_and_Personal_Data_Protection,,unknown,tertiary,context,backfill
+SRC-124,Para%C3%ADba,Wikipedia,https://en.wikipedia.org/wiki/Para%C3%ADba,,unknown,tertiary,context,backfill
+SRC-125,Pilar,Wikipedia,https://en.wikipedia.org/wiki/Pilar,,unknown,tertiary,context,backfill
+SRC-126,Portuguese,Wikipedia,https://en.wikipedia.org/wiki/Portuguese_language,,unknown,tertiary,context,backfill
+SRC-127,Progressive Party (Brazil,Wikipedia,https://en.wikipedia.org/wiki/Progressive_Party_(Brazil,,unknown,tertiary,context,backfill
+SRC-128,proportional representation,Wikipedia,https://en.wikipedia.org/wiki/Proportional_representation,,unknown,tertiary,context,backfill
+SRC-129,Republicans (Brazil)),Wikipedia,https://en.wikipedia.org/wiki/Republicans_(Brazil))-,,unknown,tertiary,context,backfill
+SRC-130,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Responsible_AI_Safety_and_Education_Act,,unknown,tertiary,context,backfill
+SRC-131,Safe Superintelligence Inc,Wikipedia,https://en.wikipedia.org/wiki/Safe_Superintelligence_Inc,,unknown,tertiary,context,backfill
+SRC-132,Safe and Secure Innovation for Frontier Artificial Intelligence Models Act,Wikipedia,https://en.wikipedia.org/wiki/Safe_and_Secure_Innovation_for_Frontier_Artificial_Intelligence_Models_Act,,unknown,tertiary,context,backfill
+SRC-133,Senator Scott Wiener,Wikipedia,https://en.wikipedia.org/wiki/Scott_Wiener,,unknown,tertiary,context,backfill
+SRC-134,Wikipedia,Wikipedia,https://en.wikipedia.org/wiki/Thinking_Machines_Lab,,unknown,tertiary,context,backfill
+SRC-135,Transparency in Frontier Artificial Intelligence Act,Wikipedia,https://en.wikipedia.org/wiki/Transparency_in_Frontier_Artificial_Intelligence_Act,,unknown,tertiary,context,backfill
+SRC-136,Víctor Manuel Fernández,Wikipedia,https://en.wikipedia.org/wiki/V%C3%ADctor_Manuel_Fern%C3%A1ndez,,unknown,tertiary,context,backfill
+SRC-137,Vatican City State,Wikipedia,https://en.wikipedia.org/wiki/Vatican_City_State,,unknown,tertiary,context,backfill
+SRC-138,whistleblower,Wikipedia,https://en.wikipedia.org/wiki/Whistleblowing,,unknown,tertiary,context,backfill
+SRC-139,Ey,Executive Yuan (TW),https://english.ey.gov.tw/News3/9E5540D592A5FECD/dfa7107b-f323-4961-a31b-873bbc12ea47,,unknown,official_gov,primary,backfill
+SRC-140,"Law on Artificial Intelligence 2025, No. 134/2025/QH15",Luatvietnam,https://english.luatvietnam.vn/law-no-134-2025-qh15-dated-december-10-2025-of-the-national-assembly-on-artificial-intelligence-422299-doc1.html,,unknown,other,context,backfill
+SRC-141,English SCIO,Gov,https://english.scio.gov.cn/pressroom/2025-04/09/content_117814020.html,2025-04-09,from_url,official_gov,primary,backfill
+SRC-142,na passes first ever law on artificial intelligence post1252919.vov,Vov,https://english.vov.vn/en/politics/na-passes-first-ever-law-on-artificial-intelligence-post1252919.vov,,unknown,other,context,backfill
+SRC-143,English.gov.cn,State Council (CN),https://english.www.gov.cn/news/202408/13/content_WS66ba9d6fc6d0868f4e8e9dd9.html,,unknown,official_gov,primary,backfill
+SRC-144,Regulating AI a la Suisse: Between innovation and uncertainty - No comprehensive AI Act | EuroCloud Europe,Eurocloud,https://eurocloud.org/news/article/regulating-ai-a-la-suisse-between-innovation-and-uncertainty-no-comprehensive-ai-act,,unknown,other,context,backfill
+SRC-145,The New Era of Privacy and Data Protection in Mexico: What’s Changing? | EuroCloud Europe,Eurocloud,https://eurocloud.org/news/article/the-new-era-of-privacy-and-data-protection-in-mexico-whats-changing,,unknown,other,context,backfill
+SRC-146,EU Tech Loop,Eutechloop,https://eutechloop.com/ai-treaty-set-for-signing-in-vilnius-what-it-means-for-global-ai-governance,,unknown,other,context,backfill
+SRC-147,Yahoo Finance,Yahoo,https://finance.yahoo.com/news/why-microsoft-surprise-deal-4-220638392.html,,unknown,other,context,backfill
+SRC-148,Indonesia to Issue Presidential Regulations on AI Strategy and Ethics - Fintech News Indonesia,Fintechnews,https://fintechnews.id/109239/ai/indonesia-presidential-regulations-ai-strategy-ethics,,unknown,other,context,backfill
+SRC-149,Colombia: Government Submits AI Regulation Bill to Senate (July 2025) — Fix the AI GAP,Fixtheaigap,https://fixtheaigap.com/research/policies/2026-03-20-colombia-ai-bill-senate,2026-03-20,from_url,other,secondary,backfill
+SRC-150,"National Artificial Intelligence Strategy | The Federal Ministry of Communications, Innovation and Digital Economy",FMCIDE (NG),https://fmcide.gov.ng/initiative/nais,,unknown,official_gov,primary,backfill
+SRC-151,Fortune,Fortune,https://fortune.com/2024/03/19/microsoft-surprise-deal-inflection-ai-mustafa-suleyman-reid-hoffman-questions,2024-03-19,from_url,news,context,backfill
+SRC-152,Fortune,Fortune,https://fortune.com/2025/04/16/openai-safety-framework-manipulation-deception-critical-risk,2025-04-16,from_url,news,context,backfill
+SRC-153,"The U.S. has 1,200 AI bills and no good test for any of them | Fortune",Fortune,https://fortune.com/2026/05/15/ai-policy-patchwork-state-federal-regulation-framework-sonnenfeld-marcus,2026-05-15,from_url,news,context,backfill
+SRC-154,Effective Altruism Forum,Effectivealtruism,https://forum.effectivealtruism.org/posts/kMpf7nYRpTkGh2Qfa/anthropic-is-quietly-backpedalling-on-its-safety-commitments,,unknown,other,context,backfill
+SRC-155,Effective Altruism Forum,Effectivealtruism,https://forum.effectivealtruism.org/posts/oB8rj43dKYNawXWSy/meta-frontier-ai-framework,,unknown,other,context,backfill
+SRC-156,AI Regulation in Latin America: Overview and Emerging Trends in Key Proposals,FPF,https://fpf.org/blog/global/ai-regulation-in-latin-america-overview-and-emerging-trends-in-key-proposals,,unknown,other,secondary,backfill
+SRC-157,Future of Privacy Forum,FPF,https://fpf.org/blog/understanding-japans-ai-promotion-act-an-innovation-first-blueprint-for-ai-regulation,,unknown,other,secondary,backfill
+SRC-158,AI Governance in India: What US Businesses Need to Know,Gaicc,https://gaicc.org/blog/ai-governance-in-india,,unknown,other,context,backfill
+SRC-159,AI in UAE: The Legal Blueprint That's Reshaping Tech Compliance in 2025 - Galadari Law,Galadarilaw,https://galadarilaw.com/news/ai-in-uae-legal,,unknown,other,context,backfill
+SRC-160,METR,Github,https://github.com/METR,,unknown,other,context,backfill
+SRC-161,Digital Empires - Anu Bradford - Oxford University Press,Oup,https://global.oup.com/academic/product/digital-empires-9780197649268,,unknown,other,context,backfill
+SRC-162,The Extinction Of INAI: Legal And Administrative Implications For Data Protection And Transparency In Mexico - Global Law Experts,Globallawexperts,https://globallawexperts.com/the-extinction-of-inai-legal-and-administrative-implications-for-data-protection-and-transparency-in-mexico,,unknown,law_firm_analysis,secondary,backfill
+SRC-163,Global Index on Responsible AI: Country Researcher Call 2025 | Grants Database,Grantsdatabase,https://grantsdatabase.org/2025/07/09/global-index-on-responsible-ai-country-researcher-call-2025,2025-07-09,from_url,other,context,backfill
+SRC-164,Gulf News,Gulfnews,https://gulfnews.com/technology/she-declined-a-15-billion-offer-meet-mira-murati-the-ai-whiz-behind-tinker-1.500303161,,unknown,other,context,backfill
+SRC-165,Stanford,Stanford HAI,https://hai.stanford.edu/ai-index/2026-ai-index-report/responsible-ai,,unknown,other,context,backfill
+SRC-166,Stanford HAI,Stanford HAI,https://hai.stanford.edu/news/inside-the-ai-index-12-takeaways-from-the-2026-report,,unknown,other,context,backfill
+SRC-167,model drop kimi k26,Substack,https://handyai.substack.com/p/model-drop-kimi-k26,,unknown,other,context,backfill
+SRC-168,HyperAI,Hyper,https://hyper.ai/en/headlines/ee19928c78d48135e9dc881ab6c0a434,,unknown,other,context,backfill
+SRC-169,The Ultimate Guide to the EU AI Act,Hyperproof,https://hyperproof.io/ultimate-guide-to-the-eu-ai-act,,unknown,other,context,backfill
+SRC-170,contin a la tramitaci n del proyecto de ley sobre ia en chile,IAPP,https://iapp.org/news/a/contin-a-la-tramitaci-n-del-proyecto-de-ley-sobre-ia-en-chile?utm_source=openai,,unknown,other,secondary,backfill
+SRC-171,EU AI Act deployer evidence gaps SMEs will miss before 2 Aug. 2026 | IAPP,IAPP,https://iapp.org/news/a/eu-ai-act-deployer-evidence-gaps-smes-will-miss-before-2-aug-2026,,unknown,other,secondary,backfill
+SRC-172,global ai law and policy tracker highlights and takeaways,IAPP,https://iapp.org/news/a/global-ai-law-and-policy-tracker-highlights-and-takeaways,,unknown,other,secondary,backfill
+SRC-173,new authority established for personal data protection in mexico,IAPP,https://iapp.org/news/a/new-authority-established-for-personal-data-protection-in-mexico,,unknown,other,secondary,backfill
+SRC-174,Proactive caution: Israel’s approach to AI regulation | IAPP,IAPP,https://iapp.org/news/a/proactive-caution-israels-approach-to-ai-regulation,,unknown,other,secondary,backfill
+SRC-175,saudi arabia s data protection authority steps up enforcement,IAPP,https://iapp.org/news/a/saudi-arabia-s-data-protection-authority-steps-up-enforcement,,unknown,other,secondary,backfill
+SRC-176,Vietnam's draft AI Law: Racing toward regulation with EU inspirations | IAPP,IAPP,https://iapp.org/news/a/vietnam-s-draft-ai-law-racing-toward-regulation-with-eu-inspirations,,unknown,other,secondary,backfill
+SRC-177,vietnam s first standalone ai law an overview of key provisions future implications,IAPP,https://iapp.org/news/a/vietnam-s-first-standalone-ai-law-an-overview-of-key-provisions-future-implications,,unknown,other,secondary,backfill
+SRC-178,global ai governance jurisdiction overviews,IAPP,https://iapp.org/resources/article/global-ai-governance-jurisdiction-overviews,,unknown,other,secondary,backfill
+SRC-179,KENYA ARTIFICIAL INTELLIGENCE STRATEGY 2025-2030,Go,https://ict.go.ke/sites/default/files/2025-03/Kenya%20AI%20Strategy%202025%20-%202030.pdf,2025-03-01,from_url-month,other,context,backfill
+SRC-180,"Indonesia prioritizes AI regulation in 2026, says Communications Minister | Indonesia Business Post",Indonesiabusinesspost,https://indonesiabusinesspost.com/5992/cyber-and-espionage/indonesia-prioritizes-ai-regulation-in-2026-says-communications-minister,,unknown,other,context,backfill
+SRC-181,The New Era of Privacy and Data Protection in Mexico: What’s Changing? | International Network of Privacy Law Professionals,Inplp,https://inplp.com/latest-news/article/the-new-era-of-privacy-and-data-protection-in-mexico-whats-changing,,unknown,other,context,backfill
+SRC-182,Mobley v. Workday: What ICIMS Admins Must Know Now,Integralrecruiting,https://integralrecruiting.com/icims-consultant-mobley-workday-ai-hiring,,unknown,other,context,backfill
+SRC-183,Recent developments of Artificial Intelligence and IP in Latin America (Pt. III) - IP Helpdesk,Europa,https://intellectual-property-helpdesk.ec.europa.eu/news-events/news/recent-developments-artificial-intelligence-and-ip-latin-america-pt-iii-2026-05-04_en,,unknown,official_gov,primary,backfill
+SRC-184,"Organizing Means–Ends Decoupling: Core–Compartment Separations in Fast Fashion - Herman I. Stål, Hervé Corvellec, 2022",Sagepub,https://journals.sagepub.com/doi/10.1177/00076503211001856,,unknown,other,context,backfill
+SRC-185,"Kenya Launches National AI Strategy 2025 – 2030 , Download it here - Ai Kenya",Kenya,https://kenya.ai/kenya-launches-national-ai-strategy-2025-2026-download-it-here,,unknown,other,context,backfill
+SRC-186,KTS Law,Ktslaw,https://ktslaw.com/en/insights/alert/2025/10/california-enacts-the-transparency-in-frontier-artificial-intelligence-act-sb-53,2025-10-01,from_url-month,other,context,backfill
+SRC-187,EU AI Act High-Risk Deadline: Enterprise Readiness Gap – Lab Space,Cloudsecurityalliance,https://labs.cloudsecurityalliance.org/research/csa-research-note-eu-ai-act-high-risk-compliance-deadline-20,,unknown,other,context,backfill
+SRC-188,Balancing innovation and ethics: Chile faces national debate as proposed bill to regulate AI use advances - Latin America Reports,Latinamericareports,https://latinamericareports.com/balancing-innovation-and-ethics-chile-faces-national-debate-as-proposed-bill-to-regulate-ai-use-advances/12244,,unknown,other,context,backfill
+SRC-189,taiwan semiconductor export controls,Law,https://law.asia/taiwan-semiconductor-export-controls,,unknown,other,context,backfill
+SRC-190,Introducing Mandatory Guardrails for Artificial Intelligence (AI) in High-risk Settings - Law Council of Australia,Lawcouncil,https://lawcouncil.au/media/news/introducing-mandatory-guardrails-for-artificial-intelligence-ai-in-high-risk-settings,,unknown,other,context,backfill
+SRC-191,"Help Wanted, Screened by Algorithms: Mobley v. Workday and the Legal Limits of AI Hiring | University of Miami Law Review",Miami,https://lawreview.law.miami.edu/help-wanted-screened-by-algorithms-mobley-v-workday-and-the-legal-limits-of-ai-hiring,,unknown,other,context,backfill
+SRC-192,sb24 205,Colorado Legislature,https://leg.colorado.gov/bills/sb24-205,,unknown,official_gov,primary,backfill
+SRC-193,Senate Bill 53,California Legislature,https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB53,,unknown,official_gov,primary,backfill
+SRC-194,3270002,Legiscan,https://legiscan.com/CA/text/SB53/id/3270002,,unknown,other,context,backfill
+SRC-195,meitys advisories on ai,Substack,https://maheshyellai.substack.com/p/meitys-advisories-on-ai,,unknown,other,context,backfill
+SRC-196,Kenya’s National AI Strategy 2025 - 2030: Legal and Regulatory Implications,Manwaadvocates,https://manwaadvocates.com/kenyas-national-ai-strategy-2025-2030-legal-and-regulatory-implications,,unknown,other,context,backfill
+SRC-197,"Nigeria’s Bold Course to Lead Global AI Revolution, Reaffirmed by NITDA DG",Financialcontent,https://markets.financialcontent.com/wral/article/tokenring-2025-10-4-nigerias-bold-course-to-lead-global-ai-revolution-reaffirmed-by-nitda-dg,,unknown,other,context,backfill
+SRC-198,vietnam ai law 55d70834c476,Medium,https://medium.com/@bcaa.certuk/vietnam-ai-law-55d70834c476,,unknown,other,context,backfill
+SRC-199,metr.org,METR,https://metr.org,,unknown,research_report,primary,backfill
+SRC-200,About,METR,https://metr.org/about,,unknown,research_report,primary,backfill
+SRC-201,common elements mar 2025,METR,https://metr.org/assets/common-elements-mar-2025.pdf,,unknown,research_report,primary,backfill
+SRC-202,common elements nov 2024,METR,https://metr.org/assets/common-elements-nov-2024.pdf,,unknown,research_report,primary,backfill
+SRC-203,common elements of frontier ai safety policies,METR,https://metr.org/assets/common_elements_of_frontier_ai_safety_policies.pdf,,unknown,research_report,primary,backfill
+SRC-204,Updates,METR,https://metr.org/blog,2025-12-09,from_context,research_report,primary,backfill
+SRC-205,Common Elements of Frontier AI Safety Policies (December 2025 Update) - METR,METR,https://metr.org/blog/2025-12-09-common-elements-of-frontier-ai-safety-policies,2025-12-09,from_url,research_report,primary,backfill
+SRC-206,Careers,METR,https://metr.org/careers,,unknown,research_report,primary,backfill
+SRC-207,Common Elements of Frontier AI Safety Policies - METR,METR,https://metr.org/common-elements,,unknown,research_report,primary,backfill
+SRC-208,Common Elements of Frontier AI Safety Policies December 2025,METR,https://metr.org/common-elements.pdf,,unknown,research_report,primary,backfill
+SRC-209,Donate,METR,https://metr.org/donate,,unknown,research_report,primary,backfill
+SRC-210,have published,METR,https://metr.org/fsp,,unknown,research_report,primary,backfill
+SRC-211,Notes,METR,https://metr.org/notes,,unknown,research_report,primary,backfill
+SRC-212,privacy,METR,https://metr.org/privacy,,unknown,research_report,primary,backfill
+SRC-213,Research,METR,https://metr.org/research,,unknown,research_report,primary,backfill
+SRC-214,Risk Assessment,METR,https://metr.org/risk-assessment,,unknown,research_report,primary,backfill
+SRC-215,Search,METR,https://metr.org/search,,unknown,research_report,primary,backfill
+SRC-216,Mohammed Muigai LLP,Mohammedmuigai,https://mohammedmuigai.com/the-impact-of-artificial-intelligence-on-data-protection-in-kenya,,unknown,other,context,backfill
+SRC-217,"AI Policy Corner: Frontier AI Safety Commitments, AI Seoul Summit 2024 | Montreal AI Ethics Institute",Montrealethics,https://montrealethics.ai/ai-policy-corner-frontier-ai-safety-commitments-ai-seoul-summit-2024,,unknown,other,context,backfill
+SRC-218,UNESCO’s Recommendation on the Ethics of AI | Montreal AI Ethics Institute,Montrealethics,https://montrealethics.ai/unescos-recommendation-on-the-ethics-of-ai,,unknown,other,context,backfill
+SRC-219,Chamber of Deputies schedules vote on Artificial Intelligence Legal Framework for May 27 | MAFM ADVOGADOS,Com,https://murayama.com.br/en/2026/05/18/chamber-of-deputies-schedules-vote-on-artificial-intelligence-legal-framework-for-may-27,2026-05-18,from_url,law_firm_analysis,secondary,backfill
+SRC-220,Executive Order Targets State AI Regulation Through Federal Preemption - McGuireWoods Consulting,Mwcllc,https://mwcllc.com/2026/01/20/executive-order-targets-state-ai-regulation-through-federal-preemption,2026-01-20,from_url,other,context,backfill
+SRC-221,"Brazil AI Regulation: Bill 2338, ANPD, Current Status (2026)",Nathalycalixto,https://nathalycalixto.com/brazil-ai-regulation-complete-analysis-2026,,unknown,law_firm_analysis,secondary,backfill
+SRC-222,INAI Dissolved New Personal Data Laws in Mexico,Natlawreview,https://natlawreview.com/article/extinction-national-institute-transparency-access-information-and-personal-data,,unknown,other,context,backfill
+SRC-223,Mexico Moves to Eliminate INAI and Reshape Transparency Oversight,Natlawreview,https://natlawreview.com/article/mexicos-federal-government-initiates-process-eliminate-autonomous-data-privacy,,unknown,other,context,backfill
+SRC-224,wp,NITDA (NG),https://ncair.nitda.gov.ng/wp-,,unknown,official_gov,primary,backfill
+SRC-225,Stanford University,Stanford,https://news.stanford.edu/stories/2025/12/foundation-model-transparency-index-ai-companies-information,2025-12-01,from_url-month,other,context,backfill
+SRC-226,criminal complaint against facial recognition company clearview ai,Noyb,https://noyb.eu/en/criminal-complaint-against-facial-recognition-company-clearview-ai,,unknown,other,context,backfill
+SRC-227,OECD AI Policy Observatory Portal,OECD,https://oecd.ai/en/dashboards/international/g7,,unknown,ngo_index,primary,backfill
+SRC-228,National Artificial Intelligence Strategy (NAIS) - OECD.AI,OECD,https://oecd.ai/en/dashboards/policy-initiatives/national-artificial-intelligence-strategy-nais,,unknown,ngo_index,primary,backfill
+SRC-229,OECD AI Principles - OECD.AI,OECD,https://oecd.ai/en/dashboards/policy-initiatives/oecd-ai-principles-9705,,unknown,ngo_index,primary,backfill
+SRC-230,south africa national artificial intelligence policy framework,OECD,https://oecd.ai/en/dashboards/policy-initiatives/south-africa-national-artificial-intelligence-policy-framework,,unknown,ngo_index,primary,backfill
+SRC-231,Updated OECD Definition of an AI system - OECD.AI,OECD,https://oecd.ai/en/dashboards/policy-initiatives/updated-oecd-definition-of-an-ai-system-4108,,unknown,ngo_index,primary,backfill
+SRC-232,One Hundred Nights,Onehundrednights,https://onehundrednights.com/article/texas-colorado-ai-law-nonprofits,,unknown,other,context,backfill
+SRC-233,France ONU,Delegfrance,https://onu.delegfrance.org/statement-on-inclusive-and-sustainable-artificial-intelligence-for-people-and,,unknown,other,context,backfill
+SRC-234,OpenAI,OpenAI,https://openai.com/index/openai-board-forms-safety-and-security-committee,,unknown,official_gov,primary,backfill
+SRC-235,OpenAI,OpenAI,https://openai.com/index/updating-our-preparedness-framework,,unknown,official_gov,primary,backfill
+SRC-236,OpenAI,OpenAI,https://openai.com/our-structure,,unknown,official_gov,primary,backfill
+SRC-237,data protection,Pavestoneslegal,https://pavestoneslegal.com/tag/data-protection,,unknown,law_firm_analysis,secondary,backfill
+SRC-238,ANALYSIS OF NIGERIA’s NATIONAL ARTIFICIAL INTELLIGENCE STRATEGY August 2024,Pavestoneslegal,https://pavestoneslegal.com/wp-content/uploads/2024/08/Nigerias-AI-Strategy-.pdf,2024-08-01,from_url-month,law_firm_analysis,secondary,backfill
+SRC-239,Switzerland Sets Its Course on AI Legislation: Federal Council Outlines a Lean Regulatory Approach | Pestalozzi Attorneys at Law,Pestalozzilaw,https://pestalozzilaw.com/en/insights/news/legal-insights/switzerland-sets-its-course-on-ai-legislation-federal-council-out-lines-a-lean-regulatory-approach,,unknown,other,context,backfill
+SRC-240,South Africa National Artificial Intelligence (AI) Policy Framework 2024 | PolicyVault.Africa,Policyvault,https://policyvault.africa/policy/south-africa-national-artificial-intelligence-ai-policy-framework-2024,,unknown,other,context,backfill
+SRC-241,9526,Go,https://portal.komdigi.go.id/kanal-publik/berita-kini/9526,,unknown,other,context,backfill
+SRC-242,PPC Land,Ppc,https://ppc.land/criminal-charges-filed-against-clearview-ai-after-regulatory-fines-fail,,unknown,other,context,backfill
+SRC-243,Artificial Intelligence 2025 - Singapore | Global Practice Guides | Chambers and Partners,Chambers,https://practiceguides.chambers.com/practice-guides/artificial-intelligence-2025/singapore/trends-and-developments,,unknown,other,secondary,backfill
+SRC-244,Artificial Intelligence 2025 - UAE | Global Practice Guides | Chambers and Partners,Chambers,https://practiceguides.chambers.com/practice-guides/artificial-intelligence-2025/uae/trends-and-developments,,unknown,other,secondary,backfill
+SRC-245,Indonesia’s AI National Roadmap White Paper: Paving the Way Toward a Smarter and Sovereign Digital Future · PS Engage,Ps Engage,https://ps-engage.com/indonesias-ai-national-roadmap-white-paper-paving-the-way-toward-a-smarter-and-sovereign-digital-future,,unknown,other,context,backfill
+SRC-246,Organizational Decoupling: A Systematic Literature Review and,Ac,https://pure.qub.ac.uk/files/166903756/euram_submission_decoupling.pdf,,unknown,other,context,backfill
+SRC-247,Pure AI,Pureai,https://pureai.com/articles/2024/05/20/openai-superintelligence-safety-disbanded.aspx,2024-05-20,from_url,other,context,backfill
+SRC-248,FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF,Org,https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF,,unknown,other,context,backfill
+SRC-249,Indonesia AI Regulations | Regulations.AI | Regulations.ai,Regulations.ai,https://regulations.ai/countries/indonesia,,unknown,other,secondary,backfill
+SRC-250,RAI CL NA PDLQRXX 2024,Regulations.ai,https://regulations.ai/regulations/RAI-CL-NA-PDLQRXX-2024,,unknown,other,secondary,backfill
+SRC-251,Chile AI Regulation Overview - Chile | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/RAI-CL-NA-SUMMARY-2026,,unknown,other,secondary,backfill
+SRC-252,Rancangan Peraturan Presiden tentang Kecerdasan Buatan (Draft Presidential Regulation on Artificial Intelligence) - Indonesia | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/RAI-ID-NA-RPPTKXX-2025,,unknown,other,secondary,backfill
+SRC-253,Israel AI Regulation Overview,Regulations.ai,https://regulations.ai/regulations/RAI-IL-NA-SUMMARY-2026,,unknown,other,secondary,backfill
+SRC-254,Regulations,Regulations.ai,https://regulations.ai/regulations/RAI-IR-NA-NAIDIXX-2024,,unknown,other,secondary,backfill
+SRC-255,Regulations,Regulations.ai,https://regulations.ai/regulations/RAI-IR-NA-SUMMARY-2026,,unknown,other,secondary,backfill
+SRC-256,Regulations,Regulations.ai,https://regulations.ai/regulations/RAI-KE-NA-SUMMARY-2026,,unknown,other,secondary,backfill
+SRC-257,National Artificial Intelligence Strategy (NAIS) - Nigeria | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/RAI-NG-NA-NAISNXX-2024,,unknown,other,secondary,backfill
+SRC-258,Law on Digital Technology Industry - Vietnam | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/RAI-VN-NA-DIGTEIN-2025,,unknown,other,secondary,backfill
+SRC-259,National Artificial Intelligence Policy Framework (Draft ...,Regulations.ai,https://regulations.ai/regulations/RAI-ZA-NA-NAIDDXX-2024,,unknown,other,secondary,backfill
+SRC-260,Australia AI Regulation Overview - Australia | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/australia-summary,,unknown,other,secondary,backfill
+SRC-261,Regulations,Regulations.ai,https://regulations.ai/regulations/colombia-summary,,unknown,other,secondary,backfill
+SRC-262,Regulations,Regulations.ai,https://regulations.ai/regulations/egypt-2025-01-national-ai-strategy-v2,,unknown,other,secondary,backfill
+SRC-263,Regulations,Regulations.ai,https://regulations.ai/regulations/indonesia-2025-8-konsep-pedoman-etika-ai,,unknown,other,secondary,backfill
+SRC-264,Indonesia AI Regulation Overview - Regulations.ai,Regulations.ai,https://regulations.ai/regulations/indonesia-summary,,unknown,other,secondary,backfill
+SRC-265,"Israel’s Policy on Artificial Intelligence Regulation and Ethics (Ministry of Innovation, Science and Technology and Ministry of Justice) - 'Responsible Innovation' AI policy - Israel | Regulations.AI",Regulations.ai,https://regulations.ai/regulations/israel-2023-12-ai-policy,,unknown,other,secondary,backfill
+SRC-266,National Artificial Intelligence Strategy (NAIS) - Regulations.ai,Regulations.ai,https://regulations.ai/regulations/nigeria-2024-8-nais,,unknown,other,secondary,backfill
+SRC-267,Nigeria AI Regulation Overview,Regulations.ai,https://regulations.ai/regulations/nigeria-summary,,unknown,other,secondary,backfill
+SRC-268,Recommendation of the Council on Artificial Intelligence - OECD | Regulations.AI - The Site on AI Laws and Regulations | Regulations.ai,Regulations.ai,https://regulations.ai/regulations/oecd-ai-principles-2019,,unknown,other,secondary,backfill
+SRC-269,Regulations,Regulations.ai,https://regulations.ai/regulations/russia-summary,,unknown,other,secondary,backfill
+SRC-270,Regulations,Regulations.ai,https://regulations.ai/regulations/turkey-summary,,unknown,other,secondary,backfill
+SRC-271,Artificial Intelligence: AI Ethics for Peace – World Religions commit to the Rome Call – Religions for Peace Australia,Org,https://religionsforpeaceaustralia.org.au/?p=18887,,unknown,other,context,backfill
+SRC-272,Contrary Research,Contrary,https://research.contrary.com/company/thinking-machines-lab,,unknown,other,context,backfill
+SRC-273,"Enhancements and next steps for the G7 Hiroshima AI Process: Toward a common framework to advance human rights, democracy and rule of law | Cambridge Forum on AI: Law and Governance | Cambridge Core",Cambridge,https://resolve.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/enhancements-and-next-steps-for-the-g7-hiroshima-ai-process-toward-a-common-framework-to-advance-human-rights-democracy-and-rule-of-law/767476A314F4D697C10489CDBCC09C39,,unknown,other,context,backfill
+SRC-274,Current Legal Landscape for AI in Australia - SafeAI-Aus,Safeaiaus,https://safeaiaus.org/safety-standards/ai-australian-legislation,,unknown,other,context,backfill
+SRC-275,Global Index on Responsible AI Reveals Critical Gaps: Albania ranks 96th out of 138 countries - SCiDEV,Scidevcenter,https://scidevcenter.org/2024/08/12/global-index-on-responsible-ai-reveals-critical-gaps-albania-ranks-96th-out-of-138-countries,2024-08-12,from_url,other,context,backfill
+SRC-276,EU AI Act 2026: Key Compliance Requirements for Enterprises | Secure Privacy Blog,Secureprivacy,https://secureprivacy.ai/blog/eu-ai-act-2026-compliance,,unknown,other,context,backfill
+SRC-277,Singapore’s Model AI Governance Framework - Securiti,Securiti,https://securiti.ai/singapore-model-ai-governance-framework,,unknown,other,context,backfill
+SRC-278,Shadow AI Watch,Shadowaiwatch,https://shadowaiwatch.com/research/stanford-ai-index-2026-incidents-transparency-governance,,unknown,other,context,backfill
+SRC-279,doc2025115685601,Press Info Bureau (IN),https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc2025115685601.pdf,,unknown,official_gov,primary,backfill
+SRC-280,9t7ffjGZrm,T,https://t.co/9t7ffjGZrm,,unknown,other,context,backfill
+SRC-281,The Australian Government releases voluntary guardrails on AI safety standards,Com,https://tecala.com.au/voluntary-guardrails-on-ai-safety-standards,,unknown,other,context,backfill
+SRC-282,Kenya Unveils AI Strategy 2025-2030 to Lead Africa’s Digital Future - TechAfrica News,Techafricanews,https://techafricanews.com/2025/03/26/kenya-unveils-ai-strategy-2025-2030-to-lead-africas-digital-future,2025-03-26,from_url,other,context,backfill
+SRC-283,TechAfrica News,Techafricanews,https://techafricanews.com/2025/11/20/humain-and-nvidia-to-deploy-600000-gpus-across-saudi-arabia-and-beyond,2025-11-20,from_url,other,context,backfill
+SRC-284,TechCrunch,TechCrunch,https://techcrunch.com/2025/04/12/openai-co-founder-ilya-sutskevers-safe-superintelligence-reportedly-valued-at-32b,2025-04-12,from_url,news,context,backfill
+SRC-285,TechCrunch,TechCrunch,https://techcrunch.com/2025/07/15/mira-muratis-thinking-machines-lab-is-worth-12b-in-seed-round,2025-07-15,from_url,news,context,backfill
+SRC-286,Eastern religions join call for ethical AI,Techxplore,https://techxplore.com/news/2024-07-eastern-religions-ethical-ai.html,,unknown,other,context,backfill
+SRC-287,The Global State of Responsible AI: An Analysis of Governance Disparities and Economic Correlations – Telecom Analysis,Telecom Analysis,https://telecomanalysis.net/2025/08/23/the-global-state-of-responsible-ai-an-analysis-of-governance-disparities-and-economic-correlations,2025-08-23,from_url,other,secondary,backfill
+SRC-288,The Decoder,The Decoder,https://the-decoder.com/metas-muse-spark-is-its-first-frontier-model-and-its-first-without-open-weights,,unknown,other,context,backfill
+SRC-289,AI Insider,Theaiinsider,https://theaiinsider.tech/2025/03/10/ilya-sutskevers-safe-superintelligence-raises-2b-valuing-ai-startup-at-30b,2025-03-10,from_url,other,context,backfill
+SRC-290,"India's AI governance guidelines promise ambitious vision, but uneven road ahead",Thefederal,https://thefederal.com/category/business/india-ai-governance-ambitious-vision-principles-practicality-231425,,unknown,other,context,backfill
+SRC-291,About | OECD.AI | HAIP Reporting Framework,Oecd,https://transparency.oecd.ai/about,,unknown,ngo_index,primary,backfill
+SRC-292,artificial intelligence in the kremlin s information warfare,Uacrisis,https://uacrisis.org/en/artificial-intelligence-in-the-kremlin-s-information-warfare,,unknown,other,context,backfill
+SRC-293,uaelegislation.gov.ae,Gov,https://uaelegislation.gov.ae,,unknown,official_gov,primary,backfill
+SRC-294,The EU AI Act and assessment: December 2027 is not a snooze button,Uniwise,https://uniwise.eu/resources/blog/the-eu-ai-act-and-assessment-december-2027-is-not-a-snooze-button,,unknown,other,context,backfill
+SRC-295,2.%20LESHER GoingDigitalToolkit Xiamen29May2024,Un,https://unstats.un.org/bigdata/events/2024/measuring-digital-economy/presentations/day1/2.%20LESHER_GoingDigitalToolkit_Xiamen29May2024.pdf,,unknown,other,context,backfill
+SRC-296,Anu Bradford – Keynote Speaker | Speaker Bureau USA,Londonspeakerbureau,https://us.londonspeakerbureau.com/speaker-profile/anu-bradford,,unknown,other,context,backfill
+SRC-297,War on the Rocks,Warontherocks,https://warontherocks.com/cogs-of-war/chinas-ai-governance-offensive-threatens-u-s-tech-leadership,,unknown,other,context,backfill
+SRC-298,Weekly Aiving,Weeklyaiving,https://weeklyaiving.com/en/indonesia-advances-presidential-regulation-for-ai-ethics-guidelines,,unknown,other,context,backfill
+SRC-299,World Justice Project,Worldjusticeproject,https://worldjusticeproject.org/news/wjp-rule-law-index-2025-global-press-release,,unknown,other,context,backfill
+SRC-300,WSC Legal,Wsclegal,https://wsclegal.com/en/argentina-ai-industry,,unknown,other,context,backfill
+SRC-301,South Africa’s Draft National AI Policy: Building a Framework for Responsible and Inclusive AI Governance - Adams & Adams,Adams,https://www.adams.africa/intellectual-property/south-africas-draft-national-ai-policy-building-a-framework-for-responsible-and-inclusive-ai-governance,,unknown,other,context,backfill
+SRC-302,AI regulation: Federal Council to ratify Council of Europe ...,Swiss Confederation,https://www.admin.ch/en/nsb?id=104110,,unknown,official_gov,primary,backfill
+SRC-303,KENYA ARTIFICIAL INTELLIGENCE STRATEGY 2025-2030 March 2025,Africadataprotection,https://www.africadataprotection.org/Kenya_AI_Strategy_2025_2030.pdf,,unknown,other,context,backfill
+SRC-304,AI Act FRIA: Fundamental Rights Impact Assessment Guide | aiacto,Aiacto,https://www.aiacto.eu/en/blog/fria-ai-act-fundamental-rights-impact-assessment,,unknown,other,context,backfill
+SRC-305,Brazil AI Bill Nears Binding Regulation - AI CERTs News,Aicerts,https://www.aicerts.ai/news/brazil-ai-bill-nears-binding-regulation,,unknown,other,context,backfill
+SRC-306,The Mobley v. Workday Case Didn’t End. It Escalated. Here’s Where It Stands.,Aigovernanceforhr,https://www.aigovernanceforhr.com/p/the-mobley-v-workday-case-didnt-end,,unknown,other,context,backfill
+SRC-307,Akin Gump,Akin Gump,https://www.akingump.com/en/insights/ai-law-and-regulation-tracker/colorado-postpones-implementation-of-colorado-ai-act-sb-24-205,,unknown,law_firm_analysis,secondary,backfill
+SRC-308,"Court Allows Discrimination Claims Against AI Hiring Tool to Proceed | Mobley v. Workday, Inc. | Akin",Akin Gump,https://www.akingump.com/en/insights/ai-law-and-regulation-tracker/court-allows-discrimination-claims-against-ai-hiring-tool-to-proceed-or-mobley-v-workday-inc,,unknown,law_firm_analysis,secondary,backfill
+SRC-309,New Executive Order Aims to Curb State AI Regulation,Alstonconsumerfinance,https://www.alstonconsumerfinance.com/executive-order-state-ai-regulation,,unknown,law_firm_analysis,secondary,backfill
+SRC-310,Moratoriums and Federal Preemption of State Artificial Intelligence Laws Pose Serious Risks - Center for American Progress,Americanprogress,https://www.americanprogress.org/article/moratoriums-and-federal-preemption-of-state-artificial-intelligence-laws-pose-serious-risks,,unknown,other,context,backfill
+SRC-311,Analytics Vidhya,Analyticsvidhya,https://www.analyticsvidhya.com/blog/2024/03/how-to-use-olas-krutrim,2024-03-01,from_url-month,other,context,backfill
+SRC-312,American National Standards Institute,Ansi,https://www.ansi.org/standards-news/all-news/8-1-25-china-announces-action-plan-for-global-ai-governance,,unknown,other,context,backfill
+SRC-313,A&O Shearman,Aoshearman,https://www.aoshearman.com/en/insights/ao-shearman-on-tech/president-trump-rescinds-bidens-ai-executive-order-and-announces-ai-investment,,unknown,other,context,backfill
+SRC-314,Arabian Business,Arabianbusiness,https://www.arabianbusiness.com/industries/technology/saudi-pif-backed-humain-receives-first-shipment-of-latest-nvidia-ai-chips,,unknown,other,context,backfill
+SRC-315,"Australia: New AI safety \""guardrails\"", and a targeted approach to high-risk settings",Ashurst,https://www.ashurst.com/en/insights/australia-new-ai-safety-guardrails-and-a-targeted-approach-to-high-risk-settings,,unknown,other,context,backfill
+SRC-316,Baker Botts,Bakerbotts,https://www.bakerbotts.com/thought-leadership/publications/2025/july/texas-enacts-responsible-ai-governance-act-what-companies-need-to-know,,unknown,law_firm_analysis,secondary,backfill
+SRC-317,Vietnam: Artificial Intelligence Law - Foundation and Outlook | Insight | Baker McKenzie,Bakermckenzie,https://www.bakermckenzie.com/en/insight/publications/2026/02/vietnam-artificial-intelligence-law-foundation-and-outlook,2026-02-01,from_url-month,law_firm_analysis,secondary,backfill
+SRC-318,Auslegeordnung,OFCOM (CH),https://www.bakom.admin.ch/dam/bakom/en/dokumente/KI/Auslegeordnung,,unknown,official_gov,primary,backfill
+SRC-319,Bertelsmann Stiftung,Bertelsmann Stiftung,https://www.bertelsmann-stiftung.de/en/our-projects/transformationindex-bti,,unknown,other,context,backfill
+SRC-320,The Bletchley Park process could be a building block for global cooperation on AI safety | Brookings,Brookings,https://www.brookings.edu/articles/the-bletchley-park-process-could-be-a-building-block-for-global-cooperation-on-ai-safety,,unknown,other,secondary,backfill
+SRC-321,What is California's AI safety law? | Brookings,Brookings,https://www.brookings.edu/articles/what-is-californias-ai-safety-law,,unknown,other,secondary,backfill
+SRC-322,Brigard Urrutia,Com,https://www.bu.com.co/en/insights/noticias/regulatory-developments-artificial-intelligence-colombia,,unknown,other,context,backfill
+SRC-323,Burges Salmon,Burges Salmon,https://www.burges-salmon.com/articles/102jn4q/council-of-europe-convention-on-ai-uk-us-eu-sign-first-legally-binding-ai-fram,,unknown,other,context,backfill
+SRC-324,tramitacion,Camara,https://www.camara.cl/legislacion/proyectosdeley/tramitacion,,unknown,other,context,backfill
+SRC-325,verDoc.aspx,Camara,https://www.camara.cl/verDoc.aspx?prmID=17048&prmTIPO=INICIATIVA,,unknown,other,context,backfill
+SRC-326,Nascent regulatory sandbox frameworks for AI in Israel | Cambridge Forum on AI: Law and Governance | Cambridge Core,Cambridge,https://www.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/nascent-regulatory-sandbox-frameworks-for-ai-in-israel/C9E5B9630A678D809BDA109AE018881A,,unknown,other,context,backfill
+SRC-327,Navigating tech sovereignty in a fractured world: A conversation with Anu Bradford - Capgemini,Capgemini,https://www.capgemini.com/insights/research-library/a-conversation-with-anu-bradford,,unknown,other,context,backfill
+SRC-328,Formalizing Artificial Intelligence Governance: Vietnam’s First AI Law,China Briefing,https://www.china-briefing.com/china-outbound-news/vietnams-ai-law-regulatory-milestone-business-implications,,unknown,other,context,backfill
+SRC-329,CIO Dive,Ciodive,https://www.ciodive.com/news/microsoft-inflection-AI-UK-CMA/726102,,unknown,other,context,backfill
+SRC-330,Singapore’s Model AI Governance Framework for Generative AI,Clydeco,https://www.clydeco.com/en/insights/2024/05/singapore-s-model-ai-governance-framework-for-gene,2024-05-01,from_url-month,other,context,backfill
+SRC-331,openai superalignment sutskever leike,CNBC,https://www.cnbc.com/2024/05/17/openai-superalignment-sutskever-leike.html,2024-05-17,from_url,news,context,backfill
+SRC-332,us and britain snub international ai accord in paris,CNBC,https://www.cnbc.com/2025/02/11/us-and-britain-snub-international-ai-accord-in-paris.html,2025-02-11,from_url,news,context,backfill
+SRC-333,alibaba backed moonshot releases kimi k2 ai rivaling chatgpt claude,CNBC,https://www.cnbc.com/2025/07/14/alibaba-backed-moonshot-releases-kimi-k2-ai-rivaling-chatgpt-claude.html,2025-07-14,from_url,news,context,backfill
+SRC-334,saudi arabia wants to be worlds third largest ai provider humain,CNBC,https://www.cnbc.com/2025/08/27/saudi-arabia-wants-to-be-worlds-third-largest-ai-provider-humain.html,2025-08-27,from_url,news,context,backfill
+SRC-335,open ai for profit microsoft,CNBC,https://www.cnbc.com/2025/10/28/open-ai-for-profit-microsoft.html,2025-10-28,from_url,news,context,backfill
+SRC-336,microsoft copilot ai suleyman,CNBC,https://www.cnbc.com/2026/03/17/microsoft-copilot-ai-suleyman.html,2026-03-17,from_url,news,context,backfill
+SRC-337,mira murati 2026 changemaker,CNBC,https://www.cnbc.com/mira-murati-2026-changemaker,,unknown,news,context,backfill
+SRC-338,openai exec exits safety concerns,Cnn,https://www.cnn.com/2024/05/17/tech/openai-exec-exits-safety-concerns,2024-05-17,from_url,other,context,backfill
+SRC-339,Council of Europe,Council of Europe,https://www.coe.int/en/web/artificial-intelligence/-/armenia-signs-the-council-of-europe-s-framework-convention-on-artificial-intelligence-1,,unknown,official_gov,primary,backfill
+SRC-340,Council of Europe,Council of Europe,https://www.coe.int/en/web/artificial-intelligence/-/eu-parliament-backs-eu-conclusion-of-the-council-of-europe-framework-convention-on-artificial-intelligence,,unknown,official_gov,primary,backfill
+SRC-341,Council of Europe,Council of Europe,https://www.coe.int/en/web/artificial-intelligence/-/european-union-ratifies-the-council-of-europe-framework-convention-on-artificial-intelligence,,unknown,official_gov,primary,backfill
+SRC-342,Consilium,Council of the EU,https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules,2026-05-07,from_url,official_gov,primary,backfill
+SRC-343,Australia releases proposed mandatory guardrails for AI regulation - Corrs Chambers Westgarth,Com,https://www.corrs.com.au/insights/australia-releases-proposed-mandatory-guardrails-for-ai-regulation,,unknown,other,context,backfill
+SRC-344,Center for Strategic and International Studies,CSIS,https://www.csis.org/analysis/frances-ai-action-summit,,unknown,other,secondary,backfill
+SRC-345,Center for Strategic and International Studies,CSIS,https://www.csis.org/analysis/how-russia-building-sovereign-drone-ecosystem-ai-driven-autonomy,,unknown,other,secondary,backfill
+SRC-346,Shaping Global AI Governance: Enhancements and Next Steps for the G7 Hiroshima AI Process | CSIS,CSIS,https://www.csis.org/analysis/shaping-global-ai-governance-enhancements-and-next-steps-g7-hiroshima-ai-process,,unknown,other,secondary,backfill
+SRC-347,Kenya launches national AI strategy | Global Partnership for Sustainable Development Data,Data4Sdgs,https://www.data4sdgs.org/news/kenya-launches-national-ai-strategy,,unknown,other,context,backfill
+SRC-348,EU AI Act Timeline: Key Compliance Dates & Deadlines Explained,Dataguard,https://www.dataguard.com/eu-ai-act/timeline,,unknown,other,context,backfill
+SRC-349,DCDT - SA National AI Policy Framework - SA National AI Policy Framework,Dept Comms & Digital Tech (ZA),https://www.dcdt.gov.za/sa-national-ai-policy-framework/file/338-sa-national-ai-policy-framework.html,,unknown,official_gov,primary,backfill
+SRC-350,Brazil AI Regulation — Deep Lex,Deep Lex,https://www.deep-lex.com/ai-regulation-tracker/brazil,,unknown,other,context,backfill
+SRC-351,microsoft pays inflection ai 650 million hires most of its staff,Deeplearning,https://www.deeplearning.ai/the-batch/microsoft-pays-inflection-ai-650-million-hires-most-of-its-staff,,unknown,other,context,backfill
+SRC-352,Global Index on Responsible AI – Local Development,Developlocal,https://www.developlocal.org/girai-global-index,,unknown,other,context,backfill
+SRC-353,Davis Wright Tremaine,Dwt,https://www.dwt.com/blogs/employment-labor-and-benefits/2025/05/ai-hiring-age-discrimination-federal-court-workday,2025-05-01,from_url-month,other,context,backfill
+SRC-354,french sa fines clearview ai eur 20 million en,EDPB,https://www.edpb.europa.eu/news/national-news/2022/french-sa-fines-clearview-ai-eur-20-million_en,,unknown,official_gov,primary,backfill
+SRC-355,EdTech Innovation Hub,Edtechinnovationhub,https://www.edtechinnovationhub.com/news/anthropic-updates-responsible-scaling-policy-as-ai-risk-debate-shifts,,unknown,other,context,backfill
+SRC-356,eSecurity Planet,Esecurityplanet,https://www.esecurityplanet.com/artificial-intelligence/crowdstrike-finds-bias-triggers-that-weaken-deepseek-r1-code-safety,,unknown,other,context,backfill
+SRC-357,EU AI Act Implementation Timeline,Euaiact,https://www.euaiact.com/implementation-timeline,,unknown,other,context,backfill
+SRC-358,The Ethics of Artificial Intelligence: The Commitment of the Abrahamic Religions to the Rome Call,Fao,https://www.fao.org/agroinformatics/events/events-detail/the-ethics-of-artificial-intelligence-the-commitment-of-the-abrahamic-religions-to-the-rome-call/en,,unknown,other,context,backfill
+SRC-359,AI Ethics: An Abrahamic commitment to the Rome Call | E-Agriculture,Fao,https://www.fao.org/e-agriculture/news/ai-ethics-abrahamic-commitment-rome-call,,unknown,other,context,backfill
+SRC-360,AI Regulation Progress in South Africa - A Further Step in the Right Direction | Knowledge | Fasken,Fasken,https://www.fasken.com/en/knowledge/2026/03/ai-regulation-progress-in-south-africa-a-further-step-in-the-right-direction-2,2026-03-01,from_url-month,other,context,backfill
+SRC-361,Fast Company,Fastcompany,https://www.fastcompany.com/91069182/microsoft-inflection-ai-exclusive,,unknown,other,context,backfill
+SRC-362,The Race to Regulate Artificial Intelligence | Foreign Affairs,Foreignaffairs,https://www.foreignaffairs.com/united-states/race-regulate-artificial-intelligence-sam-altman-anu-bradford,,unknown,other,context,backfill
+SRC-363,race regulate artificial intelligence sam altman anu bradford,Foreignaffairs,https://www.foreignaffairs.com/united-states/race-regulate-artificial-intelligence-sam-altman-anu-bradfordhttps://www.foreignaffairs.com/united-states/race-regulate-artificial-intelligence-sam-altman-anu-bradford,,unknown,other,context,backfill
+SRC-364,Seoul Summit sees further developments in international governance of frontier AI | Freshfields,Freshfields,https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/seoul-summit-sees-further-developments-in-international-governance-of-frontier-ai-102j8cj,,unknown,other,context,backfill
+SRC-365,Introducing the FMF’s Technical Report Series on Frontier AI Frameworks - Frontier Model Forum,Frontiermodelforum,https://www.frontiermodelforum.org/updates/introducing-the-fmfs-technical-report-series-on-frontier-ai-safety-frameworks,,unknown,other,context,backfill
+SRC-366,Gibson Dunn,Gibsondunn,https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes,,unknown,law_firm_analysis,secondary,backfill
+SRC-367,The Global Index on Responsible AI,Global Index on Responsible AI,https://www.global-index.ai,,unknown,ngo_index,secondary,backfill
+SRC-368,"Igniting global action on responsible AI, with local evidence.",Global Index on Responsible AI,https://www.global-index.ai/data-visualization-challenge-2024,,unknown,ngo_index,secondary,backfill
+SRC-369,Join the Global Index on Responsible AI as a Country Researcher,Globalcenter,https://www.globalcenter.ai/news/join-the-global-index-on-responsible-ai-as-a-country-researcher,,unknown,other,context,backfill
+SRC-370,Project - Global Index on Responsible AI,Globalcenter,https://www.globalcenter.ai/projects/global-index-on-responsible-ai,,unknown,other,context,backfill
+SRC-371,Digital Empires: The Global Battle to Regulate Technology by Anu Bradford | Goodreads,Goodreads,https://www.goodreads.com/en/book/show/123993293-digital-empires,,unknown,other,context,backfill
+SRC-372,governor newsom signs sb 53 advancing californias world leading artificial intelligence in,Govt of California,https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry,2025-09-29,from_url,official_gov,primary,backfill
+SRC-373,news 19 09Google,Gov,https://www.gov.il/he/pages/news_19-09Google,,unknown,official_gov,primary,backfill
+SRC-374,the bletchley declaration by countries attending the ai safety summit 1 2 november 2023,UK Government,https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration/the-bletchley-declaration-by-countries-attending-the-ai-safety-summit-1-2-november-2023,,unknown,official_gov,primary,backfill
+SRC-375,frontier ai safety commitments ai seoul summit 2024,UK Government,https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024,,unknown,official_gov,primary,backfill
+SRC-376,how will regulators enable safe ai powered innovation joint letter from dsit secretary of ,UK Government,https://www.gov.uk/government/publications/how-will-regulators-enable-safe-ai-powered-innovation-joint-letter-from-dsit-secretary-of-state-and-dbt-secretary-of-state,,unknown,official_gov,primary,backfill
+SRC-377,Grant Thornton - The Federal Council wants to ratify the Council of Europe's AI Convention What challenges will the financial sector face?,Grantthornton,https://www.grantthornton.ch/en/insights/federal-council-ai-convention-finance-challenges,,unknown,law_firm_analysis,secondary,backfill
+SRC-378,Mexico’s New Personal Data Protection Law: Considerations for Businesses | Insights | Greenberg Traurig LLP,Gtlaw,https://www.gtlaw.com/en/insights/2025/3/nueva-ley-general-proteccion-de-datos,,unknown,other,context,backfill
+SRC-379,Holland & Knight,Hklaw,https://www.hklaw.com/en/insights/publications/2026/05/colorado-governor-signs-sb-189,2026-05-01,from_url-month,other,context,backfill
+SRC-380,Home Affairs submission: Introducing mandatory guardrails for AI in high-risk settings,Home Affairs (AU),https://www.homeaffairs.gov.au/reports-and-publications/submissions-and-discussion-papers/introducing-mandatory-guardrails-for-ai-in-high-risk-settings,,unknown,official_gov,primary,backfill
+SRC-381,Herbert Smith Freehills Kramer,Hsfkramer,https://www.hsfkramer.com/insights/reports/ai-tracker/indonesia,,unknown,other,context,backfill
+SRC-382,Hunton,Hunton,https://www.hunton.com/privacy-and-cybersecurity-law-blog/colorado-ai-act-amended-and-effective-date-delayed,,unknown,law_firm_analysis,secondary,backfill
+SRC-383,Hunton,Hunton,https://www.hunton.com/privacy-and-information-security-law/29-countries-reach-agreement-on-ai-risks-and-opportunities,,unknown,law_firm_analysis,secondary,backfill
+SRC-384,ICT Ministry Set To Launch The National Artificial Intelligence Strategy 2025-2030 | Ministry of ICT and the Digital Economy,Go,https://www.ict.go.ke/ict-ministry-set-launch-national-artificial-intelligence-strategy-2025-2030,,unknown,other,context,backfill
+SRC-385,SG launches Gen AI and AI Governance Playbook for Digital FOSS - Infocomm Media Development Authority,IMDA (SG),https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/factsheets/2024/gen-ai-and-digital-foss-ai-governance-playbook,,unknown,official_gov,primary,backfill
+SRC-386,Model AI Governance Framework 2024 - Press Release - Infocomm Media Development Authority,IMDA (SG),https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2024/public-consult-model-ai-governance-framework-genai,,unknown,official_gov,primary,backfill
+SRC-387,91271937,Inc,https://www.inc.com/ben-sherry/openai-co-founder-ilya-sutskever-safe-superintelligence-3-billion-no-product/91271937,,unknown,other,context,backfill
+SRC-388,AI Seoul Summit: 16 AI Companies Sign Frontier AI Safety Commitments - Infosecurity Magazine,Infosecurity Magazine,https://www.infosecurity-magazine.com/news/ai-seoul-summit-safety-commitments,,unknown,other,context,backfill
+SRC-389,Workday AI lawsuit receives the greenlight to proceed as a collective action | Inside Tech Law | Global law firm | Norton Rose Fulbright,Insidetechlaw,https://www.insidetechlaw.com/blog/2025/06/workday-ai-lawsuit-receives-the-greenlight-to-proceed-as-a-class-action,2025-06-01,from_url-month,other,context,backfill
+SRC-390,Timeline for SA’s national AI policy revealed | ITWeb,Co,https://www.itweb.co.za/article/timeline-for-sas-national-ai-policy-revealed/Pero3qZ3zEXvQb6m,,unknown,other,context,backfill
+SRC-391,Latest Posts › Artificial Intelligence,Jdsupra,https://www.jdsupra.com/authors/kristian-lee/artificial-intelligence,,unknown,other,context,backfill
+SRC-392,KaaShiv InfoTech,Kaashivinfotech,https://www.kaashivinfotech.com/blog/krutrim-explained-olas-bold-leap-into-ai-and-cloud-revolution-2025,,unknown,other,context,backfill
+SRC-393,"Three Laws, One Deadline: Chile's AI Reckoning Arrives in 2026",Kiteworks,https://www.kiteworks.com/cybersecurity-risk-management/chile-ai-laws-deadline-2026,,unknown,other,secondary,backfill
+SRC-394,The Korea Herald,Korea Herald,https://www.koreaherald.com/article/10011769,,unknown,news,context,backfill
+SRC-395,"New State AI Laws are Effective on January 1, 2026, But a New Executive Order Signals Disruption - King & Spalding",Kslaw,https://www.kslaw.com/news-and-insights/new-state-ai-laws-are-effective-on-january-1-2026-but-a-new-executive-order-signals-disruption,,unknown,other,context,backfill
+SRC-396,gov gavin newsom vetoes ai safety bill scott wiener sb1047,Latimes,https://www.latimes.com/entertainment-arts/business/story/2024-09-29/gov-gavin-newsom-vetoes-ai-safety-bill-scott-wiener-sb1047,2024-09-29,from_url,other,context,backfill
+SRC-397,Digital Empires: Inside the Global Battle to Regulate Technology With Anu Bradford,Columbia,https://www.law.columbia.edu/news/archive/digital-empires-inside-global-battle-regulate-technology-anu-bradford,,unknown,other,context,backfill
+SRC-398,AI Bias Lawsuit Against Workday Reaches Next Stage as Court Grants Conditional Certification of ADEA Claim | Law and the Workplace,Lawandtheworkplace,https://www.lawandtheworkplace.com/2025/06/ai-bias-lawsuit-against-workday-reaches-next-stage-as-court-grants-conditional-certification-of-adea-claim,2025-06-01,from_url-month,other,context,backfill
+SRC-399,1 000 ai bills,Lawfare,https://www.lawfaremedia.org/article/1-000-ai-bills,,unknown,news,context,backfill
+SRC-400,Lawfare,Lawfare,https://www.lawfaremedia.org/article/china-s-ai-governance-ambitions-and-their-implications-for-free-expression,,unknown,news,context,backfill
+SRC-401,Lawfare,Lawfare,https://www.lawfaremedia.org/article/trump-signs-executive-order-to-preempt-state-ai-laws,,unknown,news,context,backfill
+SRC-402,Switzerland outlines regulatory approach to Artificial Intelligence,Lenzstaehelin,https://www.lenzstaehelin.com/news-and-insights/browse-thought-leadership-insights/insights-detail/switzerland-outlines-regulatory-approach-to-artificial-intelligence,,unknown,other,context,backfill
+SRC-403,Leonardi Advogados,Adv,https://www.leonardi.adv.br/en/insights/updates-on-the-artificial-intelligence-bill-pl-2338-2023,,unknown,other,context,backfill
+SRC-404,Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=0dd6d0ef-6097-4f6a-b193-4bb784a6e8a6,,unknown,other,secondary,backfill
+SRC-405,Brazilian Bill regulating the use of Artificial Intelligence is approved by Senate and goes to the Chamber of Deputies - Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=177c9cd7-b6ca-44df-94ee-7bb57616878b,,unknown,other,secondary,backfill
+SRC-406,AI in UAE: The Legal Blueprint That's Reshaping Tech Compliance in 2025 - Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=372eb31c-08f4-4a17-b62c-d8f173c1edc0,,unknown,other,secondary,backfill
+SRC-407,Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=8aa2bef7-454c-414e-9ddf-a697cb5687b1,,unknown,other,secondary,backfill
+SRC-408,Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=9d9e367c-fd9f-4e98-8df6-9958ea12a9a9,,unknown,other,secondary,backfill
+SRC-409,Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=ba06756e-4cad-4ce6-b4c6-ea880deb788c,,unknown,other,secondary,backfill
+SRC-410,Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=c56f0acb-1fff-4929-9765-1f40c9aa358a,,unknown,other,secondary,backfill
+SRC-411,Vietnam: Artificial Intelligence Law - Foundation and Outlook - Lexology,Lexology,https://www.lexology.com/library/detail.aspx?g=df2a5746-7e7f-477c-bef0-75b9cd01c423,,unknown,other,secondary,backfill
+SRC-412,OpenAI Preparedness Framework 2025: What It Actually Guarantees About AI Safety,Libertify,https://www.libertify.com/interactive-library/openai-preparedness-framework-2025-safety-analysis,,unknown,other,context,backfill
+SRC-413,netherlands face recognition company clearview ai fined for violating eus general data pro,Library of Congress,https://www.loc.gov/item/global-legal-monitor/2024-10-16/netherlands-face-recognition-company-clearview-ai-fined-for-violating-eus-general-data-protection-regulation,2024-10-16,from_url,official_gov,primary,backfill
+SRC-414,brazil senate advances discussions on bill to regulate ai use,Library of Congress,https://www.loc.gov/item/global-legal-monitor/2025-05-23/brazil-senate-advances-discussions-on-bill-to-regulate-ai-use,2025-05-23,from_url,official_gov,primary,backfill
+SRC-415,south korea comprehensive ai legal framework takes effect,Library of Congress,https://www.loc.gov/item/global-legal-monitor/2026-02-20/south-korea-comprehensive-ai-legal-framework-takes-effect,2026-02-20,from_url,official_gov,primary,backfill
+SRC-416,Frontier AI Labs (Overview) | Longterm Wiki,Longtermwiki,https://www.longtermwiki.com/wiki/E820,,unknown,other,context,backfill
+SRC-417,AI in the UAE: Understanding the Regulatory Landscape and Key Authorities,Latham & Watkins,https://www.lw.com/en/insights/ai-in-the-uae-understanding-the-regulatory-landscape-and-key-authorities,,unknown,law_firm_analysis,secondary,backfill
+SRC-418,Latham & Watkins,Latham & Watkins,https://www.lw.com/en/insights/eu-ai-act-gpai-model-obligations-in-force-and-final-gpai-code-of-practice-in-place,,unknown,law_firm_analysis,secondary,backfill
+SRC-419,"Emerging Liability for AI-Driven Hiring Tools: Key Developments in Mobley v. Workday, Inc.",Maynardnexsen,https://www.maynardnexsen.com/publication-emerging-liability-for-ai-driven-hiring-tools-key-developments-in-mobley-v-workday-inc,,unknown,other,context,backfill
+SRC-420,McInnes Cooper,Mcinnescooper,https://www.mcinnescooper.com/publications/the-demise-of-the-artificial-intelligence-and-data-act-aida-5-key-lessons,,unknown,law_firm_analysis,secondary,backfill
+SRC-421,"India to Regulate AI Under DPDPA, IP Laws, No Standalone AI Law",MediaNama,https://www.medianama.com/2025/12/223-india-ai-law-digital-india-act-stalled,2025-12-01,from_url-month,news,context,backfill
+SRC-422,MEDIANAMA,MediaNama,https://www.medianama.com/2026/05/223-krutrim-ai-cloud-chip-ai-model-work,2026-05-01,from_url-month,news,context,backfill
+SRC-423,South African AI Policy | Guidance and overview - Michalsons,Michalsons,https://www.michalsons.com/focus-areas/artificial-intelligence-law/south-african-ai-policy-guidance-and-overview,,unknown,other,context,backfill
+SRC-424,Morrison Foerster,Mofo,https://www.mofo.com/resources/insights/251201-eu-digital-omnibus,,unknown,law_firm_analysis,secondary,backfill
+SRC-425,Singapore Expands Its AI Governance Approach to Include Generative AI,Morganlewis,https://www.morganlewis.com/pubs/2024/07/singapore-expands-its-ai-governance-approach-to-include-generative-ai,2024-07-01,from_url-month,other,context,backfill
+SRC-426,NBC News,Nbcnews,https://www.nbcnews.com/tech/tech-news/openai-restructuring-company-structure-chatgpt-invest-own-rcna240138,,unknown,other,context,backfill
+SRC-427,Perspective: Global Index on Responsible AI Report,Novacompli,https://www.novacompli.ai/post/perspective-global-index-on-responsible-ai-report,,unknown,other,context,backfill
+SRC-428,The Complete Guide to Using AI in the Government Industry in Israel in 2025,Nucamp,https://www.nucamp.co/blog/coding-bootcamp-israel-isr-government-the-complete-guide-to-using-ai-in-the-government-industry-in-israel-in-2025,,unknown,other,context,backfill
+SRC-429,G7 HIROSHIMA PROCESS ON GENERATIVE ARTIFICIAL INTELLIGENCE (AI),Oecd,https://www.oecd.org/content/dam/oecd/en/publications/reports/2023/09/g7-hiroshima-process-on-generative-artificial-intelligence-ai_8d19e746/bf3c0c60-en.pdf,2023-09-01,from_url-month,other,context,backfill
+SRC-430,OECD launches pilot to monitor application of G7 code of conduct on advanced AI development | OECD,Oecd,https://www.oecd.org/en/about/news/press-releases/2024/07/oecd-launches-pilot-to-monitor-application-of-g7-code-of-conduct-on-advanced-ai-development.html,2024-07-01,from_url-month,other,context,backfill
+SRC-431,UNESCO Recommendation on the Ethics of Artificial ...,Ohchr,https://www.ohchr.org/sites/default/files/2022-03/UNESCO.pdf,2022-03-01,from_url-month,other,context,backfill
+SRC-432,Vietnam AI Law Explained: What the New Rules Mean for AI Development and Deployment | Blog | OneTrust,Onetrust,https://www.onetrust.com/blog/vietnam-ai-law-explained-what-the-new-rules-mean-for-ai-development-and-deployment,,unknown,other,context,backfill
+SRC-433,5 Things to Know About Trump’s AI Executive Order,Orrick,https://www.orrick.com/en/Insights/2025/12/5-Things-to-Know-About-Trumps-AI-Executive-Order,2025-12-01,from_url-month,law_firm_analysis,secondary,backfill
+SRC-434,New York State Comptroller,NY State Comptroller,https://www.osc.ny.gov/state-agencies/audits/2025/12/02/enforcement-local-law-144-automated-employment-decision-tools,2025-12-02,from_url,official_gov,primary,backfill
+SRC-435,President Trump Signs Executive Order Challenging State AI Laws | Paul Hastings LLP,Paul Hastings,https://www.paulhastings.com/insights/client-alerts/president-trump-signs-executive-order-challenging-state-ai-laws,,unknown,law_firm_analysis,secondary,backfill
+SRC-436,PressReleasePage.aspx,Press Info Bureau (IN),https://www.pib.gov.in/PressReleasePage.aspx?PRID=2186639,,unknown,official_gov,primary,backfill
+SRC-437,Singapore Publishes Generative AI Model Governance Framework | Privacy World,Privacyworld,https://www.privacyworld.blog/2024/05/singapore-publishes-generative-ai-model-governance-framework,2024-05-01,from_url-month,other,context,backfill
+SRC-438,PR Newswire,Prnewswire,https://www.prnewswire.com/news-releases/humain-expands-strategic-partnership-with-nvidia-advancing-global-ai-infrastructure-with-xai-global-ai-and-aws-at-the-us-saudi-investment-forum-302620854.html,,unknown,other,context,backfill
+SRC-439,Artificial Intelligence | Principal Scientific Adviser,PSA (IN),https://www.psa.gov.in/ai-mission-initiatives,,unknown,official_gov,primary,backfill
+SRC-440,Recorded Future,Recordedfuture,https://www.recordedfuture.com/research/irans-ai-ambitions-balancing-economic-isolation-national-security-imperatives,,unknown,other,context,backfill
+SRC-441,Recording Law,Recordinglaw,https://www.recordinglaw.com/world-laws/world-data-privacy-laws/mexico-data-privacy-laws,,unknown,other,context,backfill
+SRC-442,Ideal Organization versus Policy-Practice Decoupling. | Download Scientific Diagram,ResearchGate,https://www.researchgate.net/figure/deal-Organization-versus-Policy-Practice-Decoupling_fig1_325000542,,unknown,other,secondary,backfill
+SRC-443,(PDF) From Policy-Practice to Means-Ends Decoupling in Organisations: A Systematic Review and Paths for Future Research,ResearchGate,https://www.researchgate.net/publication/358608039_From_Policy-Practice_to_Means-Ends_Decoupling_in_Organisations_A_Systematic_Review_and_Paths_for_Future_Research,,unknown,other,secondary,backfill
+SRC-444,ResearchGate,ResearchGate,https://www.researchgate.net/publication/395351492_Nigeria's_National_AI_Strategy_2024_Overlooked_Critical_Challenges_and_Strategic_Paths_Forward,,unknown,other,secondary,backfill
+SRC-445,ResearchGate,ResearchGate,https://www.researchgate.net/publication/398601777_The_2025_Foundation_Model_Transparency_Index,,unknown,other,secondary,backfill
+SRC-446,RMOK Legal,Rmoklegal,https://www.rmoklegal.com/news/news/kings-speech-2026-cyber-ai-digital-id-tech-law,,unknown,other,context,backfill
+SRC-447,Rome Call | What is the Matter with AI Ethics?,Rome Call,https://www.romecall.org,,unknown,official_gov,primary,backfill
+SRC-448,AI Ethics: An Abrahamic commitment to the Rome Call | Rome Call,Rome Call,https://www.romecall.org/ai-ethics-an-abrahamic-commitment-to-the-rome-call-2,,unknown,official_gov,primary,backfill
+SRC-449,AI Ethics for Peace: World Religions commit to the Rome Call | Rome Call,Rome Call,https://www.romecall.org/ai-ethics-for-peace-world-religions-commit-to-the-rome-call,,unknown,official_gov,primary,backfill
+SRC-450,Decoding the India AI Governance Guidelines - Saikrishna & AssociatesSaikrishna & Associates,Saikrishnaassociates,https://www.saikrishnaassociates.com/decoding-the-india-ai-governance-guidelines,,unknown,law_firm_analysis,secondary,backfill
+SRC-451,SAMENA Daily News,Samenacouncil,https://www.samenacouncil.org/samena_daily_news?news=108917,,unknown,other,context,backfill
+SRC-452,"New laws on Transparency, Access to Public Information, and Personal Data Protection have come into force in Mexico. - Santamarina + Steta",Santamarinasteta,https://www.santamarinasteta.mx/en/publicaciones-y-eventos/updates/entraron-en-vigor-en-mexico-las-nuevas-leyes-en-materia-de-transparencia-acceso-a-la-informacion-publica-y-proteccion-de-datos-personales,,unknown,other,context,backfill
+SRC-453,artificial intelligence in the eri sector,SBFI (CH),https://www.sbfi.admin.ch/en/artificial-intelligence-in-the-eri-sector,,unknown,official_gov,primary,backfill
+SRC-454,MeitY launches India's AI Governance Guidance with 'Do No Harm' principle at core,Scconline,https://www.scconline.com/blog/post/2025/11/06/meity-launches-india-ai-governance-guidelines-under-indiaai-mission-2025,2025-11-06,from_url,other,context,backfill
+SRC-455,Institutional means-ends decoupling work in industrial R&D project implementation - ScienceDirect,Sciencedirect,https://www.sciencedirect.com/science/article/abs/pii/S0019850117308313,,unknown,other,context,backfill
+SRC-456,Shedding lights on organizational decoupling in publicly funded R&D consortia: An institutional perspective on open innovation - ScienceDirect,Sciencedirect,https://www.sciencedirect.com/science/article/abs/pii/S0040162521008647,,unknown,other,context,backfill
+SRC-457,Mobley v. Workday: Court Holds AI Service Providers Could Be Directly Liable for Employment Discrimination Under “Agent” Theory | Seyfarth Shaw LLP,Seyfarth,https://www.seyfarth.com/news-insights/mobley-v-workday-court-holds-ai-service-providers-could-be-directly-liable-for-employment-discrimination-under-agent-theory.html,,unknown,other,context,backfill
+SRC-458,PL 2338/2023: the impacts of regulating Artificial Intelligence in Brazil,Org,https://www.sidi.org.br/en/blog/the-impacts-of-regulating-artificial-intelligence-in-brazil,,unknown,other,context,backfill
+SRC-459,New Pathway of Regulating Artificial Intelligence in Switzerland: Competitive Edge or Challenge? | Insights | Sidley Austin LLP,Sidley,https://www.sidley.com/en/insights/publications/2025/03/new-pathway-of-regulating-artificial-intelligence-in-switzerland-competitive-edge-or-challenge,2025-03-01,from_url-month,other,context,backfill
+SRC-460,"EU’s General-Purpose AI Obligations Are Now in Force, With New Guidance | Skadden, Arps, Slate, Meagher & Flom LLP",Skadden,https://www.skadden.com/insights/publications/2025/08/eus-general-purpose-ai-obligations,2025-08-01,from_url-month,law_firm_analysis,secondary,backfill
+SRC-461,Skadden,Skadden,https://www.skadden.com/insights/publications/executive-briefing/ai-broad-biden-order-is-withdrawn,,unknown,law_firm_analysis,secondary,backfill
+SRC-462,SoftwareSeni,Softwareseni,https://www.softwareseni.com/why-australia-abandoned-mandatory-ai-guardrails-for-technology-neutral-regulation-and-what-it-means,,unknown,other,secondary,backfill
+SRC-463,The UNESCO Recommendation on the Ethics of Artificial Intelligence - Soroptimist International,Soroptimistinternational,https://www.soroptimistinternational.org/2024/07/18/the-unesco-recommendation-on-the-ethics-of-artificial-intelligence,2024-07-18,from_url,other,context,backfill
+SRC-464,Australia | AI governance reform moves forward with Voluntary AI Safety Standard & Mandatory Guardrails for High-risk Settings consultation - Spruson & Ferguson,Spruson,https://www.spruson.com/australia-ai-governance-reform-moves-forward-with-voluntary-ai-safety-standard-mandatory-guardrails-for-high-risk-settings-consultation,,unknown,other,context,backfill
+SRC-465,Taipei Times,Taipeitimes,https://www.taipeitimes.com/News/front/archives/2025/11/18/2003847384,2025-11-18,from_url,other,context,backfill
+SRC-466,Digital Empires: A Conversation with Anu Bradford | TechPolicy.Press,Tech Policy Press,https://www.techpolicy.press/digital-empires-a-conversation-with-anu-bradford,,unknown,news,context,backfill
+SRC-467,Tech Policy Press,Tech Policy Press,https://www.techpolicy.press/taiwans-ai-basic-act-can-be-a-model-for-asia,,unknown,news,context,backfill
+SRC-468,Vietnam’s New AI Law Balances Innovation Push With Tight State Control | TechPolicy.Press,Tech Policy Press,https://www.techpolicy.press/vietnams-new-ai-law-balances-innovation-push-with-tight-state-control,,unknown,news,context,backfill
+SRC-469,The Moscow Times,Themoscowtimes,https://www.themoscowtimes.com/2024/04/05/russias-emigre-tech-workers-eye-jobs-at-western-firms-as-moscow-clamps-down-on-working-abroad-a84749,2024-04-05,from_url,other,context,backfill
+SRC-470,A Closer Look at Vietnam’s New AI Law: What It Means for AI Businesses - Tilleke & Gibbins,Tilleke,https://www.tilleke.com/insights/a-closer-look-at-vietnams-new-ai-law-what-it-means-for-ai-businesses/30,,unknown,other,context,backfill
+SRC-471,Market Intelligence,US Dept of Commerce,https://www.trade.gov/market-intelligence/south-africa-information-technology-country-launches-draft-national-ai-strategy,,unknown,official_gov,primary,backfill
+SRC-472,Transparency International,Transparency,https://www.transparency.org/en/cpi/2025,,unknown,other,context,backfill
+SRC-473,Privacy + Cyber + AI,Troutmanprivacy,https://www.troutmanprivacy.com/2026/05/colorado-legislature-passes-bill-to-repeal-and-replace-colorado-ai-act,2026-05-01,from_url-month,other,context,backfill
+SRC-474,Turing Post,Turingpost,https://www.turingpost.com/p/russiaai2023,,unknown,other,context,backfill
+SRC-475,AI Regulatory Horizon Tracker - United Arab Emirates - Bird & Bird,Bird & Bird,https://www.twobirds.com/en/capabilities/artificial-intelligence/ai-legal-services/ai-regulatory-horizon-tracker/uae,,unknown,law_firm_analysis,secondary,backfill
+SRC-476,Bird & Bird,Bird & Bird,https://www.twobirds.com/en/insights/2026/ai-in-the-kings-speech-2026-regulating-for-growth-bill-announced,,unknown,law_firm_analysis,secondary,backfill
+SRC-477,Bird & Bird,Bird & Bird,https://www.twobirds.com/en/insights/2026/china/china-tmt-bi-monthly-update---january-and-february-2026-issue,,unknown,law_firm_analysis,secondary,backfill
+SRC-478,UAE Preferred,Uaepreferred,https://www.uaepreferred.com/ai-story,,unknown,other,context,backfill
+SRC-479,UCL Constitution Unit,Ac,https://www.ucl.ac.uk/constitution-unit/research/research-archive/constitutions-and-constitution-making-archive/comparing-constitutions,,unknown,other,context,backfill
+SRC-480,Artificial Intelligence: UNESCO calls on all Governments to implement,UNESCO,https://www.unesco.org/en/articles/artificial-intelligence-unesco-calls-all-governments-implement-global-ethical-framework-without,,unknown,official_gov,primary,backfill
+SRC-481,Recommendation on the Ethics of Artificial Intelligence | UNESCO,UNESCO,https://www.unesco.org/en/articles/recommendation-ethics-artificial-intelligence,,unknown,official_gov,primary,backfill
+SRC-482,supporting rwandas bold steps towards responsible and ethical ai,UNESCO,https://www.unesco.org/en/articles/supporting-rwandas-bold-steps-towards-responsible-and-ethical-ai,,unknown,official_gov,primary,backfill
+SRC-483,UNESCO member states adopt the first ever global agreement on the,UNESCO,https://www.unesco.org/en/articles/unesco-member-states-adopt-first-ever-global-agreement-ethics-artificial-intelligence,,unknown,official_gov,primary,backfill
+SRC-484,Supporting Member States in implementing UNESCO's Recommendation on,UNESCO,https://www.unesco.org/en/node/195566,,unknown,official_gov,primary,backfill
+SRC-485,Global AI Ethics and Governance Observatory | Global AI Ethics and Governance Observatory,UNESCO,https://www.unesco.org/ethics-ai/en,,unknown,official_gov,primary,backfill
+SRC-486,southafrica,UNESCO,https://www.unesco.org/ethics-ai/en/southafrica,,unknown,official_gov,primary,backfill
+SRC-487,What the Rome Call for AI Ethics Actually Says — Vatican City AI,Vaticancityai,https://www.vaticancityai.com/rome-call-for-ai-ethics,,unknown,other,context,backfill
+SRC-488,World Religions to commit to Rome Call on AI in Hiroshima - Vatican News,Vaticannews,https://www.vaticannews.va/en/vatican-city/news/2024-07/world-religions-to-commit-to-rome-call-on-ai-in-hiroshima.html,2024-07-01,from_url-month,other,context,backfill
+SRC-489,Verdent AI,Verdent,https://www.verdent.ai/guides/what-is-kimi-k2-6,,unknown,other,context,backfill
+SRC-490,Vietnam AI Law: Regulatory Milestone and Business Implications,Vietnam Briefing,https://www.vietnam-briefing.com/news/vietnams-ai-law-regulatory-milestone-business-implications.html,,unknown,other,context,backfill
+SRC-491,White & Case LLP,White & Case,https://www.whitecase.com/insight-alert/japans-first-ai-legislation-becomes-law-focus-promoting-research-and-development-no,,unknown,law_firm_analysis,secondary,backfill
+SRC-492,Mexico enacts new data protection regime | White & Case LLP,White & Case,https://www.whitecase.com/insight-alert/mexico-enacts-new-data-protection-regime,,unknown,law_firm_analysis,secondary,backfill
+SRC-493,State AI laws under federal scrutiny: Key takeaways from the executive order establishing federal AI policy framework | White & Case LLP,White & Case,https://www.whitecase.com/insight-alert/state-ai-laws-under-federal-scrutiny-key-takeaways-executive-order-establishing,,unknown,law_firm_analysis,secondary,backfill
+SRC-494,White & Case LLP,White & Case,https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-china,,unknown,law_firm_analysis,secondary,backfill
+SRC-495,AI Watch: Global regulatory tracker - Israel | White & Case LLP,White & Case,https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-israel,,unknown,law_firm_analysis,secondary,backfill
+SRC-496,AI Watch: Global regulatory tracker - Kenya | White & Case LLP,White & Case,https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-kenya,,unknown,law_firm_analysis,secondary,backfill
+SRC-497,AI Watch: Global regulatory tracker - Switzerland | White & Case LLP,White & Case,https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-switzerland,,unknown,law_firm_analysis,secondary,backfill
+SRC-498,White House,The White House,https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy,2025-12-01,from_url-month,official_gov,primary,backfill
+SRC-499,Workforcebulletin,Workforcebulletin,https://www.workforcebulletin.com/ai-under-the-spotlight-key-insights-ahead-of-the-white-house-action-plan,,unknown,other,secondary,backfill
+SRC-500,Workforcebulletin,Workforcebulletin,https://www.workforcebulletin.com/president-trumps-artificial-intelligence-ai-action-plan-takes-shape-as-nsf-ostp-seek-comments,,unknown,other,secondary,backfill
+SRC-501,xAI,X,https://x.ai/documents/2025.02.20-RMF-Draft.pdf,,unknown,other,context,backfill
