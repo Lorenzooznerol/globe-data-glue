@@ -48,7 +48,16 @@ function AtlasPage() {
   const mode = useAtlasStore((s) => s.mode);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
+  const setUserStance = useAtlasStore((s) => s.setUserStance);
   const playMigrations = useAtlasStore((s) => s.playMigrations);
+  const { stance } = Route.useSearch();
+  const { data: store, isLoading, error } = useDataStore();
+
+  // TODO: surface stance in Atlas UI ("see where you are" vs. each country).
+  useEffect(() => {
+    if (stance) setUserStance(stance);
+  }, [stance, setUserStance]);
+
   const { data: store, isLoading, error } = useDataStore();
   const [mounted, setMounted] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
