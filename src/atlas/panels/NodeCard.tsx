@@ -13,6 +13,7 @@ import { Term, TermScope } from "./Term";
 import { GlossaryPanel } from "./GlossaryPanel";
 import { GiraiSnapshot } from "./GiraiSnapshot";
 import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
+import { TrajectorySection } from "./TrajectorySection";
 
 interface Props {
   store: DataStore;
@@ -228,6 +229,7 @@ function ShortLevel({
             Not scored by GIRAI.
           </p>
         )}
+        <TrajectorySection store={store} node={node} />
       </div>
     </TermScope>
   );

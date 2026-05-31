@@ -9,6 +9,9 @@ import { NodeCard } from "@/atlas/panels/NodeCard";
 import { GiraiOnlyCard } from "@/atlas/panels/GiraiOnlyCard";
 import { SideIndex } from "@/atlas/panels/SideIndex";
 import { SearchCommand } from "@/atlas/panels/SearchCommand";
+import { ModeSwitch } from "@/atlas/panels/ModeSwitch";
+import { TrajectoryLegend } from "@/atlas/panels/TrajectoryLegend";
+import { TrajectoryPanel } from "@/atlas/panels/TrajectoryPanel";
 import { useAtlasStore } from "@/atlas/store";
 
 export const Route = createFileRoute("/")({
