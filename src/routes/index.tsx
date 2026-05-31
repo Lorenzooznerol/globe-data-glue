@@ -95,7 +95,10 @@ function AtlasPage() {
       {/* Top-left: mode switch + legends + filters + index */}
       <div className="pointer-events-none absolute left-4 top-4 z-20 flex w-[240px] flex-col gap-3">
         <div className="pointer-events-auto flex flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
-          <ModeSwitch />
+          <div className="flex items-center gap-2">
+            <div className="flex-1"><ModeSwitch /></div>
+            <ThemeToggle />
+          </div>
           <Legend />
           {mode !== "trajectory" && (
             <>
