@@ -89,6 +89,13 @@
   --morph-m5: #7a7a7a;
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
+
+  /* Encounter (entry experience) — light mode */
+  --encounter-bg: #f6f5f1;
+  --encounter-ink: #16161a;
+  --encounter-ink-faint: rgba(22, 22, 26, 0.42);
+  --encounter-rule: rgba(22, 22, 26, 0.7);
+  --encounter-vignette: rgba(120, 120, 120, 0.22);
 }
 
 .dark {
@@ -129,6 +136,19 @@
   --morph-m5: #7a7a7a; /* opacity */
   --morph-m6: #a98a52; /* revocable self-binding */
   --morph-m7: #6b7385; /* aligned-nascent */
+
+  /* Encounter — dark mode */
+  --encounter-bg: #050507;
+  --encounter-ink: #ece9e2;
+  --encounter-ink-faint: rgba(236, 233, 226, 0.42);
+  --encounter-rule: rgba(236, 233, 226, 0.7);
+  --encounter-vignette: rgba(0, 0, 0, 0.6);
+}
+
+/* Encounter — keyframe used to fade in the pinned nickname after the gate. */
+@keyframes encounter-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @layer base {
