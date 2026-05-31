@@ -34,7 +34,7 @@ async function fetchCsv<T>(url: string): Promise<T[]> {
   if (parsed.errors.length) {
     console.warn(`[csv:${url}] parse warnings`, parsed.errors.slice(0, 3));
   }
-  return parsed.data.filter((r) => Object.keys(r).length > 0);
+  return parsed.data.filter((r) => r && Object.keys(r as object).length > 0);
 }
 
 const splitIds = (v: unknown): string[] =>
