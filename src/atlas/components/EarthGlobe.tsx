@@ -85,6 +85,13 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     controls.maxDistance = 600;
     controls.autoRotateSpeed = 0.3;
     g.pointOfView({ altitude: 2.4 }, 0);
+    try {
+      const renderer = g.renderer();
+      const pr = typeof window === "undefined" ? 1 : Math.min(2, window.devicePixelRatio || 1);
+      renderer.setPixelRatio(pr);
+    } catch {
+      /* ignore */
+    }
   }, []);
 
   const resolved = useMemo<Resolved[]>(() => {
