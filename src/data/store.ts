@@ -1,13 +1,17 @@
 import { loadAll, type RawTables } from "./loader";
 import type {
   Claim,
+  GlossaryTerm,
   LegitimacyEdge,
   Marker,
   MorphologyTimeIndexed,
   NodeBanded,
+  NodeDocumentGroups,
+  NodeReadable,
   NodeVision,
   Prediction,
   Source,
+  SourceV2,
 } from "./types";
 
 export interface DataStore {
@@ -21,6 +25,12 @@ export interface DataStore {
   claimsById: Map<string, Claim>;
   sourcesById: Map<string, Source>;
 
+  // Readable layer
+  readableById: Map<string, NodeReadable>;
+  glossaryByTerm: Map<string, GlossaryTerm>; // lowercased key
+  glossaryList: GlossaryTerm[]; // alphabetized
+  sourcesV2ById: Map<string, SourceV2>;
+
   getNode: (id: string) => NodeBanded | NodeVision | undefined;
   getSources: (ids: string[]) => Source[];
   claimsForNode: (id: string) => Claim[];
@@ -29,8 +39,9 @@ export interface DataStore {
   edgesTo: (id: string) => LegitimacyEdge[];
   morphologyHistory: (nodeId: string) => MorphologyTimeIndexed[];
   markerFor: (morphologyCode: string) => Marker | undefined;
-  /** Deduped union of sources from a node's claims + morphology_timeindexed rows. */
   documentsForNode: (nodeId: string) => Source[];
+  /** New: node_sources joined to sources_v2, grouped by tier, sorted by pub_date desc. */
+  documentGroupsForNode: (nodeId: string) => NodeDocumentGroups;
 
   warnings: string[];
 }
@@ -53,6 +64,16 @@ export function buildStore(raw: RawTables): DataStore {
   const predictionsById = indexBy(raw.predictions, (r) => r.pred_id);
   const claimsById = indexBy(raw.claims, (r) => r.claim_id);
   const sourcesById = indexBy(raw.sources, (r) => r.source_id);
+
+  const readableById = indexBy(raw.nodesReadable, (r) => r.node_id);
+  const sourcesV2ById = indexBy(raw.sourcesV2, (r) => r.source_id);
+  const glossaryByTerm = new Map<string, GlossaryTerm>();
+  for (const g of raw.glossary) {
+    if (g.term) glossaryByTerm.set(g.term.toLowerCase(), g);
+  }
+  const glossaryList = [...raw.glossary]
+    .filter((g) => g.term)
+    .sort((a, b) => a.term.localeCompare(b.term));
 
   const knownNodeIds = new Set<string>([...nodesBandedById.keys(), ...nodesVisionById.keys()]);
   const knownSourceIds = new Set<string>(sourcesById.keys());
@@ -101,9 +122,36 @@ export function buildStore(raw: RawTables): DataStore {
       const s = sourcesById.get(id);
       if (s) out.push(s);
     }
-    // Newest first.
     out.sort((a, b) => (b.pub_date ?? "").localeCompare(a.pub_date ?? ""));
     return out;
+  };
+
+  const documentGroupsForNode = (nodeId: string): NodeDocumentGroups => {
+    const seen = new Set<string>();
+    const buckets: NodeDocumentGroups = { primary: [], secondary: [], context: [] };
+    for (const link of raw.nodeSources) {
+      if (link.node_id !== nodeId) continue;
+      if (seen.has(link.source_id)) continue;
+      const src = sourcesV2ById.get(link.source_id);
+      if (!src) continue;
+      seen.add(link.source_id);
+      const tier = (src.tier || "context").toLowerCase();
+      if (tier === "primary") buckets.primary.push(src);
+      else if (tier === "secondary") buckets.secondary.push(src);
+      else buckets.context.push(src);
+    }
+    const byDateDesc = (a: SourceV2, b: SourceV2) => {
+      const ad = a.pub_date || "";
+      const bd = b.pub_date || "";
+      if (!ad && !bd) return 0;
+      if (!ad) return 1; // empty last
+      if (!bd) return -1;
+      return bd.localeCompare(ad);
+    };
+    buckets.primary.sort(byDateDesc);
+    buckets.secondary.sort(byDateDesc);
+    buckets.context.sort(byDateDesc);
+    return buckets;
   };
 
   return {
@@ -116,6 +164,10 @@ export function buildStore(raw: RawTables): DataStore {
     predictionsById,
     claimsById,
     sourcesById,
+    readableById,
+    glossaryByTerm,
+    glossaryList,
+    sourcesV2ById,
     getNode: (id) => nodesBandedById.get(id) ?? nodesVisionById.get(id),
     getSources: (ids) => ids.map((i) => sourcesById.get(i)).filter((s): s is Source => !!s),
     claimsForNode: (id) =>
@@ -133,6 +185,7 @@ export function buildStore(raw: RawTables): DataStore {
         .sort((a, b) => a.as_of.localeCompare(b.as_of)),
     markerFor: (code) => markersByMorphology.get(code),
     documentsForNode,
+    documentGroupsForNode,
     warnings,
   };
 }

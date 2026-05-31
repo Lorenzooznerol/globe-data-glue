@@ -93,3 +93,46 @@ export interface Source {
   url_status: string;
   date_status: string;
 }
+
+// === Readable layer (new) ===
+
+export interface NodeReadable {
+  node_id: string;
+  name: string;
+  layer: string;
+  headline: string;
+  summary: string;
+  morphology_plain: string;
+  paper_plain: string;
+  reality_plain: string;
+}
+
+export interface GlossaryTerm {
+  term: string;
+  plain_definition: string;
+}
+
+export interface SourceV2 {
+  source_id: string;
+  title: string;
+  publisher: string;
+  url: string;
+  pub_date: string;
+  date_status: string;
+  source_type: string;
+  tier: string; // primary | secondary | context
+  origin: string;
+}
+
+export interface NodeSourceLink {
+  node_id: string;
+  source_id: string;
+  node_confidence: string;
+  match_basis: string;
+}
+
+export interface NodeDocumentGroups {
+  primary: SourceV2[];
+  secondary: SourceV2[];
+  context: SourceV2[];
+}

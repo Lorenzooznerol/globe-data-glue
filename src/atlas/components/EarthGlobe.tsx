@@ -8,6 +8,8 @@ import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorFor, evidenceOpacity, splitMorphology } from "@/atlas/morphology";
 import { plainHeadline } from "@/atlas/plainLanguage";
+// Hover label prefers the plain `headline` from nodes_readable; falls back to
+// the morphology headline. Codes never appear in the tooltip.
 
 // Lazy-load react-globe.gl: it touches `window` at import time and would
 // crash SSR otherwise. EarthGlobe itself is only mounted client-side by the
@@ -153,7 +155,8 @@ export function EarthGlobe({ store, width, height }: Props) {
     if (!r.node) return "";
     const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
     const subtitle = isEU ? "European Union (member state)" : r.node.name;
-    const headline = plainHeadline(r.node.morphology);
+    const readable = r.nodeId ? store.readableById.get(r.nodeId) : undefined;
+    const headline = readable?.headline || plainHeadline(r.node.morphology);
     return `
       <div style="
         font-family: var(--font-serif), serif;
