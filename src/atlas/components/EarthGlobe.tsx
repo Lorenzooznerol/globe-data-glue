@@ -184,7 +184,9 @@ export function EarthGlobe({ store, width, height }: Props) {
         showGraticules={false}
         globeMaterial={globeMaterial}
         polygonsData={resolved}
-        polygonGeoJsonGeometry={(obj: object) => (obj as Resolved).feature.geometry}
+        polygonGeoJsonGeometry={(obj: object) =>
+          (obj as Resolved).feature.geometry as never
+        }
         polygonCapColor={polygonCapColor}
         polygonSideColor={polygonSideColor}
         polygonStrokeColor={() => STROKE}
