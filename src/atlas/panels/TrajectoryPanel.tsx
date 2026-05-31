@@ -1,422 +1,361 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { DataStore, DecoratedPrediction } from "@/data/store";
-import type { Marker } from "@/data/types";
+import type { AtlasNode, Marker } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { colorForNode, FAMILY_COLOR, familyOf, OPAQUE_GREY } from "@/atlas/families";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { FAMILY_COLOR, FAMILY_LABEL, familyOf, OPAQUE_GREY } from "@/atlas/families";
 import {
-  formatCountdown,
+  friendlyMonth,
+  markerGloss,
   markerTitle,
+  plainPrediction,
   resolveMarkerId,
-  splitCausalChain,
 } from "@/atlas/trajectory";
+import { TrajectoryHeader } from "./TrajectoryHeader";
+import { SectionAccordion } from "./SectionAccordion";
+import { ExpanderRow } from "./ExpanderRow";
 
 interface Props {
   store: DataStore;
 }
 
-type Tab = "register" | "theses";
+type SectionKey = "register" | "theses" | "migrations";
 
 export function TrajectoryPanel({ store }: Props) {
   const mode = useAtlasStore((s) => s.mode);
-  const selectNode = useAtlasStore((s) => s.selectNode);
-  const [tab, setTab] = useState<Tab>("register");
-  const [open, setOpen] = useState(true);
-  const [highlightMarker, setHighlightMarker] = useState<string | null>(null);
+  const [panelOpen, setPanelOpen] = useState(true);
+  const [section, setSection] = useState<SectionKey>("register");
 
-  // re-tick once per hour for live countdowns
+  // re-tick once per hour for live header stat
   const [, setTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTick((n) => n + 1), 60 * 60 * 1000);
     return () => clearInterval(id);
   }, []);
 
+  const migrationNodes = useMemo(
+    () =>
+      store.atlas.nodes.filter(
+        (n) => (n.morphology_timeline ?? []).length >= 2,
+      ),
+    [store],
+  );
+
   if (mode !== "trajectory") return null;
 
-  const preds = store.allPredictions;
-  const markers = store.atlas.markers;
+  const openSection = (k: SectionKey, scroll?: boolean) => {
+    setSection(k);
+    setPanelOpen(true);
+    if (scroll) {
+      setTimeout(() => {
+        const el = document.getElementById(`section-${k}`);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 60);
+    }
+  };
 
-  const jumpToThesis = (mid: string) => {
-    setTab("theses");
-    setHighlightMarker(mid);
-    setOpen(true);
+  const scrollToForecast = (predId: string) => {
+    openSection("register");
     setTimeout(() => {
-      const el = document.getElementById(`thesis-${mid}`);
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 50);
+      const el = document.getElementById(`forecast-${predId}`);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("trajectory-flash");
+      setTimeout(() => el.classList.remove("trajectory-flash"), 1800);
+    }, 80);
   };
 
   return (
     <aside
-      className="pointer-events-auto fixed bottom-0 left-0 right-0 z-30 mx-auto flex max-w-[920px] flex-col border border-border/60 bg-background/95 backdrop-blur-md"
-      style={{ maxHeight: "62vh" }}
+      className="pointer-events-auto fixed bottom-0 left-0 right-0 z-30 mx-auto flex max-w-[760px] flex-col border border-border/50 bg-background/95 backdrop-blur-md"
+      style={{ maxHeight: "72vh" }}
       role="dialog"
-      aria-label="Trajectory panel"
+      aria-label="Trajectory"
     >
-      {/* Header bar */}
-      <div className="flex shrink-0 items-center gap-3 border-b border-border/40 px-5 py-3">
+      <div className="flex shrink-0 items-center justify-end gap-2 border-b border-border/30 px-3 py-2">
         <button
-          onClick={() => setOpen((v) => !v)}
-          className="text-muted-foreground hover:text-foreground"
-          aria-label={open ? "Collapse" : "Expand"}
+          type="button"
+          onClick={() => setPanelOpen((v) => !v)}
+          aria-expanded={panelOpen}
+          aria-label={panelOpen ? "Collapse panel" : "Expand panel"}
+          className="flex h-8 w-8 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-foreground/40"
         >
-          {open ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
+          {panelOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
         </button>
-        <div className="flex gap-1">
-          <TabButton active={tab === "register"} onClick={() => setTab("register")}>
-            Prospective register
-          </TabButton>
-          <TabButton active={tab === "theses"} onClick={() => setTab("theses")}>
-            Theses
-          </TabButton>
-        </div>
-        <span className="mono ml-auto text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-          {preds.length} forecasts · {markers.length} theses
-        </span>
       </div>
 
-      {open && (
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          {tab === "register" ? (
-            <RegisterTab
-              store={store}
-              preds={preds}
-              jumpToThesis={jumpToThesis}
-              selectNode={(id) => selectNode(id, { fly: true })}
-            />
-          ) : (
-            <ThesesTab
-              store={store}
-              markers={markers}
-              highlight={highlightMarker}
-              clearHighlight={() => setHighlightMarker(null)}
-            />
-          )}
+      {panelOpen && (
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-8 sm:px-7">
+          <TrajectoryHeader store={store} />
+
+          <div id="section-register">
+            <SectionAccordion
+              title="What we predict"
+              subtitle="Ten dated forecasts, each with a deadline."
+              count={store.allPredictions.length}
+              open={section === "register"}
+              onOpenChange={(o) => setSection(o ? "register" : "")}
+            >
+              <RegisterList store={store} preds={store.allPredictions} />
+            </SectionAccordion>
+          </div>
+
+          <div id="section-theses">
+            <SectionAccordion
+              title="Why we think so"
+              subtitle="Four claims the atlas is willing to be wrong about."
+              count={store.atlas.markers.length}
+              open={section === "theses"}
+              onOpenChange={(o) => setSection(o ? "theses" : "")}
+            >
+              <ThesesList
+                store={store}
+                markers={store.atlas.markers}
+                onJumpToForecast={scrollToForecast}
+              />
+            </SectionAccordion>
+          </div>
+
+          <div id="section-migrations">
+            <SectionAccordion
+              title="What's already moved"
+              subtitle="Countries whose form of governance has shifted."
+              count={migrationNodes.length}
+              open={section === "migrations"}
+              onOpenChange={(o) => setSection(o ? "migrations" : "")}
+            >
+              <MigrationsList nodes={migrationNodes} />
+            </SectionAccordion>
+          </div>
         </div>
       )}
+
+      <style>{`
+        .trajectory-flash {
+          animation: trajectoryFlash 1.8s ease-out;
+        }
+        @keyframes trajectoryFlash {
+          0% { background: hsl(var(--foreground) / 0.10); }
+          100% { background: transparent; }
+        }
+      `}</style>
     </aside>
   );
 }
 
-function TabButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      role="tab"
-      aria-selected={active}
-      className={[
-        "mono px-3 py-1 text-[10px] uppercase tracking-[0.18em] transition-colors",
-        active
-          ? "border border-border/70 bg-secondary/40 text-foreground"
-          : "border border-transparent text-muted-foreground hover:text-foreground",
-      ].join(" ")}
-    >
-      {children}
-    </button>
-  );
-}
+/* ---------- Status pill (non-interactive) ---------- */
 
-/* ---------- Register tab ---------- */
-
-function RegisterTab({
-  store,
-  preds,
-  jumpToThesis,
-  selectNode,
-}: {
-  store: DataStore;
-  preds: DecoratedPrediction[];
-  jumpToThesis: (mid: string) => void;
-  selectNode: (id: string) => void;
-}) {
-  const markerIds = store.atlas.markers.map((m) => m.marker_id);
-  return (
-    <div className="flex flex-col gap-5">
-      <header className="flex flex-col gap-1">
-        <h3 className="font-serif text-[18px] text-foreground">Prospective register</h3>
-        <p className="font-serif text-[13px] italic leading-relaxed text-foreground/75">
-          Dated, falsifiable forecasts. Each one names in advance what would prove it wrong.
-        </p>
-      </header>
-      <ul className="flex flex-col">
-        {preds.map((p) => {
-          const nodeId: string = p.node_id;
-          const nodeName: string = p.node_name;
-          const node = store.nodesById.get(nodeId);
-          const hue = node ? colorForNode(node) : OPAQUE_GREY;
-          const mid = resolveMarkerId(p.marker, markerIds);
-          const cd = formatCountdown(p.falsification_date);
-          return (
-            <li
-              key={p.pred_id}
-              className="border-t border-border/30 py-4 first:border-t-0 first:pt-0"
-            >
-              <div className="flex items-start gap-3">
-                <span
-                  className="mt-2 block h-2.5 w-2.5 shrink-0 rounded-[1px]"
-                  style={{ background: hue }}
-                  aria-hidden
-                />
-                <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <button
-                      onClick={() => selectNode(nodeId)}
-                      className="font-serif text-[15px] text-foreground/95 hover:underline"
-                    >
-                      {nodeName}
-                    </button>
-                    <StatusPill status={p.status} />
-                  </div>
-                  <p className="font-serif text-[14px] leading-relaxed text-foreground/90">
-                    {p.predicted_trajectory || "Predicted trajectory not specified."}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {cd && (
-                      <span
-                        className={
-                          "mono text-[11px] tracking-[0.04em] " +
-                          (cd.overdue ? "text-foreground" : "text-foreground/80")
-                        }
-                      >
-                        {cd.line}
-                      </span>
-                    )}
-                    {p.confidence && (
-                      <span className="mono border border-border/60 px-1.5 py-[1px] text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
-                        {p.confidence}
-                      </span>
-                    )}
-                    {mid && (
-                      <button
-                        onClick={() => jumpToThesis(mid)}
-                        className="font-serif text-[12px] italic text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground"
-                      >
-                        Thesis: {markerTitle(mid)}
-                      </button>
-                    )}
-                  </div>
-                  {p.falsification_threshold && (
-                    <Collapsible>
-                      <CollapsibleTrigger className="mono mt-1 flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground">
-                        <span>what would prove this wrong</span>
-                        <ChevronDown className="h-3 w-3 transition-transform data-[state=open]:rotate-180" aria-hidden />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="mt-2">
-                        <p className="font-serif text-[12.5px] italic leading-relaxed text-foreground/75">
-                          {p.falsification_threshold}
-                        </p>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  )}
-                </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
-
-function StatusPill({ status }: { status: string | undefined }) {
+function StatusPill({ status = "OPEN" }: { status?: string }) {
   const s = (status || "OPEN").toUpperCase();
-  // Designed for future states; currently all OPEN.
-  const tone =
-    s === "HOLDING"
-      ? "border-[#5C9E8F]/60 text-[#5C9E8F]"
-      : s === "FALSIFIED"
-        ? "border-[#C96E5C]/60 text-[#C96E5C]"
-        : s === "RESOLVED"
-          ? "border-[#6E8FB8]/60 text-[#6E8FB8]"
-          : "border-border/60 text-muted-foreground";
   return (
     <span
-      className={`mono shrink-0 border ${tone} px-1.5 py-[1px] text-[9px] uppercase tracking-[0.18em]`}
+      aria-label={`Status: ${s.toLowerCase()}`}
+      className="mono inline-flex shrink-0 select-none items-center rounded-full bg-foreground/8 px-2 py-[2px] text-[9px] uppercase tracking-[0.18em] text-foreground/80"
+      style={{ backgroundColor: "hsl(var(--foreground) / 0.08)" }}
     >
       {s}
     </span>
   );
 }
 
-/* ---------- Theses tab ---------- */
+/* ---------- Section A: Register ---------- */
 
-function ThesesTab({
+function RegisterList({
+  store,
+  preds,
+}: {
+  store: DataStore;
+  preds: DecoratedPrediction[];
+}) {
+  return (
+    <ul className="flex flex-col">
+      {preds.map((p) => (
+        <ForecastCard key={p.pred_id} pred={p} />
+      ))}
+    </ul>
+  );
+}
+
+function ForecastCard({ pred }: { pred: DecoratedPrediction }) {
+  const dateLabel = friendlyMonth(pred.falsification_date);
+  return (
+    <li
+      id={`forecast-${pred.pred_id}`}
+      className="border-t border-border/25 py-5 first:border-t-0 first:pt-2"
+    >
+      <p className="font-serif text-[16.5px] leading-[1.45] text-foreground sm:text-[17.5px]">
+        {plainPrediction(pred)}
+      </p>
+      <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <span className="font-serif text-[12.5px] text-muted-foreground">{pred.node_name}</span>
+        <span aria-hidden className="text-muted-foreground/50">·</span>
+        <StatusPill status={pred.status} />
+        {dateLabel && (
+          <>
+            <span aria-hidden className="text-muted-foreground/50">·</span>
+            <span className="mono text-[11px] tracking-[0.04em] text-muted-foreground">
+              check by {dateLabel}
+            </span>
+          </>
+        )}
+      </div>
+      {pred.falsification_threshold && (
+        <ExpanderRow label="What would prove this wrong" className="mt-2">
+          <p className="font-serif text-[13px] italic leading-relaxed text-foreground/75">
+            {pred.falsification_threshold}
+          </p>
+        </ExpanderRow>
+      )}
+    </li>
+  );
+}
+
+/* ---------- Section B: Theses ---------- */
+
+function ThesesList({
   store,
   markers,
-  highlight,
-  clearHighlight,
+  onJumpToForecast,
 }: {
   store: DataStore;
   markers: Marker[];
-  highlight: string | null;
-  clearHighlight: () => void;
+  onJumpToForecast: (predId: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-7">
-      <header className="flex flex-col gap-1">
-        <h3 className="font-serif text-[18px] text-foreground">Theses</h3>
-        <p className="font-serif text-[13px] italic leading-relaxed text-foreground/75">
-          Four claims the atlas is willing to be wrong about, with the tell to watch for.
-        </p>
-      </header>
+    <ul className="flex flex-col">
       {markers.map((m) => (
         <ThesisCard
           key={m.marker_id}
-          store={store}
           marker={m}
-          highlight={highlight === m.marker_id}
-          clearHighlight={clearHighlight}
+          relatedPreds={store.predictionsByMarker.get(m.marker_id) ?? []}
+          onJumpToForecast={onJumpToForecast}
         />
       ))}
-    </div>
+    </ul>
   );
 }
 
 function ThesisCard({
-  store,
   marker,
-  highlight,
-  clearHighlight,
+  relatedPreds,
+  onJumpToForecast,
 }: {
-  store: DataStore;
   marker: Marker;
-  highlight: boolean;
-  clearHighlight: () => void;
+  relatedPreds: DecoratedPrediction[];
+  onJumpToForecast: (predId: string) => void;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (!highlight) return;
-    const t = setTimeout(clearHighlight, 2400);
-    return () => clearTimeout(t);
-  }, [highlight, clearHighlight]);
-
-  const steps = useMemo(() => splitCausalChain(marker.causal_chain), [marker.causal_chain]);
-  const fam = familyOf(marker.morphology);
-  const hue = fam ? FAMILY_COLOR[fam] : OPAQUE_GREY;
-  const preds = store.predictionsByMarker.get(marker.marker_id) ?? [];
-
+  const gloss = markerGloss(marker.marker_id);
   return (
-    <article
-      ref={ref}
-      id={`thesis-${marker.marker_id}`}
-      className={
-        "flex flex-col gap-3 border-l-2 pl-4 transition-colors " +
-        (highlight ? "bg-secondary/30" : "")
-      }
-      style={{ borderColor: hue }}
-    >
-      <h4 className="font-serif text-[17px] leading-tight text-foreground" style={{ color: hue }}>
+    <li className="border-t border-border/25 py-5 first:border-t-0 first:pt-2">
+      <h4 className="font-serif text-[16px] leading-tight text-foreground sm:text-[17px]">
         {markerTitle(marker.marker_id)}
       </h4>
-      {steps.length > 0 && (
-        <ol className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-          {steps.map((step, i) => (
-            <li key={i} className="flex items-center gap-2">
-              <span className="font-serif text-[12.5px] text-foreground/90">{step}</span>
-              {i < steps.length - 1 && (
-                <span aria-hidden className="text-muted-foreground">›</span>
-              )}
-            </li>
-          ))}
-        </ol>
+      {gloss && (
+        <p className="mt-2 font-serif text-[13.5px] leading-relaxed text-foreground/85">{gloss}</p>
       )}
-      {marker.ex_ante_marker && (
-        <p className="font-serif text-[13px] leading-relaxed text-foreground/85">
-          <span className="mono mr-2 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            Tell
-          </span>
-          {marker.ex_ante_marker}
-        </p>
-      )}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        {marker.confidence && (
-          <span className="mono border border-border/60 px-1.5 py-[1px] text-[9px] uppercase tracking-[0.15em] text-muted-foreground">
-            {marker.confidence}
-          </span>
-        )}
-      </div>
       {marker.discriminating_counterfactual && (
-        <Collapsible>
-          <CollapsibleTrigger className="mono flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground">
-            <span>how we tested it</span>
-            <ChevronDown className="h-3 w-3 transition-transform data-[state=open]:rotate-180" aria-hidden />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-2">
-            <p className="font-serif text-[12.5px] italic leading-relaxed text-foreground/75">
-              {marker.discriminating_counterfactual}
-            </p>
-          </CollapsibleContent>
-        </Collapsible>
+        <ExpanderRow label="How we tested this" className="mt-2">
+          <p className="font-serif text-[13px] italic leading-relaxed text-foreground/75">
+            {marker.discriminating_counterfactual}
+          </p>
+        </ExpanderRow>
       )}
-      {preds.length > 0 && (
-        <div className="flex flex-col gap-1.5 pt-1">
+      {relatedPreds.length > 0 && (
+        <div className="mt-3 flex flex-col gap-1.5">
           <span className="mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            Hangs on
+            Forecasts resting on this
           </span>
           <ul className="flex flex-col gap-1">
-            {preds.map((p) => {
-              const nodeName: string = p.node_name;
-              const cd = formatCountdown(p.falsification_date);
-              return (
-                <li
-                  key={p.pred_id}
-                  className="flex flex-wrap items-baseline gap-x-2 font-serif text-[12.5px] text-foreground/85"
+            {relatedPreds.map((p) => (
+              <li key={p.pred_id}>
+                <button
+                  type="button"
+                  onClick={() => onJumpToForecast(p.pred_id)}
+                  className="font-serif text-[13px] text-foreground/85 underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/40"
                 >
-                  <span>{nodeName}</span>
-                  {cd && (
-                    <span className="mono text-[10.5px] text-muted-foreground">{cd.line}</span>
-                  )}
-                </li>
-              );
-            })}
+                  {p.node_name}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
       )}
-      <Collapsible>
-        <CollapsibleTrigger className="mono flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground">
-          <span>technical detail</span>
-          <ChevronDown className="h-3 w-3 transition-transform data-[state=open]:rotate-180" aria-hidden />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="mt-2">
-          <dl className="mono grid grid-cols-[120px_1fr] gap-y-1.5 text-[11px]">
-            <dt className="uppercase tracking-[0.15em] text-muted-foreground">marker_id</dt>
-            <dd className="text-foreground/85">{marker.marker_id}</dd>
-            {marker.reg_ref && (
-              <>
-                <dt className="uppercase tracking-[0.15em] text-muted-foreground">reg_ref</dt>
-                <dd className="text-foreground/85">{marker.reg_ref}</dd>
-              </>
+      <ExpanderRow label="Technical note" className="mt-2">
+        <dl className="mono grid grid-cols-[110px_1fr] gap-y-1.5 text-[11px]">
+          <dt className="uppercase tracking-[0.15em] text-muted-foreground">marker_id</dt>
+          <dd className="text-foreground/85">{marker.marker_id}</dd>
+          {marker.reg_ref && (
+            <>
+              <dt className="uppercase tracking-[0.15em] text-muted-foreground">reg_ref</dt>
+              <dd className="text-foreground/85">{marker.reg_ref}</dd>
+            </>
+          )}
+          {marker.morphology && (
+            <>
+              <dt className="uppercase tracking-[0.15em] text-muted-foreground">morphology</dt>
+              <dd className="text-foreground/85">{marker.morphology}</dd>
+            </>
+          )}
+          {marker.confound && (
+            <>
+              <dt className="uppercase tracking-[0.15em] text-muted-foreground">confound</dt>
+              <dd className="text-foreground/85">{marker.confound}</dd>
+            </>
+          )}
+        </dl>
+      </ExpanderRow>
+    </li>
+  );
+}
+
+/* ---------- Section C: Migrations ---------- */
+
+function MigrationsList({ nodes }: { nodes: AtlasNode[] }) {
+  return (
+    <ul className="flex flex-col">
+      {nodes.map((n) => {
+        const tl = n.morphology_timeline ?? [];
+        const a = tl[0];
+        const b = tl[tl.length - 1];
+        const note = b?.note;
+        return (
+          <li key={n.node_id} className="border-t border-border/25 py-4 first:border-t-0 first:pt-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="font-serif text-[14.5px] text-foreground">{n.name}</span>
+              <span aria-hidden className="text-muted-foreground/60">—</span>
+              <FamilyPill year={a.as_of} morph={a.morphology} />
+              <span aria-hidden className="text-muted-foreground/70">→</span>
+              <FamilyPill year={b.as_of} morph={b.morphology} />
+            </div>
+            {note && (
+              <p className="mt-2 font-serif text-[12.5px] italic leading-relaxed text-foreground/70">
+                {note}
+              </p>
             )}
-            {marker.morphology && (
-              <>
-                <dt className="uppercase tracking-[0.15em] text-muted-foreground">morphology</dt>
-                <dd className="text-foreground/85">{marker.morphology}</dd>
-              </>
-            )}
-            {marker.confound && (
-              <>
-                <dt className="uppercase tracking-[0.15em] text-muted-foreground">confound</dt>
-                <dd className="text-foreground/85">{marker.confound}</dd>
-              </>
-            )}
-            {marker.verdict && (
-              <>
-                <dt className="uppercase tracking-[0.15em] text-muted-foreground">verdict</dt>
-                <dd className="text-foreground/85">{marker.verdict}</dd>
-              </>
-            )}
-          </dl>
-        </CollapsibleContent>
-      </Collapsible>
-    </article>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function FamilyPill({ year, morph }: { year: string; morph: string }) {
+  const fam = familyOf(morph);
+  const color = fam ? FAMILY_COLOR[fam] : OPAQUE_GREY;
+  const label = fam ? FAMILY_LABEL[fam] : "Opaque";
+  return (
+    <span className="inline-flex items-center gap-2 border border-border/40 px-2 py-1">
+      <span
+        className="block h-2 w-2 shrink-0 rounded-[1px]"
+        style={{ background: color }}
+        aria-hidden
+      />
+      <span className="flex flex-col leading-tight">
+        <span className="mono text-[9.5px] uppercase tracking-[0.15em] text-muted-foreground">
+          {(year || "").slice(0, 4)}
+        </span>
+        <span className="font-serif text-[12px] text-foreground/90">{label}</span>
+      </span>
+    </span>
   );
 }
