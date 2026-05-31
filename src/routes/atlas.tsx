@@ -18,7 +18,13 @@ const ForecastsPanel = lazy(() =>
   import("@/atlas/panels/TrajectoryPanel").then((m) => ({ default: m.TrajectoryPanel })),
 );
 
+type StanceSearch = { stance?: "yes" | "no" };
+
 export const Route = createFileRoute("/atlas")({
+  validateSearch: (raw: Record<string, unknown>): StanceSearch => {
+    const s = raw.stance;
+    return s === "yes" || s === "no" ? { stance: s } : {};
+  },
   head: () => ({
     meta: [
       { title: "Atlas of AI Governance" },
