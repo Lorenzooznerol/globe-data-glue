@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { DataStore } from "@/data/store";
-import type { AtlasPrediction, Marker } from "@/data/types";
+import type { DataStore, DecoratedPrediction } from "@/data/store";
+import type { Marker } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
@@ -134,7 +134,7 @@ function RegisterTab({
   selectNode,
 }: {
   store: DataStore;
-  preds: AtlasPrediction[];
+  preds: DecoratedPrediction[];
   jumpToThesis: (mid: string) => void;
   selectNode: (id: string) => void;
 }) {
