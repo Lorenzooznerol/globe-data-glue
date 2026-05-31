@@ -136,6 +136,26 @@
   --morph-m5: #7a7a7a; /* opacity */
   --morph-m6: #a98a52; /* revocable self-binding */
   --morph-m7: #6b7385; /* aligned-nascent */
+
+  /* Encounter — dark mode */
+  --encounter-bg: #050507;
+  --encounter-ink: #ece9e2;
+  --encounter-ink-faint: rgba(236, 233, 226, 0.42);
+  --encounter-rule: rgba(236, 233, 226, 0.7);
+  --encounter-vignette: rgba(0, 0, 0, 0.6);
+}
+
+/* Encounter — universal disable transitions on the encounter shell so the
+   200ms global transition rule doesn't fight our slow-fade Line primitive. */
+.encounter,
+.encounter * {
+  transition-property: opacity !important;
+  transition-duration: inherit !important;
+}
+
+@keyframes encounter-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @layer base {
