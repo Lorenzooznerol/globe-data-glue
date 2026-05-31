@@ -340,13 +340,14 @@ interface GlyphDatum {
   color: string;
 }
 
-function lerpHex(a: string, b: string, t: number): string {
-  const pa = parseHex(a);
-  const pb = parseHex(b);
-  const r = Math.round(pa[0] + (pb[0] - pa[0]) * t);
-  const g = Math.round(pa[1] + (pb[1] - pa[1]) * t);
-  const bl = Math.round(pa[2] + (pb[2] - pa[2]) * t);
-  return `rgb(${r},${g},${bl})`;
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) =>
+    c === "&" ? "&amp;"
+    : c === "<" ? "&lt;"
+    : c === ">" ? "&gt;"
+    : c === '"' ? "&quot;"
+    : "&#39;",
+  );
 }
 
 function parseHex(hex: string): [number, number, number] {
