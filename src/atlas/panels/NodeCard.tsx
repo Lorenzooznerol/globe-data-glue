@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { X, ChevronDown } from "lucide-react";
 import { splitMorphology, MORPH_COLOR, MORPH_LABEL, layerOf } from "@/atlas/morphology";
-import { colorForNode } from "@/atlas/families";
+import { colorForNode, familyOf } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
 import { BandMeter } from "./BandMeter";
 import { Term, TermScope } from "./Term";
 import { GlossaryPanel } from "./GlossaryPanel";
+import { GiraiSnapshot } from "./GiraiSnapshot";
+import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
 
 interface Props {
   store: DataStore;

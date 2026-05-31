@@ -3,13 +3,13 @@ import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
 import type { DataStore } from "@/data/store";
-import type { AtlasNode } from "@/data/types";
+import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
-import { evidenceOpacity } from "@/atlas/morphology";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
+import { giraiRampColor } from "@/atlas/giraiRamp";
 
 const Globe = lazy(() => import("react-globe.gl"));
 
@@ -29,6 +29,7 @@ interface Resolved {
   iso: string | undefined;
   nodeId: string | null;
   node: AtlasNode | null;
+  girai: GiraiCountry | null;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -44,11 +45,13 @@ export function EarthGlobe({ store, width, height }: Props) {
   const features = useCountries();
 
   const selectedNodeId = useAtlasStore((s) => s.selectedNodeId);
+  const selectedIso = useAtlasStore((s) => s.selectedIso);
   const hoveredNodeId = useAtlasStore((s) => s.hoveredNodeId);
   const families = useAtlasStore((s) => s.families);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const flyToken = useAtlasStore((s) => s.flyToken);
   const selectNode = useAtlasStore((s) => s.selectNode);
+  const selectIso = useAtlasStore((s) => s.selectIso);
   const setHovered = useAtlasStore((s) => s.setHovered);
 
   useEffect(() => {
@@ -68,7 +71,8 @@ export function EarthGlobe({ store, width, height }: Props) {
       const iso = (f.properties.ADM0_A3 || f.properties.ISO_A3) as string | undefined;
       const nodeId = isoToNodeId(iso);
       const node = nodeId ? store.nodesById.get(nodeId) ?? null : null;
-      return { feature: f, iso, nodeId, node };
+      const girai = iso ? store.giraiByIso.get(iso) ?? null : null;
+      return { feature: f, iso, nodeId, node, girai };
     });
   }, [features, store]);
 
@@ -80,21 +84,24 @@ export function EarthGlobe({ store, width, height }: Props) {
     return m;
   }, [resolved]);
 
+  const activeSelectedNodeId = selectedNodeId;
+
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
-    g.controls().autoRotate = !reducedMotion && !hoveredNodeId && !selectedNodeId;
-  }, [reducedMotion, hoveredNodeId, selectedNodeId]);
+    g.controls().autoRotate =
+      !reducedMotion && !hoveredNodeId && !activeSelectedNodeId && !selectedIso;
+  }, [reducedMotion, hoveredNodeId, activeSelectedNodeId, selectedIso]);
 
   useEffect(() => {
-    if (!selectedNodeId) return;
+    if (!activeSelectedNodeId) return;
     const g = globeRef.current;
     if (!g) return;
     let lat: number | undefined;
     let lng: number | undefined;
-    const fallback = NODE_CENTROIDS[selectedNodeId];
-    const feat = featureByNode.get(selectedNodeId);
-    if (selectedNodeId !== "ST-EU" && feat && feat.geometry) {
+    const fallback = NODE_CENTROIDS[activeSelectedNodeId];
+    const feat = featureByNode.get(activeSelectedNodeId);
+    if (activeSelectedNodeId !== "ST-EU" && feat && feat.geometry) {
       try {
         const [cLng, cLat] = geoCentroid(feat as never);
         if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
@@ -111,41 +118,72 @@ export function EarthGlobe({ store, width, height }: Props) {
       lng = fallback[1];
     }
     g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
-  }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
+  }, [flyToken, activeSelectedNodeId, reducedMotion, featureByNode]);
 
   const polygonCapColor = (obj: object): string => {
     const r = obj as Resolved;
-    if (!r.node) return NEUTRAL_FILL;
-    const baseHex = colorForNode(r.node);
-    let alpha = evidenceOpacity(r.node.evidence_strength);
-    if (families.size > 0) {
-      const fam = familyOf(r.node.morphology);
-      if (!fam || !families.has(fam)) alpha = 0.08;
+    let base: string;
+    if (r.girai) {
+      base = giraiRampColor(r.girai.index_score, 1);
+      if (r.nodeId && r.nodeId === hoveredNodeId) {
+        // tiny brighten on hover
+        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
+      }
+    } else {
+      base = NEUTRAL_FILL;
     }
-    if (r.nodeId && r.nodeId === hoveredNodeId) alpha = Math.min(1, alpha + 0.15);
-    return hexToRgba(baseHex, alpha);
+    // Family filter: dim countries whose curated node is filtered out.
+    if (families.size > 0 && r.node) {
+      const fam = familyOf(r.node.morphology);
+      if (!fam || !families.has(fam)) {
+        return r.girai ? giraiRampColor(r.girai.index_score, 0.25) : NEUTRAL_FILL;
+      }
+    }
+    return base;
   };
 
   const polygonSideColor = (obj: object): string => {
     const r = obj as Resolved;
-    if (!r.node) return NEUTRAL_SIDE;
-    return hexToRgba(colorForNode(r.node), 0.35);
+    if (r.node) return hexToRgba(colorForNode(r.node), 0.45);
+    return NEUTRAL_SIDE;
+  };
+
+  // Curated nodes get a family-coloured stroke ring; everything else uses the neutral stroke.
+  const polygonStrokeColor = (obj: object): string => {
+    const r = obj as Resolved;
+    if (r.node) return colorForNode(r.node);
+    return STROKE;
   };
 
   const polygonAltitude = (obj: object): number => {
     const r = obj as Resolved;
-    if (!r.nodeId) return 0.006;
-    if (r.nodeId === hoveredNodeId) return reducedMotion ? 0.05 : 0.07;
-    if (r.nodeId === selectedNodeId) return 0.05;
-    return 0.01;
+    if (r.nodeId === hoveredNodeId && r.nodeId) return reducedMotion ? 0.05 : 0.07;
+    if (r.nodeId && r.nodeId === activeSelectedNodeId) return 0.05;
+    if (r.iso && r.iso === selectedIso) return 0.04;
+    if (r.nodeId) return 0.022; // curated nodes sit raised so the ring is visible
+    return 0.006;
   };
 
   const polygonLabel = (obj: object): string => {
     const r = obj as Resolved;
-    if (!r.node) return "";
-    const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
-    const subtitle = isEU ? "European Union (member state)" : r.node.name;
-    const headline = r.node.headline || plainHeadline(r.node.morphology);
+    if (!r.node && !r.girai) return "";
+    let subtitle: string;
+    let line: string;
+    if (r.node) {
+      const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
+      subtitle = isEU ? "European Union (member state)" : r.node.name;
+      line = r.node.headline || plainHeadline(r.node.morphology);
+      if (r.girai) {
+        line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
+      }
+    } else if (r.girai) {
+      subtitle = r.girai.country;
+      line = `GIRAI ${r.girai.index_score.toFixed(1)} / 100 · rank ${Math.round(
+        r.girai.ranking,
+      )} of ${store.girai.countries.length}`;
+    } else {
+      return "";
+    }
     return `
       <div style="
         font-family: var(--font-serif), serif;
@@ -160,7 +198,7 @@ export function EarthGlobe({ store, width, height }: Props) {
           ${escapeHtml(subtitle)}
         </div>
         <div style="font-size: 12px; line-height: 1.45; color: #b8b8b8; font-style: italic;">
-          ${escapeHtml(headline)}
+          ${escapeHtml(line)}
         </div>
       </div>`;
   };
@@ -169,13 +207,20 @@ export function EarthGlobe({ store, width, height }: Props) {
     const r = obj as Resolved | null;
     setHovered(r?.nodeId ?? null);
     if (typeof document !== "undefined") {
-      document.body.style.cursor = r?.nodeId ? "pointer" : "default";
+      const interactive = !!(r && (r.nodeId || r.girai));
+      document.body.style.cursor = interactive ? "pointer" : "default";
     }
   };
 
   const handleClick = (obj: object) => {
     const r = obj as Resolved;
-    if (r.nodeId) selectNode(r.nodeId, { fly: true });
+    if (r.nodeId) {
+      selectNode(r.nodeId, { fly: true });
+      return;
+    }
+    if (r.iso && r.girai) {
+      selectIso(r.iso);
+    }
   };
 
   const globeMaterial = useMemo(() => {
@@ -204,7 +249,7 @@ export function EarthGlobe({ store, width, height }: Props) {
         }
         polygonCapColor={polygonCapColor}
         polygonSideColor={polygonSideColor}
-        polygonStrokeColor={() => STROKE}
+        polygonStrokeColor={polygonStrokeColor}
         polygonAltitude={polygonAltitude}
         polygonsTransitionDuration={reducedMotion ? 0 : 260}
         polygonLabel={polygonLabel}
