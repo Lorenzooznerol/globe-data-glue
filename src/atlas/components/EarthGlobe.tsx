@@ -53,9 +53,36 @@ export function EarthGlobe({ store, width, height }: Props) {
   const families = useAtlasStore((s) => s.families);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const flyToken = useAtlasStore((s) => s.flyToken);
+  const mode = useAtlasStore((s) => s.mode);
+  const migrationToken = useAtlasStore((s) => s.migrationToken);
   const selectNode = useAtlasStore((s) => s.selectNode);
   const selectIso = useAtlasStore((s) => s.selectIso);
   const setHovered = useAtlasStore((s) => s.setHovered);
+
+  const trajectoryMode = mode === "trajectory";
+
+  // Migration animation progress 0..1 for the 6 nodes with timelines.
+  const [migrationT, setMigrationT] = useState(0);
+  useEffect(() => {
+    if (!trajectoryMode) {
+      setMigrationT(0);
+      return;
+    }
+    if (reducedMotion) {
+      setMigrationT(1);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const dur = 1400;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      setMigrationT(p);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [trajectoryMode, migrationToken, reducedMotion]);
 
   useEffect(() => {
     const g = globeRef.current;
