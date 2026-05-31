@@ -40,7 +40,7 @@ export function splitMorphology(raw: string | undefined): {
 
 export function colorFor(raw: string | undefined): string {
   const { primary } = splitMorphology(raw);
-  return primary ? MORPH_COLOR[primary] : "#777";
+  return primary ? MORPH_COLOR[primary] : "#777777";
 }
 
 export function evidenceOpacity(evidence: string | undefined): number {
