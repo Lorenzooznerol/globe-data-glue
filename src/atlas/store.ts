@@ -44,6 +44,7 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   mode: "overview",
   migrationToken: 0,
   theme: "dark",
+  userStance: null,
 
   selectNode: (id, opts) =>
     set((s) => ({
@@ -70,4 +71,5 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   playMigrations: () => set((s) => ({ migrationToken: s.migrationToken + 1 })),
   setTheme: (t) => set({ theme: t }),
   toggleTheme: () => set((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
+  setUserStance: (s) => set({ userStance: s }),
 }));
