@@ -1,0 +1,20 @@
+edge_id,edge_type,from_node,to_node,layer_target,justification,included
+E01,overlap,VN-UNESCO,VN-ROME,legitimacy,"Shared human-dignity / human-centeredness core (also VN-OECD, VN-COE) — they share a floor, not rival camps",yes
+E02,overlap,VN-OECD,VN-COE,legitimacy,"Rights + rule of law, division of labour (OECD framework / CoE binding form) — predicts soft principles hardening into law",yes
+E03,interference,VN-GRAV,VN-GRAV,legitimacy,"Brussels (precaution/rights) vs Washington (market/innovation) — the central intra-democratic tension; explains EU/US divergence as a legitimacy clash (mechanism)",yes
+E04,interference,VN-UNESCO,VN-ISLAM,legitimacy,"Universal claim vs civilizationally-grounded (also vs Beijing) — predicts where universal consensus is thin (endorsed but differently realized)",yes
+E05,interference,VN-SAFE,VN-SOUTH,legitimacy,"Catastrophic-risk foresight vs development/inclusion — explains why frontier-safety framings under-mobilize Global-South states (cross-reference)",yes
+E06,catalysis,VN-ROME,AC-OAI,actor,"Rome Call catalysed corporate ethics commitments (IBM/Microsoft/Cisco/Qualcomm signing) — legitimacy -> actor-intent",yes
+E07,catalysis,VN-UNESCO,ST-KE,state,"UNESCO RAM catalysed national strategies in 40+ states — why Kenya/Nigeria/South Africa resemble one another (M7 nascent co-driver)",yes
+E08,catalysis,VN-UNESCO,ST-NG,state,"Same UNESCO-RAM common cause of the nascent-cohort resemblance",yes
+E09,catalysis,VN-UNESCO,ST-ZA,state,"Same UNESCO-RAM common cause of the nascent-cohort resemblance",yes
+E10,catalysis,VN-OECD,AC-ANT,actor,"OECD Hiroshima/HAIP reporting framework channels the actor-layer frameworks (METR-12 publishers report under it)",yes
+E11,catalysis,VN-COE,ST-EU,state,"CoE Framework Convention crystallizing into the EU's paper-C hard law (EU ratified 15 May 2026)",yes
+E12,authority_source,VN-GRAV,ST-EU,state,"EU intent draws authority from Brussels-rights + Council of Europe (rights-juridical)",yes
+E13,authority_source,VN-GRAV,ST-US,state,"US intent draws authority from Washington (market/innovation + security)",yes
+E14,authority_source,VN-GRAV,ST-CN,state,"China intent draws authority from Beijing (developmental-sovereigntist) — endorses but differently realizes UNESCO-universal",yes
+E15,authority_source,VN-ISLAM,ST-AE,state,"UAE/Saudi intent draws on Islamic-civilizational + Global-South-developmental + Rome Call (triple source) — why M7 is developmental-promotional with a values overlay",yes
+E16,authority_source,VN-SAFE,AC-ANT,actor,"Anthropic intent draws authority from AI-safety/longtermist vision",yes
+E17,authority_source,VN-GRAV,DP-D4,deployer,"Financial-services model-risk deployer draws authority from the prudential-regulation tradition — why it is the highest-realization node",yes
+E18,overlap,VN-IEEE,VN-UNESCO,legitimacy,"True shared 'transparency' term BUT recording every transparency-overlap explodes combinatorially and adds no distinct inference — convergent-core edge already carries it",no
+E19,overlap,VN-ROME,VN-COE,legitimacy,"Bilateral overlap derivable from the convergent core (E01) — adds no decision value",no
