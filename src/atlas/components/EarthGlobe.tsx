@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef } from "react";
-import Globe, { type GlobeMethods } from "react-globe.gl";
+import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
+import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import type { DataStore } from "@/data/store";
-import { useCountries, type CountryFeature } from "@/atlas/useCountries";
+import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import {
   EU_MEMBERS,
@@ -14,6 +14,11 @@ import {
 import { colorFor, evidenceOpacity, splitMorphology } from "@/atlas/morphology";
 import { plainHeadline } from "@/atlas/plainLanguage";
 
+// Lazy-load react-globe.gl: it touches `window` at import time and would
+// crash SSR otherwise. EarthGlobe itself is only mounted client-side by the
+// route, so this lazy boundary stays on the client.
+const Globe = lazy(() => import("react-globe.gl"));
+
 const NEUTRAL_FILL = "rgba(64,72,86,0.18)";
 const NEUTRAL_SIDE = "rgba(40,46,56,0.4)";
 const STROKE = "rgba(120,130,150,0.35)";
@@ -23,6 +28,13 @@ interface Props {
   store: DataStore;
   width: number;
   height: number;
+}
+
+interface Resolved {
+  feature: { geometry: unknown; properties: Record<string, unknown> };
+  iso: string | undefined;
+  nodeId: string | null;
+  node: ReturnType<DataStore["nodesBandedById"]["get"]> | null;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -45,7 +57,6 @@ export function EarthGlobe({ store, width, height }: Props) {
   const selectNode = useAtlasStore((s) => s.selectNode);
   const setHovered = useAtlasStore((s) => s.setHovered);
 
-  // Initialize: controls, auto-rotate, no atmosphere
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
@@ -56,7 +67,6 @@ export function EarthGlobe({ store, width, height }: Props) {
     controls.maxDistance = 600;
     controls.autoRotate = !reducedMotion;
     controls.autoRotateSpeed = 0.3;
-    // Pause auto-rotate on user interaction
     const pause = () => {
       controls.autoRotate = false;
     };
@@ -67,7 +77,6 @@ export function EarthGlobe({ store, width, height }: Props) {
     };
   }, [reducedMotion]);
 
-  // Camera fly on selection change (token bumps)
   useEffect(() => {
     if (!selectedNodeId) return;
     const c = NODE_CENTROIDS[selectedNodeId];
@@ -80,10 +89,9 @@ export function EarthGlobe({ store, width, height }: Props) {
     );
   }, [flyToken, selectedNodeId, reducedMotion]);
 
-  // Resolve every feature to its node (or null) once
-  const resolved = useMemo(() => {
+  const resolved = useMemo<Resolved[]>(() => {
     return features.map((f) => {
-      const iso = f.properties.ADM0_A3 || f.properties.ISO_A3;
+      const iso = (f.properties.ADM0_A3 || f.properties.ISO_A3) as string | undefined;
       const nodeId = isoToNodeId(iso);
       const node = nodeId ? store.nodesBandedById.get(nodeId) ?? null : null;
       return { feature: f, iso, nodeId, node };
@@ -91,29 +99,26 @@ export function EarthGlobe({ store, width, height }: Props) {
   }, [features, store]);
 
   const polygonCapColor = (obj: object): string => {
-    const r = obj as (typeof resolved)[number];
+    const r = obj as Resolved;
     if (!r.node) return NEUTRAL_FILL;
     const baseHex = colorFor(r.node.morphology);
     let alpha = evidenceOpacity(r.node.evidence_strength);
-    // Dim non-matching morphologies if filter active
     if (morphologies.size > 0) {
       const { primary } = splitMorphology(r.node.morphology);
       if (!primary || !morphologies.has(primary)) alpha = 0.08;
     }
-    // Brighten hovered
     if (r.nodeId && r.nodeId === hoveredNodeId) alpha = Math.min(1, alpha + 0.15);
     return hexToRgba(baseHex, alpha);
   };
 
   const polygonSideColor = (obj: object): string => {
-    const r = obj as (typeof resolved)[number];
+    const r = obj as Resolved;
     if (!r.node) return NEUTRAL_SIDE;
-    const baseHex = colorFor(r.node.morphology);
-    return hexToRgba(baseHex, 0.35);
+    return hexToRgba(colorFor(r.node.morphology), 0.35);
   };
 
   const polygonAltitude = (obj: object): number => {
-    const r = obj as (typeof resolved)[number];
+    const r = obj as Resolved;
     if (!r.nodeId) return 0.006;
     if (r.nodeId === hoveredNodeId) return reducedMotion ? 0.05 : 0.07;
     if (r.nodeId === selectedNodeId) return 0.05;
@@ -121,7 +126,7 @@ export function EarthGlobe({ store, width, height }: Props) {
   };
 
   const polygonLabel = (obj: object): string => {
-    const r = obj as (typeof resolved)[number];
+    const r = obj as Resolved;
     if (!r.node) return "";
     const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
     const subtitle = isEU ? "European Union (member state)" : r.node.name;
@@ -146,7 +151,7 @@ export function EarthGlobe({ store, width, height }: Props) {
   };
 
   const handleHover = (obj: object | null) => {
-    const r = obj as (typeof resolved)[number] | null;
+    const r = obj as Resolved | null;
     setHovered(r?.nodeId ?? null);
     if (typeof document !== "undefined") {
       document.body.style.cursor = r?.nodeId ? "pointer" : "default";
@@ -154,11 +159,10 @@ export function EarthGlobe({ store, width, height }: Props) {
   };
 
   const handleClick = (obj: object) => {
-    const r = obj as (typeof resolved)[number];
+    const r = obj as Resolved;
     if (r.nodeId) selectNode(r.nodeId, { fly: true });
   };
 
-  // Matte material override for the globe
   const globeMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
       color: new THREE.Color("#10141b"),
@@ -170,24 +174,29 @@ export function EarthGlobe({ store, width, height }: Props) {
   }, []);
 
   return (
-    <Globe
-      ref={globeRef}
-      width={width}
-      height={height}
-      backgroundColor={BG}
-      showAtmosphere={false}
-      showGraticules={false}
-      globeMaterial={globeMaterial}
-      polygonsData={resolved}
-      polygonCapColor={polygonCapColor}
-      polygonSideColor={polygonSideColor}
-      polygonStrokeColor={() => STROKE}
-      polygonAltitude={polygonAltitude}
-      polygonsTransitionDuration={reducedMotion ? 0 : 260}
-      polygonLabel={polygonLabel}
-      onPolygonHover={handleHover}
-      onPolygonClick={handleClick}
-    />
+    <Suspense fallback={null}>
+      <Globe
+        ref={globeRef}
+        width={width}
+        height={height}
+        backgroundColor={BG}
+        showAtmosphere={false}
+        showGraticules={false}
+        globeMaterial={globeMaterial}
+        polygonsData={resolved}
+        polygonGeoJsonGeometry={(obj: object) =>
+          (obj as Resolved).feature.geometry as never
+        }
+        polygonCapColor={polygonCapColor}
+        polygonSideColor={polygonSideColor}
+        polygonStrokeColor={() => STROKE}
+        polygonAltitude={polygonAltitude}
+        polygonsTransitionDuration={reducedMotion ? 0 : 260}
+        polygonLabel={polygonLabel}
+        onPolygonHover={handleHover}
+        onPolygonClick={handleClick}
+      />
+    </Suspense>
   );
 }
 
@@ -201,7 +210,6 @@ function escapeHtml(s: string): string {
   );
 }
 
-// Re-export referenced constants to avoid unused-import warnings
 void EU_MEMBERS;
 void NODE_TO_ISO3;
 void ISO3_TO_NODE;

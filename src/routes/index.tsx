@@ -32,14 +32,14 @@ export const Route = createFileRoute("/")({
 function AtlasPage() {
   const { data: store, isLoading, error } = useDataStore();
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
+  const [mounted, setMounted] = useState(false);
   const [size, setSize] = useState<{ w: number; h: number }>({
     w: typeof window === "undefined" ? 1280 : window.innerWidth,
     h: typeof window === "undefined" ? 800 : window.innerHeight,
   });
 
-  // Honor system preference once on mount
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    setMounted(true);
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) setReducedMotion(true);
   }, [setReducedMotion]);
@@ -71,9 +71,9 @@ function AtlasPage() {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-background">
-      {/* 3D Earth */}
+      {/* 3D Earth (client-only: react-globe.gl touches window at import) */}
       <div className="absolute inset-0">
-        <EarthGlobe store={store} width={size.w} height={size.h} />
+        {mounted && <EarthGlobe store={store} width={size.w} height={size.h} />}
       </div>
 
       {/* Vignette */}
