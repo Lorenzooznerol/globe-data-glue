@@ -124,6 +124,43 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     return m;
   }, [resolved, theme, families]);
 
+  // Nodes (countries) that have a forecast — get the accent fill in Forecasts mode.
+  const forecastNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const [nid] of store.predictionsByNode) {
+      if (featureByNode.has(nid)) s.add(nid);
+    }
+    return s;
+  }, [store, featureByNode]);
+
+  // Nodes with a morphology timeline — pulse briefly on entering Forecasts mode.
+  const migrationNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const n of store.atlas.nodes) {
+      if ((n.morphology_timeline ?? []).length >= 2 && featureByNode.has(n.node_id)) {
+        s.add(n.node_id);
+      }
+    }
+    return s;
+  }, [store, featureByNode]);
+
+  // Pulse animation token + decay
+  const migrationToken = useAtlasStore((s) => s.migrationToken);
+  const [pulse, setPulse] = useState(0);
+  useEffect(() => {
+    if (reducedMotion || !forecastsMode) {
+      setPulse(0);
+      return;
+    }
+    setPulse(1);
+    const t1 = setTimeout(() => setPulse(0.55), 500);
+    const t2 = setTimeout(() => setPulse(0), 1400);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [migrationToken, forecastsMode, reducedMotion]);
+
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
