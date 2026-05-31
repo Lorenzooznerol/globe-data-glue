@@ -337,41 +337,6 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     });
   }, [theme, themeName]);
 
-  // Forecast countries set (nodes with predictions, that are countries on the globe)
-  const forecastNodeIds = useMemo(() => {
-    const s = new Set<string>();
-    for (const [nid] of store.predictionsByNode) {
-      // only include node ids that map onto a polygon
-      if (featureByNode.has(nid)) s.add(nid);
-    }
-    return s;
-  }, [store, featureByNode]);
-
-  // Migration pulse: nodes with morphology_timeline length >= 2 that are on the globe.
-  const migrationNodeIds = useMemo(() => {
-    const s = new Set<string>();
-    for (const n of store.atlas.nodes) {
-      if ((n.morphology_timeline ?? []).length >= 2 && featureByNode.has(n.node_id)) {
-        s.add(n.node_id);
-      }
-    }
-    return s;
-  }, [store, featureByNode]);
-
-  // Pulse token + simple decay
-  const migrationToken = useAtlasStore((s) => s.migrationToken);
-  const [pulse, setPulse] = useState(0);
-  useEffect(() => {
-    if (reducedMotion) return;
-    if (!forecastsMode) return;
-    setPulse(1);
-    const t1 = setTimeout(() => setPulse(0.5), 500);
-    const t2 = setTimeout(() => setPulse(0), 1400);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [migrationToken, forecastsMode, reducedMotion]);
 
 
   
