@@ -35,6 +35,7 @@ export const Route = createFileRoute("/")({
 });
 
 function AtlasPage() {
+  const mode = useAtlasStore((s) => s.mode);
   const { data: store, isLoading, error } = useDataStore();
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
   const [mounted, setMounted] = useState(false);
@@ -90,14 +91,29 @@ function AtlasPage() {
         }}
       />
 
-      {/* Top-left: legend + filters + index */}
+      {/* Top-left: mode switch + legends + filters + index */}
       <div className="pointer-events-none absolute left-4 top-4 z-20 flex w-[240px] flex-col gap-3">
         <div className="pointer-events-auto flex flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
+          <ModeSwitch />
           <Legend />
-          <div className="border-t border-border/40" />
-          <LayerFilter />
-          <div className="border-t border-border/40" />
-          <GiraiLegend />
+          {mode !== "trajectory" && (
+            <>
+              <div className="border-t border-border/40" />
+              <LayerFilter />
+            </>
+          )}
+          {mode === "girai" && (
+            <>
+              <div className="border-t border-border/40" />
+              <GiraiLegend />
+            </>
+          )}
+          {mode === "trajectory" && (
+            <>
+              <div className="border-t border-border/40" />
+              <TrajectoryLegend />
+            </>
+          )}
         </div>
         <SideIndex store={store} />
       </div>
