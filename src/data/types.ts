@@ -1,4 +1,4 @@
-// Types mirror /public/data/atlas.json. Everything is pre-joined.
+// Types mirror /public/data/atlas.json and /public/data/girai.json. Everything is pre-joined.
 
 export interface AtlasMeta {
   title: string;
@@ -107,7 +107,7 @@ export interface AtlasDocumentGroups {
 export interface AtlasNode {
   node_id: string;
   name: string;
-  layer: string; // "state" | "actor" | "deployer" | "legitimacy"
+  layer: string;
   headline?: string;
   summary?: string;
   morphology_plain?: string;
@@ -127,6 +127,12 @@ export interface AtlasNode {
   morphology_timeline?: AtlasMorphologyEntry[];
   predictions?: AtlasPrediction[];
   vision?: AtlasVision;
+  // GIRAI join keys (state nodes only)
+  iso3?: string | null;
+  part_of_iso3?: string | null;
+  subnational?: boolean;
+  supranational?: boolean;
+  girai_has_data?: boolean;
 }
 
 export interface Atlas {
@@ -136,4 +142,47 @@ export interface Atlas {
   legitimacy_edges: LegitimacyEdge[];
   nodes: AtlasNode[];
   unassigned_documents?: AtlasDocument[];
+}
+
+/* ---------- GIRAI ---------- */
+
+export interface GiraiPillars {
+  government_frameworks: number;
+  government_actions: number;
+  non_state_actors: number;
+}
+
+export interface GiraiDimensions {
+  human_rights: number;
+  governance: number;
+  capacities: number;
+}
+
+export interface GiraiCountry {
+  iso3: string;
+  country: string;
+  ranking: number;
+  region?: string;
+  un_region?: string;
+  un_subregion?: string;
+  index_score: number;
+  pillars: GiraiPillars;
+  dimensions: GiraiDimensions;
+  thematic_areas: Record<string, number | null>;
+}
+
+export interface GiraiMeta {
+  source: string;
+  publisher: string;
+  license: string;
+  data_year: number;
+  edition: string;
+  country_count: number;
+  note?: string;
+  scale?: Record<string, string>;
+}
+
+export interface Girai {
+  meta: GiraiMeta;
+  countries: GiraiCountry[];
 }
