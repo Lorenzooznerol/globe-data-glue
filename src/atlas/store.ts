@@ -3,6 +3,7 @@ import type { Family } from "./families";
 import type { ThemeName } from "./theme";
 
 export type AtlasMode = "overview" | "girai" | "forecasts";
+export type UserStance = "yes" | "no" | null;
 
 interface AtlasState {
   selectedNodeId: string | null;
@@ -15,6 +16,7 @@ interface AtlasState {
   mode: AtlasMode;
   migrationToken: number;
   theme: ThemeName;
+  userStance: UserStance;
 
   selectNode: (id: string | null, opts?: { fly?: boolean }) => void;
   selectIso: (iso: string | null) => void;
@@ -28,6 +30,7 @@ interface AtlasState {
   playMigrations: () => void;
   setTheme: (t: ThemeName) => void;
   toggleTheme: () => void;
+  setUserStance: (s: UserStance) => void;
 }
 
 export const useAtlasStore = create<AtlasState>((set) => ({
@@ -41,6 +44,7 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   mode: "overview",
   migrationToken: 0,
   theme: "dark",
+  userStance: null,
 
   selectNode: (id, opts) =>
     set((s) => ({
@@ -67,4 +71,5 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   playMigrations: () => set((s) => ({ migrationToken: s.migrationToken + 1 })),
   setTheme: (t) => set({ theme: t }),
   toggleTheme: () => set((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
+  setUserStance: (s) => set({ userStance: s }),
 }));

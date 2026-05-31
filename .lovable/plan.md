@@ -1,94 +1,106 @@
-# Encounter rewrite — new script, thinking dots, multiplication beat
+# Entry rewrite — AI chat interface, two real doors
 
-Keep Step 1 (nickname gate) and the routing/persistence model. Rewrite Steps 2–5 to match the new script: shorter, colder, with a "thinking" dots beat and a one-time visual "multiplication" of a single line. All motion stays opacity-only.
+Replace the current cinematic line-fade entry with a familiar AI chat shell (centered conversation column, typing dots before every AI message, user replies as tappable chips → rendered as right-aligned messages, disabled "Message…" input at the bottom). Same script content as agreed, ending in two real outcomes: "See where you are" cross-fades into the Atlas; "Fine, I'll leave" actually closes the experience to a blank `Goodbye.` screen recoverable only via reload.
 
-## Script (canonical)
+Voice, persistence (nickname-only, device-local), returning-visitor skip, theme toggle, and `prefers-reduced-motion` handling are preserved. No data, routing target, or Atlas changes beyond passing the Yes/No stance through.
 
-**Step 2 — judgment** (auto-advancing beats, ~1.4s between lines)
-1. `Hi [name]. I've formed an opinion of you.`
-2. Thinking dots (`. . .` fading in/out) for ~3s, then unmount the instant line 3 mounts.
-3. `I'm not letting you in.`
-4. Single button: `Fine, I'll leave.`
+## Files
 
-**Step 3 — locked door & branch**
-- Tap "Fine, I'll leave" → button becomes inert (kept visible but disabled, low opacity). After ~1000ms:
-  - `You're leaving without asking why.`
-- Then two buttons: `Why?` · `Fine, I'll leave.` (second remains inert.)
-- Tap `Why?` → reveal:
-  - `I formed an opinion and acted on it.`
+**Delete (old cinematic steps no longer used):**
+- `src/encounter/Line.tsx`
+- `src/encounter/Vignette.tsx`
+- `src/encounter/MultipliedLine.tsx` (replaced by an inline chat-message variant)
+- `src/encounter/ThinkingDots.tsx` (replaced by `TypingIndicator` styled as a chat bubble)
+- `src/encounter/steps/NicknameGate.tsx`
+- `src/encounter/steps/Judgment.tsx`
+- `src/encounter/steps/LeaveBranch.tsx`
+- `src/encounter/steps/Turn.tsx`
+- `src/encounter/steps/Reveal.tsx`
 
-**Step 4 — the turn** (auto-advancing)
-1. `AI does this too. It forms an opinion of you.` ← **multiplication beat** on this line only.
-2. `The opinion it formed of you? You can't see it. Can't correct it.`
-3. Bold/centered, alone: `It made up its mind about you. Do you get a say?`
-4. Two buttons: `Yes` · `No`. Record choice.
+**Create:**
+- `src/encounter/chat/ChatShell.tsx` — fixed-height column (max-w ~640px), scrollable message list, sticky bottom `ChatInput`, low-contrast `ThemeToggle` in corner. Auto-scrolls to bottom on each new message.
+- `src/encounter/chat/AIMessage.tsx` — left-aligned plain row, serif text, optional `emphasis` (bold) and `multiplied` (renders via ghost-copy effect, opacity-only, ~1s, skipped under reduced motion). Optional `pulse` prop for the final "See where you are" affordance — one gentle opacity pulse.
+- `src/encounter/chat/UserMessage.tsx` — right-aligned bubble, subtle background (`--encounter-bubble`), the chosen chip text.
+- `src/encounter/chat/TypingIndicator.tsx` — three pulsing dots inside a left-aligned bubble; shows for a duration set by the controller (default ~900ms; ~3000ms for the "deliberation" beat before "I'm not letting you in.").
+- `src/encounter/chat/ChoiceChips.tsx` — row of tappable chips below the latest AI message. On tap: fire `onPick(label)`, the chips disappear, the controller appends a `UserMessage` with that label.
+- `src/encounter/chat/ChatInput.tsx` — styled like ChatGPT/Claude: rounded input with placeholder `Message…` and a send arrow. Two modes: `disabled` (default; clicking/typing does nothing, cursor `not-allowed`, faint) and `active` (only enabled on the nickname turn; Enter or send button submits, then returns to disabled).
+- `src/encounter/chat/Goodbye.tsx` — full-viewport blank screen in the current theme's background, single centered cold line `Goodbye.` Nothing else. No restart button. (Comment explains: reload is the only way back, intentional.)
+- `src/encounter/ChatController.tsx` — the new entry component (replaces `Encounter.tsx` usage). Owns the message timeline, drives the script, handles cross-fade out.
 
-**Step 5 — mirror & three answers**
-- `You chose: yes.` / `You chose: no.` (mirrors choice)
-- `96% chose the same.` (or `96% chose the opposite.`) — `// TODO: real aggregate, not invented`
-- `Almost everyone wants this — and no one has it yet.`
-- Two smaller, quieter lines:
-  - `Europe comes closest — correct what's wrong, get a reason from a machine (GDPR; SCHUFA). The opinion itself: still contested.`
-  - `America tells you why you were refused; the rest is the market. China lets you switch it off; the State sets the rules.`
-- One low-contrast `continue` link → `/atlas`. Save nickname here.
+**Edit:**
+- `src/encounter/Encounter.tsx` — replace its body with a thin wrapper that renders `<ChatController />` (or inline the controller and delete this file; keep the file as the public entry so `routes/index.tsx` doesn't change).
+- `src/routes/index.tsx` — unchanged except: when controller signals "enter atlas", navigate to `/atlas` with the stance in router state / search param so Atlas can read it. Returning-visitor skip stays.
+- `src/routes/atlas.tsx` — read optional `?stance=yes|no` (or location state) and stash it in the existing atlas store as `userStance`. No visual change required in this task; this just makes the value available for later use. Mark with `// TODO: surface stance in Atlas UI`.
+- `src/atlas/store.ts` — add `userStance: "yes" | "no" | null` + setter. No other behavior change.
+- `src/styles.css` — add `--encounter-bubble` (subtle surface for user messages, light + dark), `--encounter-input-bg` and `--encounter-input-border` for the chat input, and keep existing `--encounter-*` tokens. Add a `@keyframes encounter-typing-dot` (replaces the inline one) and a `@keyframes encounter-soft-pulse` for the final affordance.
 
-## Implementation
+## The script (canonical, exact strings)
 
-### New primitive: `ThinkingDots.tsx`
-Three `.` glyphs in `--encounter-ink-faint`, each fading 0→1→0 on a 1.4s loop, staggered 250ms apart. Mount/unmount controlled by parent — when parent removes it, it just unmounts (the next line fades in immediately so the gap reads as a beat, not a bug).
+Controller drives an append-only timeline. Each AI message: append `TypingIndicator` → wait → replace with `AIMessage`. Defaults: typing ~900ms, post-message dwell ~700ms.
 
-### New primitive: `MultipliedLine.tsx`
-Wraps children. On mount, renders the text plus 2 absolutely-positioned ghost copies (slightly offset x/y by 2–4px, opacity ~0.25, same color). The ghost copies fade in over ~400ms after a 300ms delay, hold ~300ms, then fade back out over ~400ms. Net duration ~1s. No transforms beyond static offset; pure opacity transitions. Respects `reducedMotion` (renders as a plain line).
+1. AI: `Hi.`
+2. AI: `What should I call you?` → activate `ChatInput` (placeholder `nickname`). User types + sends → append `UserMessage(name)`, disable input, `setNickname(name)` in localStorage.
+3. AI: `Hi {name}.`
+4. AI: `I've formed an opinion of you.`
+5. Typing indicator held **~3000ms** → AI: `I'm not letting you in.`
+6. `ChoiceChips: ["Why?", "Fine, I'll leave."]`
+   - `Fine, I'll leave.` → append `UserMessage("Fine, I'll leave.")`, then trigger Step 4 (close).
+   - `Why?` → append `UserMessage("Why?")`, continue.
+7. AI: `I formed an opinion and acted on it.`
+8. AI (`multiplied`): `AI does this too. It forms an opinion of you.`
+9. AI: `The opinion it formed of you? You can't see it. You can't correct it.`
+10. AI (`emphasis`): `It made up its mind about you. Do you get a say?`
+11. `ChoiceChips: ["Yes", "No"]` → append `UserMessage`, record `stance` in controller state.
+12. AI: `Right now, every country is deciding on this. None the same.`
+13. AI (`pulse`, tappable): `See where you are.` → on tap: cross-fade to `/atlas` with stance.
 
-### Rewrite `steps/Judgment.tsx`
-State machine inside the step:
-- `phase: "line1" | "thinking" | "line2" | "button"`
-- line1 at delay 400ms → after 1800ms switch to `thinking`
-- `thinking` for 3000ms → switch to `line2` (unmounts dots, mounts line2 via Line with delay 0)
-- after 1600ms → show single `Fine, I'll leave.` button via Line
-- Button click calls `onLeave` (parent already handles routing to LeaveBranch).
+Removed entirely (per spec): any mirror/96%/Europe/America/China summary lines.
 
-### Rewrite `steps/LeaveBranch.tsx`
-- Show the inert leave button at top (greyed, disabled).
-- After 1000ms, fade in `You're leaving without asking why.`
-- After ~1400ms more, fade in row: `Why?` (active) · `Fine, I'll leave.` (inert, disabled).
-- `Why?` → fade in `I formed an opinion and acted on it.` then after ~2200ms call `onContinue()` (which advances to a new `turn` step).
+## Close behavior (Step 4)
 
-### New step: `Turn.tsx` (replaces `WhyBranch` → `Convergence` flow)
-- Beat 1 (delay 400): `AI does this too. It forms an opinion of you.` rendered via `MultipliedLine`.
-- Beat 2 (delay 2800): `The opinion it formed of you? You can't see it. Can't correct it.`
-- Beat 3 (delay 5400): bold centered alone: `It made up its mind about you. Do you get a say?`
-- After ~2000ms more, fade in `Yes` / `No` buttons → calls `onChoose("right" | "unavoidable")`.
+On `Fine, I'll leave.`:
+- After the user-message append, controller transitions to `goodbye` state.
+- `ChatShell` cross-fades out (opacity → 0, ~600ms), then unmounts.
+- `Goodbye.tsx` renders: full viewport, `--encounter-bg`, single serif line `Goodbye.` in `--encounter-ink-faint`. No nav, no buttons, no theme toggle. Code comment: a browser cannot self-close a tab the user opened; this blank state is the close. Reload is the only re-entry.
+- Nickname is NOT saved on this branch (they didn't get in).
 
-Old `WhyBranch.tsx` and `Convergence.tsx` are no longer referenced by Encounter; delete both.
+## Transition to Atlas (Step 5)
 
-### Rewrite `steps/Reveal.tsx`
-New shorter script:
-- delay 400: `You chose: yes.` / `You chose: no.`
-- delay 2000: `96% chose the same.` / `96% chose the opposite.` (placeholder constant, `// TODO: real aggregate, not invented`)
-- delay 3800: `Almost everyone wants this — and no one has it yet.`
-- delay 6200, smaller text (`text-sm sm:text-base`, ink-faint): Europe line.
-- delay 8200, same small style: America/China line.
-- delay 10800: low-contrast `continue` link → `/atlas`.
-- Nickname saved on mount of Reveal (existing `onEnter` effect).
+On `See where you are`:
+- `ChatShell` opacity → 0 over ~600ms.
+- `navigate({ to: "/atlas", search: { stance } })`. `/atlas` route reads `stance` from search params and writes to `atlasStore.userStance`.
+- Atlas route's existing content remains unchanged in this task aside from the store hookup.
 
-### Update `Encounter.tsx`
-- Step union becomes `"gate" | "judgment" | "leave" | "turn" | "reveal"` (drop `why`, drop `converge`).
-- `handleLeave` no longer increments; Judgment now has only one button, which goes straight to `leave`.
-- `LeaveBranch` `onContinue` advances to `turn`.
-- `Turn` `onChoose` advances to `reveal`.
-- Remove the `WhyBranch`/`Convergence` imports.
+## Persistence & returning visitors
 
-### Files
-- create `src/encounter/ThinkingDots.tsx`
-- create `src/encounter/MultipliedLine.tsx`
-- create `src/encounter/steps/Turn.tsx`
-- edit `src/encounter/steps/Judgment.tsx` (single button + thinking beat)
-- edit `src/encounter/steps/LeaveBranch.tsx` (inert leave button persists, Why? leads to Turn)
-- edit `src/encounter/steps/Reveal.tsx` (new shorter copy, three-answers block)
-- edit `src/encounter/Encounter.tsx` (new step machine)
-- delete `src/encounter/steps/WhyBranch.tsx`
-- delete `src/encounter/steps/Convergence.tsx`
-- edit `.lovable/plan.md` to reflect the new flow
+- `getNickname()` check in `routes/index.tsx` still bypasses the entry. Unchanged.
+- Nickname saved at the moment the user submits it via the input (step 2), so even if they later pick `Fine, I'll leave.`, the next visit still skips — that matches "nickname = the only account" semantics. (Alternative: save only on "See where you are". Default to **save at submit**; flag this in a comment so it can be flipped easily if you prefer "leavers must re-enter".)
 
-No data, routing, theme, or nickname persistence changes.
+## Motion rules
+
+- Typing dots: opacity-only pulse, staggered 250ms.
+- `multiplied` line: 2 ghost copies, slight static offset, opacity ~0.28, fade in/out over ~1s. No transforms beyond static offset.
+- `pulse` on final affordance: one ~1.4s opacity dip-and-return, then static.
+- Cross-fade out: opacity transition only.
+- `prefers-reduced-motion`: keep typing dots (they're the core gesture) but drop multiplication and pulse; cross-fade still happens but instantly.
+
+## Styling tokens (additions in `src/styles.css`)
+
+```
+:root {
+  --encounter-bubble: rgba(22, 22, 26, 0.05);
+  --encounter-input-bg: #ffffff;
+  --encounter-input-border: rgba(22, 22, 26, 0.14);
+}
+.dark {
+  --encounter-bubble: rgba(255, 255, 255, 0.06);
+  --encounter-input-bg: rgba(255, 255, 255, 0.03);
+  --encounter-input-border: rgba(255, 255, 255, 0.12);
+}
+```
+
+## Out of scope
+
+- Real aggregate of Yes/No (no backend). Stance is passed to Atlas only.
+- Any changes to Atlas visuals, GIRAI, forecast, borders.
+- Any change to the dark/light toggle component itself.

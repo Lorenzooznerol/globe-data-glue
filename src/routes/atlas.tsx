@@ -18,7 +18,13 @@ const ForecastsPanel = lazy(() =>
   import("@/atlas/panels/TrajectoryPanel").then((m) => ({ default: m.TrajectoryPanel })),
 );
 
+type StanceSearch = { stance?: "yes" | "no" };
+
 export const Route = createFileRoute("/atlas")({
+  validateSearch: (raw: Record<string, unknown>): StanceSearch => {
+    const s = raw.stance;
+    return s === "yes" || s === "no" ? { stance: s } : {};
+  },
   head: () => ({
     meta: [
       { title: "Atlas of AI Governance" },
@@ -42,8 +48,16 @@ function AtlasPage() {
   const mode = useAtlasStore((s) => s.mode);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
+  const setUserStance = useAtlasStore((s) => s.setUserStance);
   const playMigrations = useAtlasStore((s) => s.playMigrations);
+  const { stance } = Route.useSearch();
   const { data: store, isLoading, error } = useDataStore();
+
+  // TODO: surface stance in Atlas UI ("see where you are" vs. each country).
+  useEffect(() => {
+    if (stance) setUserStance(stance);
+  }, [stance, setUserStance]);
+
   const [mounted, setMounted] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [size, setSize] = useState<{ w: number; h: number }>({

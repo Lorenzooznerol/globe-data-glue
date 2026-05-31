@@ -96,6 +96,9 @@
   --encounter-ink-faint: rgba(22, 22, 26, 0.42);
   --encounter-rule: rgba(22, 22, 26, 0.7);
   --encounter-vignette: rgba(120, 120, 120, 0.22);
+  --encounter-bubble: rgba(22, 22, 26, 0.05);
+  --encounter-input-bg: #ffffff;
+  --encounter-input-border: rgba(22, 22, 26, 0.14);
 }
 
 .dark {
@@ -143,12 +146,29 @@
   --encounter-ink-faint: rgba(236, 233, 226, 0.42);
   --encounter-rule: rgba(236, 233, 226, 0.7);
   --encounter-vignette: rgba(0, 0, 0, 0.6);
+  --encounter-bubble: rgba(236, 233, 226, 0.06);
+  --encounter-input-bg: rgba(236, 233, 226, 0.03);
+  --encounter-input-border: rgba(236, 233, 226, 0.12);
 }
 
-/* Encounter — keyframe used to fade in the pinned nickname after the gate. */
+/* Encounter — fades and pulses (opacity-only, no transforms). */
 @keyframes encounter-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes encounter-typing-dot {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 0.9; }
+}
+
+@keyframes encounter-soft-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+.encounter-pulse {
+  animation: encounter-soft-pulse 1800ms ease-in-out 1;
 }
 
 @layer base {
