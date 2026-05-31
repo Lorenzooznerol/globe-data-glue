@@ -4,6 +4,8 @@ import type { Family } from "./families";
 
 const DEFAULT_LAYERS: Layer[] = ["state", "actor", "vision"];
 
+export type AtlasMode = "overview" | "girai" | "trajectory";
+
 interface AtlasState {
   selectedNodeId: string | null;
   selectedIso: string | null;
@@ -13,6 +15,8 @@ interface AtlasState {
   families: Set<Family>;
   sideIndexOpen: boolean;
   reducedMotion: boolean;
+  mode: AtlasMode;
+  migrationToken: number;
 
   selectNode: (id: string | null, opts?: { fly?: boolean }) => void;
   selectIso: (iso: string | null) => void;
@@ -23,6 +27,8 @@ interface AtlasState {
   clearFamilies: () => void;
   toggleSideIndex: () => void;
   setReducedMotion: (v: boolean) => void;
+  setMode: (m: AtlasMode) => void;
+  playMigrations: () => void;
 }
 
 export const useAtlasStore = create<AtlasState>((set) => ({
@@ -34,6 +40,8 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   families: new Set(),
   sideIndexOpen: false,
   reducedMotion: false,
+  mode: "overview",
+  migrationToken: 0,
 
   selectNode: (id, opts) =>
     set((s) => ({
@@ -64,4 +72,6 @@ export const useAtlasStore = create<AtlasState>((set) => ({
   clearFamilies: () => set({ families: new Set() }),
   toggleSideIndex: () => set((s) => ({ sideIndexOpen: !s.sideIndexOpen })),
   setReducedMotion: (v) => set({ reducedMotion: v }),
+  setMode: (m) => set({ mode: m }),
+  playMigrations: () => set((s) => ({ migrationToken: s.migrationToken + 1 })),
 }));

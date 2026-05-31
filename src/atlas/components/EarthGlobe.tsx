@@ -1,15 +1,18 @@
-import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
+import { renderToStaticMarkup } from "react-dom/server";
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
-import { colorForNode, familyOf } from "@/atlas/families";
+import { colorForNode, familyOf, FAMILY_COLOR, OPAQUE_GREY } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
 import { giraiRampColor } from "@/atlas/giraiRamp";
+import { directionGlyph } from "@/atlas/trajectory";
+import { DirectionGlyph } from "@/atlas/panels/DirectionGlyph";
 
 const Globe = lazy(() => import("react-globe.gl"));
 
@@ -50,9 +53,36 @@ export function EarthGlobe({ store, width, height }: Props) {
   const families = useAtlasStore((s) => s.families);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const flyToken = useAtlasStore((s) => s.flyToken);
+  const mode = useAtlasStore((s) => s.mode);
+  const migrationToken = useAtlasStore((s) => s.migrationToken);
   const selectNode = useAtlasStore((s) => s.selectNode);
   const selectIso = useAtlasStore((s) => s.selectIso);
   const setHovered = useAtlasStore((s) => s.setHovered);
+
+  const trajectoryMode = mode === "trajectory";
+
+  // Migration animation progress 0..1 for the 6 nodes with timelines.
+  const [migrationT, setMigrationT] = useState(0);
+  useEffect(() => {
+    if (!trajectoryMode) {
+      setMigrationT(0);
+      return;
+    }
+    if (reducedMotion) {
+      setMigrationT(1);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const dur = 1400;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      setMigrationT(p);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [trajectoryMode, migrationToken, reducedMotion]);
 
   useEffect(() => {
     const g = globeRef.current;
@@ -124,19 +154,28 @@ export function EarthGlobe({ store, width, height }: Props) {
     const r = obj as Resolved;
     let base: string;
     if (r.girai) {
-      base = giraiRampColor(r.girai.index_score, 1);
+      const alpha = trajectoryMode ? 0.25 : 1;
+      base = giraiRampColor(r.girai.index_score, alpha);
       if (r.nodeId && r.nodeId === hoveredNodeId) {
-        // tiny brighten on hover
-        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), 1);
+        base = giraiRampColor(Math.min(100, r.girai.index_score + 10), alpha);
       }
     } else {
       base = NEUTRAL_FILL;
+    }
+    // Trajectory mode: migration nodes interpolate between first/last family color.
+    if (trajectoryMode && r.node && r.node.morphology_timeline && r.node.morphology_timeline.length >= 2) {
+      const tl = r.node.morphology_timeline;
+      const a = familyOf(tl[0].morphology);
+      const b = familyOf(tl[tl.length - 1].morphology);
+      const colA = a ? FAMILY_COLOR[a] : OPAQUE_GREY;
+      const colB = b ? FAMILY_COLOR[b] : OPAQUE_GREY;
+      return lerpHex(colA, colB, migrationT);
     }
     // Family filter: dim countries whose curated node is filtered out.
     if (families.size > 0 && r.node) {
       const fam = familyOf(r.node.morphology);
       if (!fam || !families.has(fam)) {
-        return r.girai ? giraiRampColor(r.girai.index_score, 0.25) : NEUTRAL_FILL;
+        return r.girai ? giraiRampColor(r.girai.index_score, 0.2) : NEUTRAL_FILL;
       }
     }
     return base;
@@ -233,6 +272,57 @@ export function EarthGlobe({ store, width, height }: Props) {
     });
   }, []);
 
+  // Trajectory mode: glyphs at predicted-node centroids.
+  const glyphData = useMemo(() => {
+    if (!trajectoryMode) return [] as GlyphDatum[];
+    const out: GlyphDatum[] = [];
+    for (const [nodeId, preds] of store.predictionsByNode) {
+      const node = store.nodesById.get(nodeId);
+      if (!node) continue;
+      const p = preds[0];
+      let lat: number | undefined;
+      let lng: number | undefined;
+      const feat = featureByNode.get(nodeId);
+      if (nodeId !== "ST-EU" && feat) {
+        try {
+          const [cLng, cLat] = geoCentroid(feat as never);
+          if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
+            lat = cLat;
+            lng = cLng;
+          }
+        } catch {
+          /* fall back below */
+        }
+      }
+      if (lat == null || lng == null) {
+        const fb = NODE_CENTROIDS[nodeId];
+        if (!fb) continue;
+        lat = fb[0];
+        lng = fb[1];
+      }
+      out.push({
+        id: nodeId,
+        lat,
+        lng,
+        kind: directionGlyph(p.direction),
+        color: colorForNode(node),
+      });
+    }
+    return out;
+  }, [trajectoryMode, store, featureByNode]);
+
+  const glyphHtml = (obj: object): string => {
+    const g = obj as GlyphDatum;
+    const svg = renderToStaticMarkup(
+      <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
+    );
+    return `<div style="
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+    ">${svg}</div>`;
+  };
+
   return (
     <Suspense fallback={null}>
       <Globe
@@ -255,9 +345,44 @@ export function EarthGlobe({ store, width, height }: Props) {
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
+        htmlElementsData={glyphData}
+        htmlLat={(d: object) => (d as GlyphDatum).lat}
+        htmlLng={(d: object) => (d as GlyphDatum).lng}
+        htmlAltitude={0.04}
+        htmlElement={(d: object) => {
+          const el = document.createElement("div");
+          el.innerHTML = glyphHtml(d);
+          return el.firstElementChild as HTMLElement;
+        }}
       />
     </Suspense>
   );
+}
+
+interface GlyphDatum {
+  id: string;
+  lat: number;
+  lng: number;
+  kind: ReturnType<typeof directionGlyph>;
+  color: string;
+}
+
+function lerpHex(a: string, b: string, t: number): string {
+  const pa = parseHex(a);
+  const pb = parseHex(b);
+  const r = Math.round(pa[0] + (pb[0] - pa[0]) * t);
+  const g = Math.round(pa[1] + (pb[1] - pa[1]) * t);
+  const bl = Math.round(pa[2] + (pb[2] - pa[2]) * t);
+  return `rgb(${r},${g},${bl})`;
+}
+
+function parseHex(hex: string): [number, number, number] {
+  const m = hex.replace("#", "");
+  return [
+    parseInt(m.slice(0, 2), 16),
+    parseInt(m.slice(2, 4), 16),
+    parseInt(m.slice(4, 6), 16),
+  ];
 }
 
 function escapeHtml(s: string): string {

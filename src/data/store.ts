@@ -15,6 +15,12 @@ import type {
 
 const EMPTY_GROUPS: AtlasDocumentGroups = { primary: [], secondary: [], context: [] };
 
+/** A prediction decorated with its parent node id + name, for use in the register. */
+export type DecoratedPrediction = AtlasPrediction & {
+  node_id: string;
+  node_name: string;
+};
+
 export interface DataStore {
   atlas: Atlas;
   girai: Girai;
@@ -25,6 +31,9 @@ export interface DataStore {
   markersById: Map<string, Marker>;
   glossaryByTerm: Map<string, GlossaryTerm>;
   glossaryList: GlossaryTerm[];
+  predictionsByNode: Map<string, DecoratedPrediction[]>;
+  predictionsByMarker: Map<string, DecoratedPrediction[]>;
+  allPredictions: DecoratedPrediction[];
 
   getNode: (id: string) => AtlasNode | undefined;
   getNodeByIso: (iso: string) => AtlasNode | undefined;
@@ -67,6 +76,35 @@ export function buildStore(atlas: Atlas, girai: Girai): DataStore {
     .filter((g) => g.term)
     .sort((a, b) => a.term.localeCompare(b.term));
 
+  const markerIds = (atlas.markers ?? []).map((m) => m.marker_id);
+  const predictionsByNode = new Map<string, DecoratedPrediction[]>();
+  const predictionsByMarker = new Map<string, DecoratedPrediction[]>();
+  const allPredictions: DecoratedPrediction[] = [];
+  for (const n of atlas.nodes) {
+    const list = n.predictions ?? [];
+    if (!list.length) continue;
+    const decorated: DecoratedPrediction[] = list.map((p) => ({
+      ...p,
+      node_id: n.node_id,
+      node_name: n.name,
+    }));
+    predictionsByNode.set(n.node_id, decorated);
+    for (const dp of decorated) {
+      allPredictions.push(dp);
+      const mid = resolvePredictionMarker(dp.marker, markerIds);
+      if (mid) {
+        const arr = predictionsByMarker.get(mid) ?? [];
+        arr.push(dp);
+        predictionsByMarker.set(mid, arr);
+      }
+    }
+  }
+  allPredictions.sort((a, b) => {
+    const da = a.falsification_date ?? "";
+    const db = b.falsification_date ?? "";
+    return da.localeCompare(db);
+  });
+
   return {
     atlas,
     girai,
@@ -77,6 +115,9 @@ export function buildStore(atlas: Atlas, girai: Girai): DataStore {
     markersById,
     glossaryByTerm,
     glossaryList,
+    predictionsByNode,
+    predictionsByMarker,
+    allPredictions,
 
     getNode: (id) => nodesById.get(id),
     getNodeByIso: (iso) => nodeByIso.get(iso),
@@ -88,6 +129,13 @@ export function buildStore(atlas: Atlas, girai: Girai): DataStore {
     edgesFrom: (id) => (atlas.legitimacy_edges ?? []).filter((e) => e.from_node === id),
     edgesTo: (id) => (atlas.legitimacy_edges ?? []).filter((e) => e.to_node === id),
   };
+}
+
+function resolvePredictionMarker(marker: string | undefined, ids: string[]): string | null {
+  if (!marker) return null;
+  if (ids.includes(marker)) return marker;
+  const matches = ids.filter((id) => marker.startsWith(id)).sort((a, b) => b.length - a.length);
+  return matches[0] ?? null;
 }
 
 export async function loadStore(): Promise<DataStore> {
