@@ -232,7 +232,3 @@ function escapeHtml(s: string): string {
     : "&#39;",
   );
 }
-
-void EU_MEMBERS;
-void NODE_TO_ISO3;
-void ISO3_TO_NODE;
