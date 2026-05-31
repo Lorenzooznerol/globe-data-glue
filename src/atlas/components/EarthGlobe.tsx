@@ -1,16 +1,11 @@
 import { lazy, Suspense, useEffect, useMemo, useRef } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
+import { geoCentroid } from "d3-geo";
 import type { DataStore } from "@/data/store";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
-import {
-  EU_MEMBERS,
-  ISO3_TO_NODE,
-  NODE_CENTROIDS,
-  NODE_TO_ISO3,
-  isoToNodeId,
-} from "@/atlas/iso";
+import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorFor, evidenceOpacity, splitMorphology } from "@/atlas/morphology";
 import { plainHeadline } from "@/atlas/plainLanguage";
 
@@ -57,6 +52,7 @@ export function EarthGlobe({ store, width, height }: Props) {
   const selectNode = useAtlasStore((s) => s.selectNode);
   const setHovered = useAtlasStore((s) => s.setHovered);
 
+  // One-time controls setup
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
@@ -65,29 +61,9 @@ export function EarthGlobe({ store, width, height }: Props) {
     controls.dampingFactor = 0.08;
     controls.minDistance = 180;
     controls.maxDistance = 600;
-    controls.autoRotate = !reducedMotion;
     controls.autoRotateSpeed = 0.3;
-    const pause = () => {
-      controls.autoRotate = false;
-    };
-    controls.addEventListener("start", pause);
     g.pointOfView({ altitude: 2.4 }, 0);
-    return () => {
-      controls.removeEventListener("start", pause);
-    };
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    if (!selectedNodeId) return;
-    const c = NODE_CENTROIDS[selectedNodeId];
-    if (!c) return;
-    const g = globeRef.current;
-    if (!g) return;
-    g.pointOfView(
-      { lat: c[0], lng: c[1], altitude: 1.6 },
-      reducedMotion ? 0 : 900,
-    );
-  }, [flyToken, selectedNodeId, reducedMotion]);
+  }, []);
 
   const resolved = useMemo<Resolved[]>(() => {
     return features.map((f) => {
@@ -97,6 +73,53 @@ export function EarthGlobe({ store, width, height }: Props) {
       return { feature: f, iso, nodeId, node };
     });
   }, [features, store]);
+
+  // Index nodeId -> first matching feature, for camera centroids
+  const featureByNode = useMemo(() => {
+    const m = new Map<string, Resolved["feature"]>();
+    for (const r of resolved) {
+      if (r.nodeId && !m.has(r.nodeId)) m.set(r.nodeId, r.feature);
+    }
+    return m;
+  }, [resolved]);
+
+  // Pause auto-rotate while hovering or while a country is selected.
+  useEffect(() => {
+    const g = globeRef.current;
+    if (!g) return;
+    g.controls().autoRotate =
+      !reducedMotion && !hoveredNodeId && !selectedNodeId;
+  }, [reducedMotion, hoveredNodeId, selectedNodeId]);
+
+  // Camera fly-to on selection: use the feature's geographic centroid;
+  // fall back to NODE_CENTROIDS (covers ST-EU, which spans 27 members).
+  useEffect(() => {
+    if (!selectedNodeId) return;
+    const g = globeRef.current;
+    if (!g) return;
+    let lat: number | undefined;
+    let lng: number | undefined;
+    const fallback = NODE_CENTROIDS[selectedNodeId];
+    const feat = featureByNode.get(selectedNodeId);
+    if (selectedNodeId !== "ST-EU" && feat && feat.geometry) {
+      try {
+        const [cLng, cLat] = geoCentroid(feat as never);
+        if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
+          lat = cLat;
+          lng = cLng;
+        }
+      } catch {
+        /* fall through */
+      }
+    }
+    if (lat == null || lng == null) {
+      if (!fallback) return;
+      lat = fallback[0];
+      lng = fallback[1];
+    }
+    g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
+  }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
+
 
   const polygonCapColor = (obj: object): string => {
     const r = obj as Resolved;
