@@ -135,6 +135,9 @@ function AtlasPage() {
         <NodeCard store={store} />
         <GiraiOnlyCard store={store} />
       </div>
+
+      {/* Trajectory bottom sheet */}
+      <TrajectoryPanel store={store} />
     </div>
   );
 }
