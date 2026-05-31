@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { DataStore } from "@/data/store";
 import { useAtlasStore } from "@/atlas/store";
-import { colorFor } from "@/atlas/morphology";
+import { colorForNode } from "@/atlas/families";
+import { layerOf } from "@/atlas/morphology";
 
 interface Props {
   store: DataStore;
@@ -29,13 +30,10 @@ export function SideIndex({ store }: Props) {
       </button>
       {open && (
         <aside className="pointer-events-auto mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-md border border-border/50 bg-background/90 p-4 backdrop-blur-md">
-          {SECTIONS.filter((s) => layers.has(s.layer)).map((section) => {
-            const rows =
-              section.layer === "vision"
-                ? store.raw.nodesVision.map((n) => ({ id: n.node_id, name: n.name, hue: undefined as string | undefined }))
-                : store.raw.nodesBanded
-                    .filter((n) => n.layer === section.layer)
-                    .map((n) => ({ id: n.node_id, name: n.name, hue: colorFor(n.morphology) }));
+          {SECTIONS.filter((s) => s.layer === "deployer" || layers.has(s.layer)).map((section) => {
+            const rows = store.atlas.nodes
+              .filter((n) => layerOf(n.node_id) === section.layer)
+              .map((n) => ({ id: n.node_id, name: n.name, hue: colorForNode(n) }));
             if (rows.length === 0) return null;
             return (
               <Section
@@ -58,7 +56,7 @@ function Section({
   onPick,
 }: {
   label: string;
-  rows: { id: string; name: string; hue?: string }[];
+  rows: { id: string; name: string; hue: string }[];
   onPick: (id: string) => void;
 }) {
   const [open, setOpen] = useState(true);
@@ -79,12 +77,10 @@ function Section({
                 onClick={() => onPick(r.id)}
                 className="flex w-full items-center gap-2.5 py-1.5 text-left text-[13px] text-foreground/85 hover:text-foreground"
               >
-                {r.hue && (
-                  <span
-                    className="h-1.5 w-1.5 shrink-0 rounded-full"
-                    style={{ background: r.hue }}
-                  />
-                )}
+                <span
+                  className="h-1.5 w-1.5 shrink-0 rounded-full"
+                  style={{ background: r.hue }}
+                />
                 <span className="font-serif leading-snug">{r.name}</span>
               </button>
             </li>

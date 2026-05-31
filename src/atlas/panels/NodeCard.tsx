@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import type { DataStore } from "@/data/store";
-import type { NodeBanded, NodeReadable, NodeVision, SourceV2 } from "@/data/types";
+import type { AtlasDocument, AtlasDocumentGroups, AtlasNode } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { X, ChevronDown } from "lucide-react";
-import { colorFor, splitMorphology, MORPH_COLOR, MORPH_LABEL, layerOf } from "@/atlas/morphology";
+import { splitMorphology, MORPH_COLOR, MORPH_LABEL, layerOf } from "@/atlas/morphology";
+import { colorForNode } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
 import { BandMeter } from "./BandMeter";
 import { Term, TermScope } from "./Term";
@@ -30,24 +31,20 @@ export function NodeCard({ store }: Props) {
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const [level, setLevel] = useState<Level>("short");
 
-  // Reset to Level 1 whenever the selection changes.
   useEffect(() => {
     setLevel("short");
   }, [selectedNodeId]);
 
   if (!selectedNodeId) return null;
 
-  const banded = store.nodesBandedById.get(selectedNodeId);
-  const vision = store.nodesVisionById.get(selectedNodeId);
-  const readable = store.readableById.get(selectedNodeId);
-  const node = banded ?? vision;
+  const node = store.nodesById.get(selectedNodeId);
   if (!node) return null;
 
-  const isVision = !!vision && !banded;
-  const groups = store.documentGroupsForNode(selectedNodeId);
+  const isVision = !!node.vision || layerOf(node.node_id) === "vision";
+  const groups = node.documents ?? { primary: [], secondary: [], context: [] };
   const totalDocs = groups.primary.length + groups.secondary.length + groups.context.length;
-  const hue = banded ? colorFor(banded.morphology) : "var(--muted-foreground)";
-  const layer = layerOf(selectedNodeId).toUpperCase();
+  const hue = colorForNode(node);
+  const layer = layerOf(node.node_id).toUpperCase();
 
   return (
     <aside
@@ -55,7 +52,6 @@ export function NodeCard({ store }: Props) {
       role="dialog"
       aria-label={`${node.name} — atlas card`}
     >
-      {/* Header */}
       <header className="relative shrink-0 border-b border-border/40 px-6 pb-5 pt-6">
         <Button
           variant="ghost"
@@ -68,21 +64,20 @@ export function NodeCard({ store }: Props) {
         </Button>
         <div className="mono mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           <span>{layer}</span>
-          {banded?.region && (
+          {node.region && (
             <>
               <span aria-hidden>·</span>
-              <span>{banded.region}</span>
+              <span>{node.region}</span>
             </>
           )}
           <span aria-hidden className="ml-auto" />
           <GlossaryPanel store={store} />
         </div>
         <h2 className="font-serif text-[26px] font-medium leading-tight tracking-tight text-foreground">
-          {readable?.name ?? node.name}
+          {node.name}
         </h2>
       </header>
 
-      {/* Segmented control */}
       <nav
         role="tablist"
         aria-label="Detail level"
@@ -115,15 +110,12 @@ export function NodeCard({ store }: Props) {
         })}
       </nav>
 
-      {/* Body */}
       <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-10 pt-5">
         <LevelView
           level={level}
           reducedMotion={reducedMotion}
           store={store}
-          banded={banded ?? null}
-          vision={vision ?? null}
-          readable={readable ?? null}
+          node={node}
           isVision={isVision}
           hue={hue}
           groups={groups}
@@ -137,9 +129,7 @@ function LevelView({
   level,
   reducedMotion,
   store,
-  banded,
-  vision,
-  readable,
+  node,
   isVision,
   hue,
   groups,
@@ -147,33 +137,22 @@ function LevelView({
   level: Level;
   reducedMotion: boolean;
   store: DataStore;
-  banded: NodeBanded | null;
-  vision: NodeVision | null;
-  readable: NodeReadable | null;
+  node: AtlasNode;
   isVision: boolean;
   hue: string;
-  groups: { primary: SourceV2[]; secondary: SourceV2[]; context: SourceV2[] };
+  groups: AtlasDocumentGroups;
 }) {
   return (
     <div
       key={level}
       className={reducedMotion ? "" : "animate-in fade-in-0 slide-in-from-bottom-1 duration-200"}
     >
-      {level === "short" && (
-        <ShortLevel store={store} readable={readable} banded={banded} vision={vision} hue={hue} />
-      )}
+      {level === "short" && <ShortLevel store={store} node={node} hue={hue} />}
       {level === "how" && (
-        <HowLevel
-          store={store}
-          readable={readable}
-          banded={banded}
-          vision={vision}
-          isVision={isVision}
-          hue={hue}
-        />
+        <HowLevel store={store} node={node} isVision={isVision} hue={hue} />
       )}
       {level === "docs" && <DocsLevel groups={groups} hue={hue} />}
-      {level === "tech" && <TechLevel banded={banded} vision={vision} />}
+      {level === "tech" && <TechLevel node={node} />}
     </div>
   );
 }
@@ -182,20 +161,15 @@ function LevelView({
 
 function ShortLevel({
   store,
-  readable,
-  banded,
-  vision,
+  node,
   hue,
 }: {
   store: DataStore;
-  readable: NodeReadable | null;
-  banded: NodeBanded | null;
-  vision: NodeVision | null;
+  node: AtlasNode;
   hue: string;
 }) {
-  const headline = readable?.headline ?? "";
-  const summary =
-    readable?.summary || banded?.notes || vision?.notes || "";
+  const headline = node.headline ?? "";
+  const summary = node.summary || node.notes || node.vision?.notes || "";
 
   if (!headline && !summary) {
     return (
@@ -229,46 +203,39 @@ function ShortLevel({
 
 function HowLevel({
   store,
-  readable,
-  banded,
-  vision,
+  node,
   isVision,
   hue,
 }: {
   store: DataStore;
-  readable: NodeReadable | null;
-  banded: NodeBanded | null;
-  vision: NodeVision | null;
+  node: AtlasNode;
   isVision: boolean;
   hue: string;
 }) {
-  // Legitimacy (VN-*) variant: prose, no meters.
-  if (isVision && vision) {
+  if (isVision && node.vision) {
+    const v = node.vision;
     return (
       <TermScope store={store}>
         <div className="flex flex-col gap-6">
-          <VnField label="Source of authority" value={vision.source_of_authority} />
-          <VnField label="Scope" value={vision.scope} />
-          <VnField label="Mode of influence" value={vision.mode_of_influence} />
-          <VnField label="Dated anchor" value={vision.dated_anchor} />
+          <VnField label="Source of authority" value={v.source_of_authority ?? ""} />
+          <VnField label="Scope" value={v.scope ?? ""} />
+          <VnField label="Mode of influence" value={v.mode_of_influence ?? ""} />
+          <VnField label="Dated anchor" value={v.dated_anchor ?? ""} />
         </div>
       </TermScope>
     );
   }
 
-  const morphLine = readable?.morphology_plain ?? "";
-  const paperWord = readable?.paper_plain ?? "";
-  const realityWord = readable?.reality_plain ?? "";
+  const morphLine = node.morphology_plain ?? "";
+  const paperWord = node.paper_plain ?? "";
+  const realityWord = node.reality_plain ?? "";
   const isOpaque = !paperWord && !realityWord;
 
   return (
     <TermScope store={store}>
       <div className="flex flex-col gap-7">
         {morphLine && (
-          <p
-            className="font-serif text-[15px] leading-relaxed"
-            style={{ color: hue }}
-          >
+          <p className="font-serif text-[15px] leading-relaxed" style={{ color: hue }}>
             <Term>{morphLine}</Term>
           </p>
         )}
@@ -304,10 +271,7 @@ function HowLevel({
           </section>
         )}
 
-        {/* Sub-federal hint stays useful for US */}
-        {banded?.node_id === "ST-US" && (
-          <SubFederal store={store} />
-        )}
+        {node.node_id === "ST-US" && <SubFederal store={store} />}
       </div>
     </TermScope>
   );
@@ -330,8 +294,8 @@ function VnField({ label, value }: { label: string; value: string }) {
 function SubFederal({ store }: { store: DataStore }) {
   const ids = ["ST-US-CA", "ST-US-CO"];
   const rows = ids
-    .map((id) => ({ banded: store.nodesBandedById.get(id), readable: store.readableById.get(id) }))
-    .filter((x) => x.banded);
+    .map((id) => store.nodesById.get(id))
+    .filter((n): n is AtlasNode => !!n);
   if (rows.length === 0) return null;
   return (
     <section>
@@ -339,22 +303,20 @@ function SubFederal({ store }: { store: DataStore }) {
         Sub-federal
       </h3>
       <ul className="flex flex-col gap-3">
-        {rows.map(({ banded, readable }) =>
-          banded ? (
-            <li
-              key={banded.node_id}
-              className="border-l-2 pl-3"
-              style={{ borderColor: colorFor(banded.morphology) }}
-            >
-              <p className="font-serif text-[14px] text-foreground/95">{banded.name}</p>
-              {readable?.headline && (
-                <p className="mt-0.5 font-serif text-[12.5px] italic leading-relaxed text-foreground/70">
-                  {readable.headline}
-                </p>
-              )}
-            </li>
-          ) : null,
-        )}
+        {rows.map((n) => (
+          <li
+            key={n.node_id}
+            className="border-l-2 pl-3"
+            style={{ borderColor: colorForNode(n) }}
+          >
+            <p className="font-serif text-[14px] text-foreground/95">{n.name}</p>
+            {n.headline && (
+              <p className="mt-0.5 font-serif text-[12.5px] italic leading-relaxed text-foreground/70">
+                {n.headline}
+              </p>
+            )}
+          </li>
+        ))}
       </ul>
     </section>
   );
@@ -362,13 +324,7 @@ function SubFederal({ store }: { store: DataStore }) {
 
 /* ---------- Level 3: Documents ---------- */
 
-function DocsLevel({
-  groups,
-  hue,
-}: {
-  groups: { primary: SourceV2[]; secondary: SourceV2[]; context: SourceV2[] };
-  hue: string;
-}) {
+function DocsLevel({ groups, hue }: { groups: AtlasDocumentGroups; hue: string }) {
   const { primary, secondary, context } = groups;
   if (primary.length + secondary.length + context.length === 0) {
     return (
@@ -410,7 +366,7 @@ function DocGroup({
   tone,
 }: {
   title: string;
-  items: SourceV2[];
+  items: AtlasDocument[];
   hue: string;
   tone: "primary" | "secondary" | "context";
 }) {
@@ -429,7 +385,7 @@ function DocList({
   hue,
   tone,
 }: {
-  items: SourceV2[];
+  items: AtlasDocument[];
   hue: string;
   tone: "primary" | "secondary" | "context";
 }) {
@@ -491,42 +447,43 @@ function DocList({
 
 /* ---------- Level 4: Technical detail ---------- */
 
-function TechLevel({ banded, vision }: { banded: NodeBanded | null; vision: NodeVision | null }) {
-  if (!banded && !vision) return null;
-  if (banded) {
-    const { primary, secondary } = splitMorphology(banded.morphology);
+function TechLevel({ node }: { node: AtlasNode }) {
+  const isVision = !!node.vision || layerOf(node.node_id) === "vision";
+  if (isVision && node.vision) {
+    const v = node.vision;
     return (
       <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
-        <Row k="node_id" v={banded.node_id} />
-        <Row k="layer" v={banded.layer} />
-        <Row
-          k="morphology"
-          v={
-            banded.morphology +
-            (primary ? `  (${primary}${secondary ? "+" + secondary : ""})` : "")
-          }
-        />
-        {primary && (
-          <Row k="morph_label" v={MORPH_LABEL[primary] + (secondary ? ` + ${MORPH_LABEL[secondary]}` : "")} />
-        )}
-        <Row k="sub_mechanism" v={banded.sub_mechanism} />
-        <Row k="paper_band" v={banded.paper_band} />
-        <Row k="realization_band" v={banded.realization_band} />
-        <Row k="realization_mode" v={banded.realization_mode} />
-        <Row k="epistemic_level" v={banded.epistemic_level} />
-        <Row k="evidence_strength" v={banded.evidence_strength} />
-        {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
+        <Row k="node_id" v={node.node_id} />
+        <Row k="layer" v={node.layer} />
+        <Row k="source_of_authority" v={v.source_of_authority ?? ""} />
+        <Row k="scope" v={v.scope ?? ""} />
+        <Row k="mode_of_influence" v={v.mode_of_influence ?? ""} />
+        <Row k="dated_anchor" v={v.dated_anchor ?? ""} />
+        <Row k="notes" v={v.notes ?? ""} />
       </dl>
     );
   }
-  // vision
+
+  const { primary, secondary } = splitMorphology(node.morphology);
   return (
     <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
-      <Row k="node_id" v={vision!.node_id} />
-      <Row k="source_of_authority" v={vision!.source_of_authority} />
-      <Row k="scope" v={vision!.scope} />
-      <Row k="mode_of_influence" v={vision!.mode_of_influence} />
-      <Row k="dated_anchor" v={vision!.dated_anchor} />
+      <Row k="node_id" v={node.node_id} />
+      <Row k="layer" v={node.layer} />
+      <Row
+        k="morphology"
+        v={
+          (node.morphology ?? "") +
+          (primary ? ` (${primary}${secondary ? "+" + secondary : ""} · ${MORPH_LABEL[primary]})` : "")
+        }
+      />
+      <Row k="sub_mechanism" v={node.sub_mechanism ?? ""} />
+      <Row k="paper_band" v={node.paper_band ?? ""} />
+      <Row k="realization_band" v={node.realization_band ?? ""} />
+      <Row k="realization_mode" v={node.realization_mode ?? ""} />
+      <Row k="epistemic_level" v={node.epistemic_level ?? ""} />
+      <Row k="evidence_strength" v={node.evidence_strength ?? ""} />
+      {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
+      <Row k="notes" v={node.notes ?? ""} />
     </dl>
   );
 }
@@ -536,7 +493,7 @@ function Row({ k, v }: { k: string; v: string }) {
   return (
     <>
       <dt className="uppercase tracking-[0.15em] text-muted-foreground">{k}</dt>
-      <dd className="text-foreground/90">{v}</dd>
+      <dd className="break-words text-foreground/90">{v}</dd>
     </>
   );
 }

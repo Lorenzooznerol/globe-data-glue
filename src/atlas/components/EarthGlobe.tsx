@@ -3,17 +3,14 @@ import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
 import type { DataStore } from "@/data/store";
+import type { AtlasNode } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
-import { colorFor, evidenceOpacity, splitMorphology } from "@/atlas/morphology";
+import { evidenceOpacity } from "@/atlas/morphology";
+import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
-// Hover label prefers the plain `headline` from nodes_readable; falls back to
-// the morphology headline. Codes never appear in the tooltip.
 
-// Lazy-load react-globe.gl: it touches `window` at import time and would
-// crash SSR otherwise. EarthGlobe itself is only mounted client-side by the
-// route, so this lazy boundary stays on the client.
 const Globe = lazy(() => import("react-globe.gl"));
 
 const NEUTRAL_FILL = "rgba(64,72,86,0.18)";
@@ -31,7 +28,7 @@ interface Resolved {
   feature: { geometry: unknown; properties: Record<string, unknown> };
   iso: string | undefined;
   nodeId: string | null;
-  node: ReturnType<DataStore["nodesBandedById"]["get"]> | null;
+  node: AtlasNode | null;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -48,13 +45,12 @@ export function EarthGlobe({ store, width, height }: Props) {
 
   const selectedNodeId = useAtlasStore((s) => s.selectedNodeId);
   const hoveredNodeId = useAtlasStore((s) => s.hoveredNodeId);
-  const morphologies = useAtlasStore((s) => s.morphologies);
+  const families = useAtlasStore((s) => s.families);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const flyToken = useAtlasStore((s) => s.flyToken);
   const selectNode = useAtlasStore((s) => s.selectNode);
   const setHovered = useAtlasStore((s) => s.setHovered);
 
-  // One-time controls setup
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
@@ -71,12 +67,11 @@ export function EarthGlobe({ store, width, height }: Props) {
     return features.map((f) => {
       const iso = (f.properties.ADM0_A3 || f.properties.ISO_A3) as string | undefined;
       const nodeId = isoToNodeId(iso);
-      const node = nodeId ? store.nodesBandedById.get(nodeId) ?? null : null;
+      const node = nodeId ? store.nodesById.get(nodeId) ?? null : null;
       return { feature: f, iso, nodeId, node };
     });
   }, [features, store]);
 
-  // Index nodeId -> first matching feature, for camera centroids
   const featureByNode = useMemo(() => {
     const m = new Map<string, Resolved["feature"]>();
     for (const r of resolved) {
@@ -85,16 +80,12 @@ export function EarthGlobe({ store, width, height }: Props) {
     return m;
   }, [resolved]);
 
-  // Pause auto-rotate while hovering or while a country is selected.
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
-    g.controls().autoRotate =
-      !reducedMotion && !hoveredNodeId && !selectedNodeId;
+    g.controls().autoRotate = !reducedMotion && !hoveredNodeId && !selectedNodeId;
   }, [reducedMotion, hoveredNodeId, selectedNodeId]);
 
-  // Camera fly-to on selection: use the feature's geographic centroid;
-  // fall back to NODE_CENTROIDS (covers ST-EU, which spans 27 members).
   useEffect(() => {
     if (!selectedNodeId) return;
     const g = globeRef.current;
@@ -122,15 +113,14 @@ export function EarthGlobe({ store, width, height }: Props) {
     g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
   }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
 
-
   const polygonCapColor = (obj: object): string => {
     const r = obj as Resolved;
     if (!r.node) return NEUTRAL_FILL;
-    const baseHex = colorFor(r.node.morphology);
+    const baseHex = colorForNode(r.node);
     let alpha = evidenceOpacity(r.node.evidence_strength);
-    if (morphologies.size > 0) {
-      const { primary } = splitMorphology(r.node.morphology);
-      if (!primary || !morphologies.has(primary)) alpha = 0.08;
+    if (families.size > 0) {
+      const fam = familyOf(r.node.morphology);
+      if (!fam || !families.has(fam)) alpha = 0.08;
     }
     if (r.nodeId && r.nodeId === hoveredNodeId) alpha = Math.min(1, alpha + 0.15);
     return hexToRgba(baseHex, alpha);
@@ -139,7 +129,7 @@ export function EarthGlobe({ store, width, height }: Props) {
   const polygonSideColor = (obj: object): string => {
     const r = obj as Resolved;
     if (!r.node) return NEUTRAL_SIDE;
-    return hexToRgba(colorFor(r.node.morphology), 0.35);
+    return hexToRgba(colorForNode(r.node), 0.35);
   };
 
   const polygonAltitude = (obj: object): number => {
@@ -155,8 +145,7 @@ export function EarthGlobe({ store, width, height }: Props) {
     if (!r.node) return "";
     const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
     const subtitle = isEU ? "European Union (member state)" : r.node.name;
-    const readable = r.nodeId ? store.readableById.get(r.nodeId) : undefined;
-    const headline = readable?.headline || plainHeadline(r.node.morphology);
+    const headline = r.node.headline || plainHeadline(r.node.morphology);
     return `
       <div style="
         font-family: var(--font-serif), serif;
