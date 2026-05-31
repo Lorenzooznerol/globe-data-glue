@@ -58,7 +58,6 @@ function AtlasPage() {
     if (stance) setUserStance(stance);
   }, [stance, setUserStance]);
 
-  const { data: store, isLoading, error } = useDataStore();
   const [mounted, setMounted] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [size, setSize] = useState<{ w: number; h: number }>({
