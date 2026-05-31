@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
@@ -363,7 +363,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     [reducedMotion],
   );
 
-  const pixelRatio = typeof window === "undefined" ? 1 : Math.min(2, window.devicePixelRatio || 1);
+  
 
   return (
     <Suspense fallback={null}>
@@ -400,5 +400,4 @@ function EarthGlobeImpl({ store, width, height }: Props) {
   );
 }
 
-import { memo } from "react";
 export const EarthGlobe = memo(EarthGlobeImpl);
