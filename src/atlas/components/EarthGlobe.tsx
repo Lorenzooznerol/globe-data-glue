@@ -1,8 +1,8 @@
-import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GlobeMethods } from "react-globe.gl";
 import * as THREE from "three";
 import { geoCentroid } from "d3-geo";
-import { renderToStaticMarkup } from "react-dom/server";
+
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
@@ -11,8 +11,7 @@ import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
 import { giraiColor, THEMES } from "@/atlas/theme";
-import { directionGlyph } from "@/atlas/trajectory";
-import { DirectionGlyph } from "@/atlas/panels/DirectionGlyph";
+import { plainPrediction } from "@/atlas/trajectory";
 
 const Globe = lazy(() => import("react-globe.gl"));
 
@@ -30,13 +29,6 @@ interface Resolved {
   girai: GiraiCountry | null;
 }
 
-interface GlyphDatum {
-  id: string;
-  lat: number;
-  lng: number;
-  kind: ReturnType<typeof directionGlyph>;
-  color: string;
-}
 
 function hexToRgba(hex: string, alpha: number): string {
   const m = hex.replace("#", "");
@@ -132,6 +124,43 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     return m;
   }, [resolved, theme, families]);
 
+  // Nodes (countries) that have a forecast — get the accent fill in Forecasts mode.
+  const forecastNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const [nid] of store.predictionsByNode) {
+      if (featureByNode.has(nid)) s.add(nid);
+    }
+    return s;
+  }, [store, featureByNode]);
+
+  // Nodes with a morphology timeline — pulse briefly on entering Forecasts mode.
+  const migrationNodeIds = useMemo(() => {
+    const s = new Set<string>();
+    for (const n of store.atlas.nodes) {
+      if ((n.morphology_timeline ?? []).length >= 2 && featureByNode.has(n.node_id)) {
+        s.add(n.node_id);
+      }
+    }
+    return s;
+  }, [store, featureByNode]);
+
+  // Pulse animation token + decay
+  const migrationToken = useAtlasStore((s) => s.migrationToken);
+  const [pulse, setPulse] = useState(0);
+  useEffect(() => {
+    if (reducedMotion || !forecastsMode) {
+      setPulse(0);
+      return;
+    }
+    setPulse(1);
+    const t1 = setTimeout(() => setPulse(0.55), 500);
+    const t2 = setTimeout(() => setPulse(0), 1400);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [migrationToken, forecastsMode, reducedMotion]);
+
   useEffect(() => {
     const g = globeRef.current;
     if (!g) return;
@@ -173,7 +202,13 @@ function EarthGlobeImpl({ store, width, height }: Props) {
   const polygonCapColor = useCallback(
     (obj: object): string => {
       const r = obj as Resolved;
-      if (forecastsMode) return theme.countryBase;
+      if (forecastsMode) {
+        if (r.nodeId && forecastNodeIds.has(r.nodeId)) {
+          const focused = r.nodeId === hoveredNodeId || r.nodeId === selectedNodeId;
+          return focused ? theme.accentStrong : theme.accent;
+        }
+        return theme.countryBase;
+      }
       if (!r.iso) return theme.countryBase;
       const base = capColorByIso.get(r.iso) ?? theme.countryBase;
       if (r.nodeId && r.nodeId === hoveredNodeId && r.girai) {
@@ -181,16 +216,20 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       }
       return base;
     },
-    [forecastsMode, theme, capColorByIso, hoveredNodeId],
+    [forecastsMode, forecastNodeIds, theme, capColorByIso, hoveredNodeId, selectedNodeId],
   );
 
   const polygonSideColor = useCallback(
     (obj: object): string => {
       const r = obj as Resolved;
+      if (forecastsMode) {
+        if (r.nodeId && forecastNodeIds.has(r.nodeId)) return theme.accent;
+        return theme.countryBase;
+      }
       if (r.node) return hexToRgba(colorForNode(r.node), 0.45);
       return theme.countryBase;
     },
-    [theme],
+    [forecastsMode, forecastNodeIds, theme],
   );
 
   const polygonStrokeColor = useCallback(
@@ -199,9 +238,8 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       const isFocused =
         (r.nodeId && (r.nodeId === hoveredNodeId || r.nodeId === selectedNodeId)) ||
         (r.iso && r.iso === selectedIso);
-      if (isFocused) return theme.borderStrong;
-      if (r.node) return colorForNode(r.node);
-      return theme.border;
+      // Uniform hairline borders in every mode; bolder on focus.
+      return isFocused ? theme.borderStrong : theme.border;
     },
     [theme, hoveredNodeId, selectedNodeId, selectedIso],
   );
@@ -212,10 +250,17 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       if (r.nodeId === hoveredNodeId && r.nodeId) return reducedMotion ? 0.05 : 0.07;
       if (r.nodeId && r.nodeId === selectedNodeId) return 0.05;
       if (r.iso && r.iso === selectedIso) return 0.04;
+      if (forecastsMode && r.nodeId) {
+        if (migrationNodeIds.has(r.nodeId) && pulse > 0) {
+          return 0.03 + 0.05 * pulse;
+        }
+        if (forecastNodeIds.has(r.nodeId)) return 0.03;
+        return 0.006;
+      }
       if (r.nodeId) return 0.022;
       return 0.006;
     },
-    [hoveredNodeId, selectedNodeId, selectedIso, reducedMotion],
+    [hoveredNodeId, selectedNodeId, selectedIso, reducedMotion, forecastsMode, forecastNodeIds, migrationNodeIds, pulse],
   );
 
   const polygonLabel = useCallback(
@@ -227,9 +272,15 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       if (r.node) {
         const isEU = r.nodeId === "ST-EU" && r.iso !== "EU";
         subtitle = isEU ? "European Union (member state)" : r.node.name;
-        line = r.node.headline || plainHeadline(r.node.morphology);
-        if (r.girai) line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
+        if (forecastsMode && r.nodeId && forecastNodeIds.has(r.nodeId)) {
+          const preds = store.predictionsByNode.get(r.nodeId);
+          line = preds && preds[0] ? plainPrediction(preds[0]) : (r.node.headline || "");
+        } else {
+          line = r.node.headline || plainHeadline(r.node.morphology);
+          if (r.girai && !forecastsMode) line += ` · GIRAI ${r.girai.index_score.toFixed(1)} / 100`;
+        }
       } else if (r.girai) {
+        if (forecastsMode) return "";
         subtitle = r.girai.country;
         line = `GIRAI ${r.girai.index_score.toFixed(1)} / 100 · rank ${Math.round(
           r.girai.ranking,
@@ -259,7 +310,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
           </div>
         </div>`;
     },
-    [store, theme, themeName],
+    [store, theme, themeName, forecastsMode, forecastNodeIds],
   );
 
   // rAF-coalesced hover handler
@@ -308,60 +359,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     });
   }, [theme, themeName]);
 
-  // Glyphs at predicted-node centroids (Forecasts mode only).
-  const glyphData = useMemo(() => {
-    if (!forecastsMode) return [] as GlyphDatum[];
-    const out: GlyphDatum[] = [];
-    for (const [nodeId, preds] of store.predictionsByNode) {
-      const node = store.nodesById.get(nodeId);
-      if (!node) continue;
-      const p = preds[0];
-      let lat: number | undefined;
-      let lng: number | undefined;
-      const feat = featureByNode.get(nodeId);
-      if (nodeId !== "ST-EU" && feat) {
-        try {
-          const [cLng, cLat] = geoCentroid(feat as never);
-          if (Number.isFinite(cLat) && Number.isFinite(cLng)) {
-            lat = cLat;
-            lng = cLng;
-          }
-        } catch {
-          /* fall through */
-        }
-      }
-      if (lat == null || lng == null) {
-        const fb = NODE_CENTROIDS[nodeId];
-        if (!fb) continue;
-        lat = fb[0];
-        lng = fb[1];
-      }
-      out.push({
-        id: nodeId,
-        lat,
-        lng,
-        kind: directionGlyph(p.direction),
-        color: theme.glyphInk,
-      });
-    }
-    return out;
-  }, [forecastsMode, store, featureByNode, theme]);
 
-  const htmlElement = useCallback(
-    (d: object) => {
-      const g = d as GlyphDatum;
-      const svg = renderToStaticMarkup(
-        <DirectionGlyph kind={g.kind} color={g.color} size={22} reducedMotion={reducedMotion} />,
-      );
-      const wrapper = document.createElement("div");
-      wrapper.style.pointerEvents = "none";
-      wrapper.style.transform = "translate(-50%,-50%)";
-      wrapper.style.filter = "drop-shadow(0 0 4px rgba(0,0,0,0.6))";
-      wrapper.innerHTML = svg;
-      return wrapper;
-    },
-    [reducedMotion],
-  );
 
   
 
@@ -390,11 +388,6 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
-        htmlElementsData={glyphData}
-        htmlLat={(d: object) => (d as GlyphDatum).lat}
-        htmlLng={(d: object) => (d as GlyphDatum).lng}
-        htmlAltitude={0.04}
-        htmlElement={htmlElement}
       />
     </Suspense>
   );

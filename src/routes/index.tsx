@@ -11,6 +11,7 @@ import { SearchCommand } from "@/atlas/panels/SearchCommand";
 import { ModeSwitch } from "@/atlas/panels/ModeSwitch";
 import { ThemeToggle } from "@/atlas/panels/ThemeToggle";
 import { TrajectoryLegend } from "@/atlas/panels/TrajectoryLegend";
+import { ForecastHeader } from "@/atlas/panels/ForecastHeader";
 import { useAtlasStore } from "@/atlas/store";
 
 const ForecastsPanel = lazy(() =>
@@ -41,8 +42,10 @@ function AtlasPage() {
   const mode = useAtlasStore((s) => s.mode);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
+  const playMigrations = useAtlasStore((s) => s.playMigrations);
   const { data: store, isLoading, error } = useDataStore();
   const [mounted, setMounted] = useState(false);
+  const [registerOpen, setRegisterOpen] = useState(false);
   const [size, setSize] = useState<{ w: number; h: number }>({
     w: typeof window === "undefined" ? 1280 : window.innerWidth,
     h: typeof window === "undefined" ? 800 : window.innerHeight,
@@ -59,6 +62,12 @@ function AtlasPage() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  // Trigger migration pulse when entering Forecasts mode.
+  useEffect(() => {
+    if (mode === "forecasts") playMigrations();
+    else setRegisterOpen(false);
+  }, [mode, playMigrations]);
 
   if (isLoading) {
     return (
@@ -123,9 +132,13 @@ function AtlasPage() {
         <SideIndex store={store} />
       </div>
 
-      {/* Top-center: search */}
+      {/* Top-center: search, or Forecast header in forecasts mode */}
       <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2">
-        <SearchCommand store={store} />
+        {mode === "forecasts" ? (
+          <ForecastHeader store={store} onOpenRegister={() => setRegisterOpen(true)} />
+        ) : (
+          <SearchCommand store={store} />
+        )}
       </div>
 
       {/* Top-right: theme toggle */}
@@ -146,7 +159,11 @@ function AtlasPage() {
 
       {mode === "forecasts" && (
         <Suspense fallback={null}>
-          <ForecastsPanel store={store} />
+          <ForecastsPanel
+            store={store}
+            open={registerOpen}
+            onClose={() => setRegisterOpen(false)}
+          />
         </Suspense>
       )}
     </div>
