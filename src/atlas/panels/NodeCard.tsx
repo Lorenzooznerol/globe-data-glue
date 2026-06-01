@@ -10,7 +10,7 @@ import { colorForNode, familyOf } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
 import { BandMeter } from "./BandMeter";
 import { Term, TermScope } from "./Term";
-import { GlossaryPanel } from "./GlossaryPanel";
+import { NodeGlossary } from "./NodeGlossary";
 import { GiraiSnapshot } from "./GiraiSnapshot";
 import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
 import { TrajectorySection } from "./TrajectorySection";
