@@ -58,26 +58,62 @@ export function GiraiSnapshot({ girai, totalCountries, contextNote }: Props) {
         })}
       </ul>
 
+      <ThematicDisclosure areas={girai.thematic_areas} open={open} setOpen={setOpen} />
+    </section>
+  );
+}
+
+function ThematicDisclosure({
+  areas,
+  open,
+  setOpen,
+}: {
+  areas: Record<string, number | null>;
+  open: boolean;
+  setOpen: (fn: (o: boolean) => boolean) => void;
+}) {
+  const entries = Object.entries(areas).sort(([a], [b]) => a.localeCompare(b));
+  const hasAny = entries.some(([, v]) => v != null);
+  const label = hasAny ? "Thematic detail" : "Thematic detail — scores not yet loaded";
+
+  return (
+    <>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="mono mt-1 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
+        className="mono mt-1 flex items-center gap-1.5 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
       >
-        <span>Thematic detail</span>
+        <span>{label}</span>
         <ChevronDown
           className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`}
           aria-hidden
         />
       </button>
 
-      {open && <ThematicList areas={girai.thematic_areas} />}
-    </section>
+      {open && (hasAny ? <ThematicList entries={entries} /> : <ThematicNamesOnly entries={entries} />)}
+    </>
   );
 }
 
-function ThematicList({ areas }: { areas: Record<string, number | null> }) {
-  const entries = Object.entries(areas).sort(([a], [b]) => a.localeCompare(b));
+function ThematicNamesOnly({ entries }: { entries: [string, number | null][] }) {
+  return (
+    <div className="pt-1">
+      <p className="mb-2 font-serif text-[11.5px] italic text-muted-foreground">
+        Per-area scores aren't loaded yet.
+      </p>
+      <ul className="flex flex-col gap-1">
+        {entries.map(([name]) => (
+          <li key={name} className="font-serif text-[11.5px] text-foreground/70">
+            {name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ThematicList({ entries }: { entries: [string, number | null][] }) {
   return (
     <ul className="flex flex-col gap-1.5 pt-1">
       {entries.map(([name, v]) => (
