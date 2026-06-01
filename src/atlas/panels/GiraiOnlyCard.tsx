@@ -52,7 +52,7 @@ export function GiraiOnlyCard({ store }: Props) {
           Not yet covered by the Atlas's morphological analysis.
         </p>
         <div className="mt-5">
-          <GiraiSnapshot girai={girai} totalCountries={total} />
+          <GiraiSnapshot store={store} girai={girai} totalCountries={total} currentIso={girai.iso3} />
         </div>
       </div>
     </aside>

@@ -10,7 +10,7 @@ import { colorForNode, familyOf } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
 import { BandMeter } from "./BandMeter";
 import { Term, TermScope } from "./Term";
-import { GlossaryPanel } from "./GlossaryPanel";
+import { NodeGlossary } from "./NodeGlossary";
 import { GiraiSnapshot } from "./GiraiSnapshot";
 import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
 import { TrajectorySection } from "./TrajectorySection";
@@ -73,12 +73,11 @@ export function NodeCard({ store }: Props) {
               <span>{node.region}</span>
             </>
           )}
-          <span aria-hidden className="ml-auto" />
-          <GlossaryPanel store={store} />
         </div>
         <h2 className="font-serif text-[26px] font-medium leading-tight tracking-tight text-foreground">
           {node.name}
         </h2>
+        <NodeGlossary store={store} node={node} />
       </header>
 
       <nav
@@ -217,9 +216,11 @@ function ShortLevel({
         )}
         {girai && (
           <GiraiSnapshot
+            store={store}
             girai={girai}
             totalCountries={totalCountries}
             contextNote={subnationalNote}
+            currentIso={girai.iso3}
           />
         )}
         {showUnscoredNote && (

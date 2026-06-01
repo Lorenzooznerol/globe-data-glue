@@ -10,8 +10,8 @@ import {
   plainPrediction,
 } from "@/atlas/trajectory";
 import { TrajectoryHeader } from "./TrajectoryHeader";
-import { SectionAccordion } from "./SectionAccordion";
 import { ExpanderRow } from "./ExpanderRow";
+import { SegmentedTabs } from "./SegmentedTabs";
 import {
   Sheet,
   SheetContent,
@@ -25,22 +25,11 @@ interface Props {
   onClose: () => void;
 }
 
-type SectionKey = "register" | "theses" | "migrations";
+type TabKey = "register" | "theses" | "migrations";
 
 export function TrajectoryPanel({ store, open, onClose }: Props) {
   const mode = useAtlasStore((s) => s.mode);
-  const [openSections, setOpenSections] = useState<Set<SectionKey>>(
-    () => new Set<SectionKey>(["register"]),
-  );
-  const isOpen = (k: SectionKey) => openSections.has(k);
-  const setOpen = (k: SectionKey, v: boolean) => {
-    setOpenSections((prev) => {
-      const next = new Set(prev);
-      if (v) next.add(k);
-      else next.delete(k);
-      return next;
-    });
-  };
+  const [tab, setTab] = useState<TabKey>("register");
 
   // re-tick once per hour for live header stat
   const [, setTick] = useState(0);
@@ -60,7 +49,7 @@ export function TrajectoryPanel({ store, open, onClose }: Props) {
   if (mode !== "forecasts") return null;
 
   const scrollToForecast = (predId: string) => {
-    setOpen("register", true);
+    setTab("register");
     setTimeout(() => {
       const el = document.getElementById(`forecast-${predId}`);
       if (!el) return;
@@ -69,6 +58,12 @@ export function TrajectoryPanel({ store, open, onClose }: Props) {
       setTimeout(() => el.classList.remove("trajectory-flash"), 1800);
     }, 80);
   };
+
+  const tabs: { key: TabKey; label: string; count: number }[] = [
+    { key: "register", label: "What we predict", count: store.allPredictions.length },
+    { key: "theses", label: "Why we think so", count: store.atlas.markers.length },
+    { key: "migrations", label: "What's already moved", count: migrationNodes.length },
+  ];
 
   return (
     <Sheet open={open} onOpenChange={(v) => (v ? null : onClose())}>
@@ -82,48 +77,29 @@ export function TrajectoryPanel({ store, open, onClose }: Props) {
           </SheetTitle>
         </SheetHeader>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-8 sm:px-7">
+        <div className="shrink-0 px-5 pt-4 sm:px-7">
+          <SegmentedTabs
+            tabs={tabs}
+            value={tab}
+            onChange={setTab}
+            ariaLabel="Forecast sections"
+          />
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-8 pt-4 sm:px-7">
           <TrajectoryHeader store={store} />
 
-          <div id="section-register">
-            <SectionAccordion
-              title="What we predict"
-              subtitle="Ten dated forecasts, each with a deadline."
-              count={store.allPredictions.length}
-              open={isOpen("register")}
-              onOpenChange={(o) => setOpen("register", o)}
-            >
-              <RegisterList store={store} preds={store.allPredictions} />
-            </SectionAccordion>
-          </div>
-
-          <div id="section-theses">
-            <SectionAccordion
-              title="Why we think so"
-              subtitle="Four claims the atlas is willing to be wrong about."
-              count={store.atlas.markers.length}
-              open={isOpen("theses")}
-              onOpenChange={(o) => setOpen("theses", o)}
-            >
-              <ThesesList
-                store={store}
-                markers={store.atlas.markers}
-                onJumpToForecast={scrollToForecast}
-              />
-            </SectionAccordion>
-          </div>
-
-          <div id="section-migrations">
-            <SectionAccordion
-              title="What's already moved"
-              subtitle="Countries whose form of governance has shifted."
-              count={migrationNodes.length}
-              open={isOpen("migrations")}
-              onOpenChange={(o) => setOpen("migrations", o)}
-            >
-              <MigrationsList nodes={migrationNodes} />
-            </SectionAccordion>
-          </div>
+          {tab === "register" && (
+            <RegisterList store={store} preds={store.allPredictions} />
+          )}
+          {tab === "theses" && (
+            <ThesesList
+              store={store}
+              markers={store.atlas.markers}
+              onJumpToForecast={scrollToForecast}
+            />
+          )}
+          {tab === "migrations" && <MigrationsList nodes={migrationNodes} />}
         </div>
 
         <style>{`
@@ -139,6 +115,8 @@ export function TrajectoryPanel({ store, open, onClose }: Props) {
     </Sheet>
   );
 }
+
+
 
 
 /* ---------- Status pill (non-interactive) ---------- */
