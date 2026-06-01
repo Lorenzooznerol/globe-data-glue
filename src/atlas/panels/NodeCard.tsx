@@ -73,12 +73,11 @@ export function NodeCard({ store }: Props) {
               <span>{node.region}</span>
             </>
           )}
-          <span aria-hidden className="ml-auto" />
-          <GlossaryPanel store={store} />
         </div>
         <h2 className="font-serif text-[26px] font-medium leading-tight tracking-tight text-foreground">
           {node.name}
         </h2>
+        <NodeGlossary store={store} node={node} />
       </header>
 
       <nav
