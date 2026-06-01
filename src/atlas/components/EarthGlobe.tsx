@@ -384,7 +384,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         polygonSideColor={polygonSideColor}
         polygonStrokeColor={polygonStrokeColor}
         polygonAltitude={polygonAltitude}
-        polygonsTransitionDuration={reducedMotion ? 0 : 260}
+        polygonsTransitionDuration={reducedMotion ? 0 : 420}
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}
