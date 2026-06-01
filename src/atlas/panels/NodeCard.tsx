@@ -88,7 +88,6 @@ export function NodeCard({ store }: Props) {
       >
         {LEVELS.map((l) => {
           const active = l.key === level;
-          const isTech = l.key === "tech";
           const isDocs = l.key === "docs";
           return (
             <button
@@ -97,8 +96,7 @@ export function NodeCard({ store }: Props) {
               aria-selected={active}
               onClick={() => setLevel(l.key)}
               className={[
-                "flex-1 px-2 py-2 text-[11px] transition-colors",
-                isTech ? "mono uppercase tracking-[0.14em]" : "font-serif",
+                "flex-1 px-2 py-2 font-serif text-[11px] transition-colors",
                 active
                   ? "bg-background text-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -106,7 +104,7 @@ export function NodeCard({ store }: Props) {
             >
               {l.label}
               {isDocs && totalDocs > 0 && (
-                <span className="mono ml-1.5 text-[9px] text-muted-foreground">{totalDocs}</span>
+                <span className="ml-1 text-muted-foreground">({totalDocs})</span>
               )}
             </button>
           );
