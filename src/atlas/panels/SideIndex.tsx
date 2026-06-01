@@ -27,7 +27,7 @@ export function SideIndex({ store }: Props) {
         {open ? "× Index" : "Index"}
       </button>
       {open && (
-        <aside className="pointer-events-auto mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-md border border-border/50 bg-background/90 p-4 backdrop-blur-md">
+        <aside className="pointer-events-auto mt-2 min-h-0 flex-1 overflow-y-auto rounded-md border border-border/50 bg-background/90 p-4 backdrop-blur-md">
           {SECTIONS.map((section) => {
             const rows = store.atlas.nodes
               .filter((n) => layerOf(n.node_id) === section.layer)

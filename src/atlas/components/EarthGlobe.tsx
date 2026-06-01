@@ -75,7 +75,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     controls.dampingFactor = 0.08;
     controls.minDistance = 180;
     controls.maxDistance = 600;
-    controls.autoRotateSpeed = 0.3;
+    controls.autoRotateSpeed = 0.12;
     g.pointOfView({ altitude: 2.4 }, 0);
     try {
       const renderer = g.renderer();
@@ -196,7 +196,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       lat = fallback[0];
       lng = fallback[1];
     }
-    g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
+    g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 1600);
   }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
 
   const polygonCapColor = useCallback(
@@ -384,7 +384,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         polygonSideColor={polygonSideColor}
         polygonStrokeColor={polygonStrokeColor}
         polygonAltitude={polygonAltitude}
-        polygonsTransitionDuration={reducedMotion ? 0 : 260}
+        polygonsTransitionDuration={reducedMotion ? 0 : 420}
         polygonLabel={polygonLabel}
         onPolygonHover={handleHover}
         onPolygonClick={handleClick}

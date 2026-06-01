@@ -1,106 +1,47 @@
-# Entry rewrite — AI chat interface, two real doors
+# Polish fixes — Country panel, Forecast, Thematic, Motion control, Index scroll
 
-Replace the current cinematic line-fade entry with a familiar AI chat shell (centered conversation column, typing dots before every AI message, user replies as tappable chips → rendered as right-aligned messages, disabled "Message…" input at the bottom). Same script content as agreed, ending in two real outcomes: "See where you are" cross-fades into the Atlas; "Fine, I'll leave" actually closes the experience to a blank `Goodbye.` screen recoverable only via reload.
+Five small, isolated changes. No restructuring of navigation, panels, or visuals.
 
-Voice, persistence (nickname-only, device-local), returning-visitor skip, theme toggle, and `prefers-reduced-motion` handling are preserved. No data, routing target, or Atlas changes beyond passing the Yes/No stance through.
+## 1. Tab label & doc count — `src/atlas/panels/NodeCard.tsx`
 
-## Files
+- In the `LEVELS` tab nav, drop the all-caps mono treatment from the `tech` tab so all four tabs share the same `font-serif` style at the same weight.
+  - Remove the `isTech ? "mono uppercase tracking-[0.14em]" : "font-serif"` branch; always use `font-serif`.
+- For the `Documents` tab, render the count in parentheses inline with the label: `Documents (12)`. Keep the muted color, drop the separate mono span.
 
-**Delete (old cinematic steps no longer used):**
-- `src/encounter/Line.tsx`
-- `src/encounter/Vignette.tsx`
-- `src/encounter/MultipliedLine.tsx` (replaced by an inline chat-message variant)
-- `src/encounter/ThinkingDots.tsx` (replaced by `TypingIndicator` styled as a chat bubble)
-- `src/encounter/steps/NicknameGate.tsx`
-- `src/encounter/steps/Judgment.tsx`
-- `src/encounter/steps/LeaveBranch.tsx`
-- `src/encounter/steps/Turn.tsx`
-- `src/encounter/steps/Reveal.tsx`
+## 2. Forecast falsifier open by default — `src/atlas/panels/TrajectorySection.tsx`
 
-**Create:**
-- `src/encounter/chat/ChatShell.tsx` — fixed-height column (max-w ~640px), scrollable message list, sticky bottom `ChatInput`, low-contrast `ThemeToggle` in corner. Auto-scrolls to bottom on each new message.
-- `src/encounter/chat/AIMessage.tsx` — left-aligned plain row, serif text, optional `emphasis` (bold) and `multiplied` (renders via ghost-copy effect, opacity-only, ~1s, skipped under reduced motion). Optional `pulse` prop for the final "See where you are" affordance — one gentle opacity pulse.
-- `src/encounter/chat/UserMessage.tsx` — right-aligned bubble, subtle background (`--encounter-bubble`), the chosen chip text.
-- `src/encounter/chat/TypingIndicator.tsx` — three pulsing dots inside a left-aligned bubble; shows for a duration set by the controller (default ~900ms; ~3000ms for the "deliberation" beat before "I'm not letting you in.").
-- `src/encounter/chat/ChoiceChips.tsx` — row of tappable chips below the latest AI message. On tap: fire `onPick(label)`, the chips disappear, the controller appends a `UserMessage` with that label.
-- `src/encounter/chat/ChatInput.tsx` — styled like ChatGPT/Claude: rounded input with placeholder `Message…` and a send arrow. Two modes: `disabled` (default; clicking/typing does nothing, cursor `not-allowed`, faint) and `active` (only enabled on the nickname turn; Enter or send button submits, then returns to disabled).
-- `src/encounter/chat/Goodbye.tsx` — full-viewport blank screen in the current theme's background, single centered cold line `Goodbye.` Nothing else. No restart button. (Comment explains: reload is the only way back, intentional.)
-- `src/encounter/ChatController.tsx` — the new entry component (replaces `Encounter.tsx` usage). Owns the message timeline, drives the script, handles cross-fade out.
+- Pass `defaultOpen` to the `ExpanderRow` used for `What would prove this wrong`. The component already supports it.
 
-**Edit:**
-- `src/encounter/Encounter.tsx` — replace its body with a thin wrapper that renders `<ChatController />` (or inline the controller and delete this file; keep the file as the public entry so `routes/index.tsx` doesn't change).
-- `src/routes/index.tsx` — unchanged except: when controller signals "enter atlas", navigate to `/atlas` with the stance in router state / search param so Atlas can read it. Returning-visitor skip stays.
-- `src/routes/atlas.tsx` — read optional `?stance=yes|no` (or location state) and stash it in the existing atlas store as `userStance`. No visual change required in this task; this just makes the value available for later use. Mark with `// TODO: surface stance in Atlas UI`.
-- `src/atlas/store.ts` — add `userStance: "yes" | "no" | null` + setter. No other behavior change.
-- `src/styles.css` — add `--encounter-bubble` (subtle surface for user messages, light + dark), `--encounter-input-bg` and `--encounter-input-border` for the chat input, and keep existing `--encounter-*` tokens. Add a `@keyframes encounter-typing-dot` (replaces the inline one) and a `@keyframes encounter-soft-pulse` for the final affordance.
+## 3. Thematic detail — honest empty state — `src/atlas/panels/GiraiSnapshot.tsx`
 
-## The script (canonical, exact strings)
+- Detect whether any thematic score is non-null. Today every value is `null`, so we treat the section as "not loaded".
+- When no scores are present:
+  - Label the disclosure `Thematic detail — scores not yet loaded`.
+  - Keep it collapsed by default (already is).
+  - On expand, render: one quiet line `Per-area scores aren't loaded yet.` followed by a plain `<ul>` of the 19 area names — no progress bar column, no trailing dash/score column.
+- When scores are present (future): keep the current behavior unchanged (label `Thematic detail`, bars + numbers).
 
-Controller drives an append-only timeline. Each AI message: append `TypingIndicator` → wait → replace with `AIMessage`. Defaults: typing ~900ms, post-message dwell ~700ms.
+## 4. Reduced motion — move + slow default
 
-1. AI: `Hi.`
-2. AI: `What should I call you?` → activate `ChatInput` (placeholder `nickname`). User types + sends → append `UserMessage(name)`, disable input, `setNickname(name)` in localStorage.
-3. AI: `Hi {name}.`
-4. AI: `I've formed an opinion of you.`
-5. Typing indicator held **~3000ms** → AI: `I'm not letting you in.`
-6. `ChoiceChips: ["Why?", "Fine, I'll leave."]`
-   - `Fine, I'll leave.` → append `UserMessage("Fine, I'll leave.")`, then trigger Step 4 (close).
-   - `Why?` → append `UserMessage("Why?")`, continue.
-7. AI: `I formed an opinion and acted on it.`
-8. AI (`multiplied`): `AI does this too. It forms an opinion of you.`
-9. AI: `The opinion it formed of you? You can't see it. You can't correct it.`
-10. AI (`emphasis`): `It made up its mind about you. Do you get a say?`
-11. `ChoiceChips: ["Yes", "No"]` → append `UserMessage`, record `stance` in controller state.
-12. AI: `Right now, every country is deciding on this. None the same.`
-13. AI (`pulse`, tappable): `See where you are.` → on tap: cross-fade to `/atlas` with stance.
+### Move toggle out of the legend — `src/routes/atlas.tsx`
+- Remove the `Reduced motion` checkbox block from the top-left legend container.
+- Add a new bottom-center floating control on the globe view, styled like a viewing control (same visual language as the bottom-right hint: small pill, `bg-background/85` + `border-border/50` + `backdrop-blur-md`), reading e.g. `Slow motion · On/Off`. Wire it to `reducedMotion` / `setReducedMotion` in the atlas store.
+- The existing bottom-right "drag · scroll · hover" hint stays where it is; the new control sits centered above the bottom edge so they don't collide.
 
-Removed entirely (per spec): any mirror/96%/Europe/America/China summary lines.
+### Slow the default globe motion — `src/atlas/components/EarthGlobe.tsx`
+- Lower `controls.autoRotateSpeed` from `0.3` to ~`0.12`.
+- Lengthen `pointOfView` flight from `900ms` to ~`1600ms` (still skipped when `reducedMotion` is true).
+- Lengthen `polygonsTransitionDuration` from `260` to ~`420` (still `0` under `reducedMotion`).
+- `prefers-reduced-motion` continues to fully disable motion via the existing media-query effect — unchanged.
 
-## Close behavior (Step 4)
+## 5. Index panel scroll fix — `src/atlas/panels/SideIndex.tsx`
 
-On `Fine, I'll leave.`:
-- After the user-message append, controller transitions to `goodbye` state.
-- `ChatShell` cross-fades out (opacity → 0, ~600ms), then unmounts.
-- `Goodbye.tsx` renders: full viewport, `--encounter-bg`, single serif line `Goodbye.` in `--encounter-ink-faint`. No nav, no buttons, no theme toggle. Code comment: a browser cannot self-close a tab the user opened; this blank state is the close. Reload is the only re-entry.
-- Nickname is NOT saved on this branch (they didn't get in).
+The index sits inside the top-left container, which sets `flex-col gap-3` with no height bound, so the long list overflows the viewport.
 
-## Transition to Atlas (Step 5)
+- Switch the wrapper in `src/routes/atlas.tsx` (`left-4 top-4 ... w-[260px] flex-col gap-3`) to also bound its height (`max-h-[calc(100vh-2rem)]`) and let the `SideIndex` aside grow within it.
+- In `SideIndex.tsx`, replace the fixed `max-h-[70vh]` with `flex-1 min-h-0` and keep `overflow-y-auto`, so the index expands to fill remaining vertical space under the legend block and scrolls all the way to the last item (`The three gravities`).
 
-On `See where you are`:
-- `ChatShell` opacity → 0 over ~600ms.
-- `navigate({ to: "/atlas", search: { stance } })`. `/atlas` route reads `stance` from search params and writes to `atlasStore.userStance`.
-- Atlas route's existing content remains unchanged in this task aside from the store hookup.
-
-## Persistence & returning visitors
-
-- `getNickname()` check in `routes/index.tsx` still bypasses the entry. Unchanged.
-- Nickname saved at the moment the user submits it via the input (step 2), so even if they later pick `Fine, I'll leave.`, the next visit still skips — that matches "nickname = the only account" semantics. (Alternative: save only on "See where you are". Default to **save at submit**; flag this in a comment so it can be flipped easily if you prefer "leavers must re-enter".)
-
-## Motion rules
-
-- Typing dots: opacity-only pulse, staggered 250ms.
-- `multiplied` line: 2 ghost copies, slight static offset, opacity ~0.28, fade in/out over ~1s. No transforms beyond static offset.
-- `pulse` on final affordance: one ~1.4s opacity dip-and-return, then static.
-- Cross-fade out: opacity transition only.
-- `prefers-reduced-motion`: keep typing dots (they're the core gesture) but drop multiplication and pulse; cross-fade still happens but instantly.
-
-## Styling tokens (additions in `src/styles.css`)
-
-```
-:root {
-  --encounter-bubble: rgba(22, 22, 26, 0.05);
-  --encounter-input-bg: #ffffff;
-  --encounter-input-border: rgba(22, 22, 26, 0.14);
-}
-.dark {
-  --encounter-bubble: rgba(255, 255, 255, 0.06);
-  --encounter-input-bg: rgba(255, 255, 255, 0.03);
-  --encounter-input-border: rgba(255, 255, 255, 0.12);
-}
-```
-
-## Out of scope
-
-- Real aggregate of Yes/No (no backend). Stance is passed to Atlas only.
-- Any changes to Atlas visuals, GIRAI, forecast, borders.
-- Any change to the dark/light toggle component itself.
+## Out of scope (explicit)
+- No changes to colors, typography, globe visuals, card content/structure.
+- No data file edits (thematic scores remain null).
+- No changes to the legend keys themselves, search, mode switch, theme toggle, or forecasts header.
