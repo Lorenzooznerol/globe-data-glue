@@ -83,7 +83,7 @@ export function Encounter() {
             lineHeight: 1.15,
             letterSpacing: "-0.02em",
             color: "var(--encounter-accent)",
-            opacity: phase === 0 || phase === 1 && !reduced ? (phase === 1 ? 1 : 0) : 1,
+            opacity: phase === 0 ? 0 : 1,
             transition: "opacity 350ms ease-out",
           }}
         >
