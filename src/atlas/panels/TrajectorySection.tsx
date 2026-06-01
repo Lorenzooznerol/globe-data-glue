@@ -50,7 +50,7 @@ export function TrajectorySection({ store, node }: Props) {
               )}
             </div>
             {p.falsification_threshold && (
-              <ExpanderRow label="What would prove this wrong">
+              <ExpanderRow label="What would prove this wrong" defaultOpen>
                 <p className="font-serif text-[12.5px] italic leading-relaxed text-foreground/75">
                   {p.falsification_threshold}
                 </p>
