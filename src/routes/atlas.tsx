@@ -158,6 +158,22 @@ function AtlasPage() {
         </span>
       </div>
 
+      <div className="pointer-events-none absolute bottom-3 left-1/2 z-20 -translate-x-1/2">
+        <button
+          type="button"
+          onClick={() => setReducedMotion(!reducedMotion)}
+          aria-pressed={reducedMotion}
+          className="pointer-events-auto mono inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/85 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+        >
+          <span
+            aria-hidden
+            className={`inline-block h-1.5 w-1.5 rounded-full ${reducedMotion ? "bg-foreground" : "bg-foreground/30"}`}
+          />
+          <span>Slow motion · {reducedMotion ? "on" : "off"}</span>
+        </button>
+      </div>
+
+
       <div className="absolute inset-0 z-30 pointer-events-none">
         <NodeCard store={store} />
         <GiraiOnlyCard store={store} />
