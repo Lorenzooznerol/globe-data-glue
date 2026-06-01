@@ -92,15 +92,12 @@
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
 
-  /* Encounter (entry experience) — light mode */
-  --encounter-bg: #f6f5f1;
-  --encounter-ink: #16161a;
-  --encounter-ink-faint: rgba(22, 22, 26, 0.42);
-  --encounter-rule: rgba(22, 22, 26, 0.7);
-  --encounter-vignette: rgba(120, 120, 120, 0.22);
-  --encounter-bubble: rgba(22, 22, 26, 0.05);
-  --encounter-input-bg: #ffffff;
-  --encounter-input-border: rgba(22, 22, 26, 0.14);
+  /* Encounter (entry experience) — manifesto, identical across themes */
+  --encounter-bg: #1a1a1a;
+  --encounter-ink: #e8e8e8;
+  --encounter-accent: #ff5722;
+  --encounter-hint: rgba(232, 232, 232, 0.4);
+  --font-display: "Space Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 .dark {
