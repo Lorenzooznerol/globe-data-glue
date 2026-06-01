@@ -1,21 +1,18 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
-@import "@fontsource/fraunces/400.css";
-@import "@fontsource/fraunces/500.css";
-@import "@fontsource/fraunces/600.css";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/dm-sans";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
-@import "@fontsource/space-mono/400.css";
-@import "@fontsource/space-mono/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -50,39 +47,45 @@
   --color-morph-m5: var(--morph-m5);
   --color-morph-m6: var(--morph-m6);
   --color-morph-m7: var(--morph-m7);
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  /* font-display + font-sans = Space Grotesk / DM Sans.
+     font-serif is intentionally aliased to Space Grotesk so existing
+     Tailwind `font-serif` classes in the atlas inherit the new neo-grotesque
+     without per-file changes. */
+  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
   --radius: 0.375rem;
-  --background: oklch(0.98 0.003 80);
-  --foreground: oklch(0.18 0.008 250);
+  /* Light fallback — kept consistent with dark but inverted, accent identical. */
+  --background: oklch(0.98 0.003 280);
+  --foreground: oklch(0.16 0.005 270);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.008 250);
+  --card-foreground: oklch(0.16 0.005 270);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.008 250);
-  --primary: oklch(0.22 0.008 250);
-  --primary-foreground: oklch(0.98 0.003 80);
-  --secondary: oklch(0.95 0.005 80);
-  --secondary-foreground: oklch(0.22 0.008 250);
-  --muted: oklch(0.95 0.005 80);
-  --muted-foreground: oklch(0.45 0.012 250);
-  --accent: oklch(0.93 0.006 80);
-  --accent-foreground: oklch(0.22 0.008 250);
+  --popover-foreground: oklch(0.16 0.005 270);
+  --primary: oklch(0.16 0.005 270);
+  --primary-foreground: oklch(0.98 0.003 280);
+  --secondary: oklch(0.95 0.004 280);
+  --secondary-foreground: oklch(0.16 0.005 270);
+  --muted: oklch(0.94 0.004 280);
+  --muted-foreground: oklch(0.45 0.008 270);
+  --accent: oklch(0.72 0.18 295);
+  --accent-foreground: oklch(0.98 0.003 280);
   --destructive: oklch(0.55 0.18 25);
-  --destructive-foreground: oklch(0.98 0.003 80);
-  --border: oklch(0.88 0.006 250 / 80%);
-  --input: oklch(0.88 0.006 250);
-  --ring: oklch(0.6 0.01 250);
-  --sidebar: oklch(0.96 0.004 80);
-  --sidebar-foreground: oklch(0.18 0.008 250);
-  --sidebar-primary: oklch(0.22 0.008 250);
-  --sidebar-primary-foreground: oklch(0.98 0.003 80);
-  --sidebar-accent: oklch(0.93 0.006 80);
-  --sidebar-accent-foreground: oklch(0.22 0.008 250);
-  --sidebar-border: oklch(0.88 0.006 250 / 80%);
-  --sidebar-ring: oklch(0.6 0.01 250);
+  --destructive-foreground: oklch(0.98 0.003 280);
+  --border: oklch(0 0 0 / 0.08);
+  --input: oklch(0 0 0 / 0.1);
+  --ring: oklch(0.72 0.18 295 / 0.5);
+  --sidebar: oklch(0.97 0.003 280);
+  --sidebar-foreground: oklch(0.16 0.005 270);
+  --sidebar-primary: oklch(0.16 0.005 270);
+  --sidebar-primary-foreground: oklch(0.98 0.003 280);
+  --sidebar-accent: oklch(0.72 0.18 295);
+  --sidebar-accent-foreground: oklch(0.98 0.003 280);
+  --sidebar-border: oklch(0 0 0 / 0.08);
+  --sidebar-ring: oklch(0.72 0.18 295 / 0.5);
 
   --morph-m1: #5b7a99;
   --morph-m2: #5a8a86;
@@ -92,69 +95,68 @@
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
 
-  /* Encounter (entry experience) — manifesto, identical across themes */
-  --encounter-bg: #1a1a1a;
-  --encounter-ink: #e8e8e8;
-  --encounter-accent: #ff5722;
-  --encounter-hint: rgba(232, 232, 232, 0.4);
-  --font-display: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+  /* Encounter inherits global tokens — no hardcoded color, no orange. */
+  --encounter-bg: var(--background);
+  --encounter-ink: var(--foreground);
+  --encounter-accent: var(--accent);
+  --encounter-hint: oklch(0.16 0.005 270 / 0.45);
+  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Elevation — material via background shift, never border+shadow combo. */
+  --shadow-elevation-1: 0 1px 0 oklch(1 0 0 / 0.04) inset, 0 8px 24px -12px oklch(0 0 0 / 0.35);
 }
 
 .dark {
   --radius: 0.375rem;
-  --background: oklch(0.14 0.005 250);
-  --foreground: oklch(0.92 0.01 80);
-  --card: oklch(0.18 0.006 250);
-  --card-foreground: oklch(0.92 0.01 80);
-  --popover: oklch(0.18 0.006 250);
-  --popover-foreground: oklch(0.92 0.01 80);
-  --primary: oklch(0.92 0.01 80);
-  --primary-foreground: oklch(0.14 0.005 250);
-  --secondary: oklch(0.22 0.008 250);
-  --secondary-foreground: oklch(0.92 0.01 80);
-  --muted: oklch(0.22 0.008 250);
-  --muted-foreground: oklch(0.62 0.012 80);
-  --accent: oklch(0.24 0.008 250);
-  --accent-foreground: oklch(0.92 0.01 80);
-  --destructive: oklch(0.55 0.18 25);
-  --destructive-foreground: oklch(0.95 0.005 80);
-  --border: oklch(0.28 0.008 250 / 60%);
-  --input: oklch(0.28 0.008 250);
-  --ring: oklch(0.5 0.01 250);
-  --sidebar: oklch(0.16 0.005 250);
-  --sidebar-foreground: oklch(0.92 0.01 80);
-  --sidebar-primary: oklch(0.92 0.01 80);
-  --sidebar-primary-foreground: oklch(0.14 0.005 250);
-  --sidebar-accent: oklch(0.22 0.008 250);
-  --sidebar-accent-foreground: oklch(0.92 0.01 80);
-  --sidebar-border: oklch(0.28 0.008 250 / 60%);
-  --sidebar-ring: oklch(0.5 0.01 250);
+  /* Carbon + violet, 2026 dark default. */
+  --background: oklch(0.13 0.005 270);
+  --foreground: oklch(0.96 0.004 270);
+  --card: oklch(0.17 0.005 270);
+  --card-foreground: oklch(0.96 0.004 270);
+  --popover: oklch(0.17 0.005 270);
+  --popover-foreground: oklch(0.96 0.004 270);
+  --primary: oklch(0.96 0.004 270);
+  --primary-foreground: oklch(0.13 0.005 270);
+  --secondary: oklch(0.22 0.005 270);
+  --secondary-foreground: oklch(0.96 0.004 270);
+  --muted: oklch(0.22 0.005 270);
+  --muted-foreground: oklch(0.66 0.008 270);
+  --accent: oklch(0.72 0.18 295);
+  --accent-foreground: oklch(0.13 0.005 270);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.96 0.004 270);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.1);
+  --ring: oklch(0.72 0.18 295 / 0.5);
+  --sidebar: oklch(0.15 0.005 270);
+  --sidebar-foreground: oklch(0.96 0.004 270);
+  --sidebar-primary: oklch(0.96 0.004 270);
+  --sidebar-primary-foreground: oklch(0.13 0.005 270);
+  --sidebar-accent: oklch(0.72 0.18 295);
+  --sidebar-accent-foreground: oklch(0.13 0.005 270);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+  --sidebar-ring: oklch(0.72 0.18 295 / 0.5);
 
-  /* Morphology palette — the only categorical color in the app. */
-  --morph-m1: #5b7a99; /* open gap */
-  --morph-m2: #5a8a86; /* inversion */
-  --morph-m3: #5f8c63; /* ex-ante convergence */
-  --morph-m4: #7d6a96; /* submerged gap */
-  --morph-m5: #7a7a7a; /* opacity */
-  --morph-m6: #a98a52; /* revocable self-binding */
-  --morph-m7: #6b7385; /* aligned-nascent */
+  --morph-m1: #5b7a99;
+  --morph-m2: #5a8a86;
+  --morph-m3: #5f8c63;
+  --morph-m4: #7d6a96;
+  --morph-m5: #7a7a7a;
+  --morph-m6: #a98a52;
+  --morph-m7: #6b7385;
 
-  /* Encounter tokens are theme-agnostic (defined in :root). */
+  --encounter-hint: oklch(0.96 0.004 270 / 0.35);
+  --shadow-elevation-1: 0 1px 0 oklch(1 0 0 / 0.03) inset, 0 12px 28px -16px oklch(0 0 0 / 0.7);
 }
 
-/* Encounter — fade in, hint pulse. */
-@keyframes encounter-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* Encounter — calm breathing for the hint, no infinite pulse. */
+@keyframes encounter-hint-breathe {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 0.7; }
 }
 
-@keyframes encounter-hint-pulse {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 0.75; }
-}
-
-.encounter-hint-pulse {
-  animation: encounter-hint-pulse 2200ms ease-in-out infinite;
+.encounter-hint-breathe {
+  animation: encounter-hint-breathe 3000ms ease-in-out infinite;
 }
 
 @layer base {
@@ -171,24 +173,25 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-serif);
-    font-feature-settings: "ss01", "ss02";
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss02", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     transition: background-color 200ms ease, color 200ms ease;
   }
 
   * {
     transition-property: background-color, border-color, color;
-    transition-duration: 200ms;
-    transition-timing-function: ease;
+    transition-duration: 160ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   }
 
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-weight: 500;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 
   code,
