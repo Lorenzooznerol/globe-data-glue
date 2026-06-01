@@ -196,7 +196,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
       lat = fallback[0];
       lng = fallback[1];
     }
-    g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 900);
+    g.pointOfView({ lat, lng, altitude: 1.6 }, reducedMotion ? 0 : 1600);
   }, [flyToken, selectedNodeId, reducedMotion, featureByNode]);
 
   const polygonCapColor = useCallback(
