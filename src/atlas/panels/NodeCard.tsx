@@ -216,9 +216,11 @@ function ShortLevel({
         )}
         {girai && (
           <GiraiSnapshot
+            store={store}
             girai={girai}
             totalCountries={totalCountries}
             contextNote={subnationalNote}
+            currentIso={girai.iso3}
           />
         )}
         {showUnscoredNote && (
