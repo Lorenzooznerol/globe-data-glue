@@ -14,6 +14,8 @@ export interface AtlasMeta {
 export interface GlossaryTerm {
   term: string;
   plain_definition: string;
+  /** Optional ISO3-keyed nuance shown only when reading that country's panel. */
+  country_nuance?: Record<string, string>;
 }
 
 export interface Marker {
