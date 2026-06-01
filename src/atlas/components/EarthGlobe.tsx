@@ -75,7 +75,7 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     controls.dampingFactor = 0.08;
     controls.minDistance = 180;
     controls.maxDistance = 600;
-    controls.autoRotateSpeed = 0.3;
+    controls.autoRotateSpeed = 0.12;
     g.pointOfView({ altitude: 2.4 }, 0);
     try {
       const renderer = g.renderer();
