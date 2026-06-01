@@ -117,8 +117,8 @@ function AtlasPage() {
       />
 
       {/* Top-left: mode + legends + index */}
-      <div className="pointer-events-none absolute left-4 top-4 z-20 flex w-[260px] flex-col gap-3">
-        <div className="pointer-events-auto flex flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
+      <div className="pointer-events-none absolute left-4 top-4 z-20 flex max-h-[calc(100vh-2rem)] w-[260px] flex-col gap-3">
+        <div className="pointer-events-auto flex shrink-0 flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
           <ModeSwitch />
           <Legend />
           {mode === "girai" && (
@@ -133,18 +133,10 @@ function AtlasPage() {
               <TrajectoryLegend />
             </>
           )}
-          <label className="flex items-center gap-2 border-t border-border/40 pt-3 text-[11px] text-muted-foreground">
-            <input
-              type="checkbox"
-              checked={reducedMotion}
-              onChange={(e) => setReducedMotion(e.target.checked)}
-              className="h-3 w-3 accent-foreground"
-            />
-            <span className="font-serif italic">Reduced motion</span>
-          </label>
         </div>
         <SideIndex store={store} />
       </div>
+
 
       {/* Top-center: search, or Forecast header in forecasts mode */}
       <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2">
