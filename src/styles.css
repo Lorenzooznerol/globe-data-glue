@@ -6,6 +6,8 @@
 @import "@fontsource/fraunces/600.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/space-mono/400.css";
+@import "@fontsource/space-mono/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -90,15 +92,12 @@
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
 
-  /* Encounter (entry experience) — light mode */
-  --encounter-bg: #f6f5f1;
-  --encounter-ink: #16161a;
-  --encounter-ink-faint: rgba(22, 22, 26, 0.42);
-  --encounter-rule: rgba(22, 22, 26, 0.7);
-  --encounter-vignette: rgba(120, 120, 120, 0.22);
-  --encounter-bubble: rgba(22, 22, 26, 0.05);
-  --encounter-input-bg: #ffffff;
-  --encounter-input-border: rgba(22, 22, 26, 0.14);
+  /* Encounter (entry experience) — manifesto, identical across themes */
+  --encounter-bg: #1a1a1a;
+  --encounter-ink: #e8e8e8;
+  --encounter-accent: #ff5722;
+  --encounter-hint: rgba(232, 232, 232, 0.4);
+  --font-display: "Space Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 .dark {
@@ -140,35 +139,22 @@
   --morph-m6: #a98a52; /* revocable self-binding */
   --morph-m7: #6b7385; /* aligned-nascent */
 
-  /* Encounter — dark mode */
-  --encounter-bg: #050507;
-  --encounter-ink: #ece9e2;
-  --encounter-ink-faint: rgba(236, 233, 226, 0.42);
-  --encounter-rule: rgba(236, 233, 226, 0.7);
-  --encounter-vignette: rgba(0, 0, 0, 0.6);
-  --encounter-bubble: rgba(236, 233, 226, 0.06);
-  --encounter-input-bg: rgba(236, 233, 226, 0.03);
-  --encounter-input-border: rgba(236, 233, 226, 0.12);
+  /* Encounter tokens are theme-agnostic (defined in :root). */
 }
 
-/* Encounter — fades and pulses (opacity-only, no transforms). */
+/* Encounter — fade in, hint pulse. */
 @keyframes encounter-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes encounter-typing-dot {
-  0%, 100% { opacity: 0.2; }
-  50%      { opacity: 0.9; }
+@keyframes encounter-hint-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.75; }
 }
 
-@keyframes encounter-soft-pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.55; }
-}
-
-.encounter-pulse {
-  animation: encounter-soft-pulse 1800ms ease-in-out 1;
+.encounter-hint-pulse {
+  animation: encounter-hint-pulse 2200ms ease-in-out infinite;
 }
 
 @layer base {
