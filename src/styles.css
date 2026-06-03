@@ -95,6 +95,14 @@
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
 
+  /* Epistemic chip palette — used by ClaimsProvenance, CoordinatesReadout. */
+  --epistemic-verified: var(--foreground);
+  --epistemic-attested: var(--foreground);
+  --epistemic-inferred: var(--muted-foreground);
+  --epistemic-speculated: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+  --epistemic-opaque: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+  --epistemic-warn: oklch(0.72 0.12 75);
+
   /* Encounter inherits global tokens — no hardcoded color, no orange. */
   --encounter-bg: var(--background);
   --encounter-ink: var(--foreground);
@@ -144,6 +152,9 @@
   --morph-m5: #7a7a7a;
   --morph-m6: #a98a52;
   --morph-m7: #6b7385;
+
+  --epistemic-warn: oklch(0.78 0.13 75);
+
 
   --encounter-hint: oklch(0.96 0.004 270 / 0.35);
   --shadow-elevation-1: 0 1px 0 oklch(1 0 0 / 0.03) inset, 0 12px 28px -16px oklch(0 0 0 / 0.7);

@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import type { DataStore } from "@/data/store";
-import type { AtlasDocument, AtlasDocumentGroups, AtlasNode } from "@/data/types";
+import type {
+  AtlasDocument,
+  AtlasDocumentGroups,
+  AtlasNode,
+  CountryOverlay,
+} from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { X, ChevronDown } from "lucide-react";
+import { X, ChevronDown, AlertTriangle } from "lucide-react";
 import { splitMorphology, MORPH_COLOR, MORPH_LABEL, layerOf } from "@/atlas/morphology";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
@@ -14,6 +19,9 @@ import { NodeGlossary } from "./NodeGlossary";
 import { GiraiSnapshot } from "./GiraiSnapshot";
 import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
 import { TrajectorySection } from "./TrajectorySection";
+import { ClaimsProvenance } from "./ClaimsProvenance";
+import { CoordinatesReadout } from "./CoordinatesReadout";
+import { ToVerify } from "./ToVerify";
 
 interface Props {
   store: DataStore;
@@ -42,12 +50,15 @@ export function NodeCard({ store }: Props) {
 
   const node = store.nodesById.get(selectedNodeId);
   if (!node) return null;
+  const overlay = store.overlayByNodeId.get(selectedNodeId) ?? null;
 
   const isVision = !!node.vision || layerOf(node.node_id) === "vision";
   const groups = node.documents ?? { primary: [], secondary: [], context: [] };
   const totalDocs = groups.primary.length + groups.secondary.length + groups.context.length;
   const hue = colorForNode(node);
   const layer = layerOf(node.node_id).toUpperCase();
+  const showIndependenceFlag =
+    overlay?.node.independence_flag === true || node.independence_flag === true;
 
   return (
     <aside
@@ -78,6 +89,16 @@ export function NodeCard({ store }: Props) {
           {node.name}
         </h2>
         <NodeGlossary store={store} node={node} />
+        {showIndependenceFlag && (
+          <div
+            className="mt-3 flex items-start gap-2 border-l-2 pl-2.5 font-serif text-[12.5px] leading-snug"
+            style={{ borderColor: "var(--epistemic-warn)", color: "var(--epistemic-warn)" }}
+            role="note"
+          >
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+            <span>Supervisors are government agencies, not independent authorities.</span>
+          </div>
+        )}
       </header>
 
       <nav
@@ -116,6 +137,7 @@ export function NodeCard({ store }: Props) {
           reducedMotion={reducedMotion}
           store={store}
           node={node}
+          overlay={overlay}
           isVision={isVision}
           hue={hue}
           groups={groups}
@@ -130,6 +152,7 @@ function LevelView({
   reducedMotion,
   store,
   node,
+  overlay,
   isVision,
   hue,
   groups,
@@ -138,6 +161,7 @@ function LevelView({
   reducedMotion: boolean;
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   isVision: boolean;
   hue: string;
   groups: AtlasDocumentGroups;
@@ -147,12 +171,12 @@ function LevelView({
       key={level}
       className={reducedMotion ? "" : "animate-in fade-in-0 slide-in-from-bottom-1 duration-200"}
     >
-      {level === "short" && <ShortLevel store={store} node={node} hue={hue} />}
+      {level === "short" && <ShortLevel store={store} node={node} overlay={overlay} hue={hue} />}
       {level === "how" && (
-        <HowLevel store={store} node={node} isVision={isVision} hue={hue} />
+        <HowLevel store={store} node={node} overlay={overlay} isVision={isVision} hue={hue} />
       )}
-      {level === "docs" && <DocsLevel groups={groups} hue={hue} />}
-      {level === "tech" && <TechLevel node={node} />}
+      {level === "docs" && <DocsLevel groups={groups} overlay={overlay} hue={hue} />}
+      {level === "tech" && <TechLevel node={node} overlay={overlay} />}
     </div>
   );
 }
@@ -162,10 +186,12 @@ function LevelView({
 function ShortLevel({
   store,
   node,
+  overlay,
   hue,
 }: {
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   hue: string;
 }) {
   const headline = node.headline ?? "";
@@ -188,7 +214,7 @@ function ShortLevel({
       : undefined;
   const family = familyOf(node.morphology);
 
-  if (!headline && !summary && !girai && !showUnscoredNote) {
+  if (!headline && !summary && !girai && !showUnscoredNote && !overlay) {
     return (
       <p className="mono text-[11px] uppercase tracking-wider text-muted-foreground">
         No readable summary recorded yet.
@@ -229,21 +255,26 @@ function ShortLevel({
           </p>
         )}
         <TrajectorySection store={store} node={node} />
+        {overlay && <ClaimsProvenance overlay={overlay} />}
+        {overlay && <CoordinatesReadout coordinates={overlay.coordinates} />}
       </div>
     </TermScope>
   );
 }
+
 
 /* ---------- Level 2: How it works ---------- */
 
 function HowLevel({
   store,
   node,
+  overlay,
   isVision,
   hue,
 }: {
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   isVision: boolean;
   hue: string;
 }) {
@@ -306,6 +337,12 @@ function HowLevel({
           </section>
         )}
 
+        {overlay?.readable.how_it_works && (
+          <p className="font-serif text-[14px] leading-relaxed text-foreground/85">
+            {overlay.readable.how_it_works}
+          </p>
+        )}
+
         {node.node_id === "ST-US" && <SubFederal store={store} />}
       </div>
     </TermScope>
@@ -359,8 +396,34 @@ function SubFederal({ store }: { store: DataStore }) {
 
 /* ---------- Level 3: Documents ---------- */
 
-function DocsLevel({ groups, hue }: { groups: AtlasDocumentGroups; hue: string }) {
-  const { primary, secondary, context } = groups;
+function DocsLevel({
+  groups,
+  overlay,
+  hue,
+}: {
+  groups: AtlasDocumentGroups;
+  overlay: CountryOverlay | null;
+  hue: string;
+}) {
+  // Merge curated overlay docs into the Official & primary group.
+  const overlayDocs: AtlasDocument[] =
+    overlay?.readable.documents
+      ?.map((d) => {
+        const s = overlay.sources.find((x) => x.source_id === d.source_id);
+        if (!s) return null;
+        return {
+          source_id: s.source_id,
+          title: d.label || s.title,
+          publisher: s.publisher,
+          url: s.url,
+          pub_date: s.pub_date,
+          source_type: s.source_type,
+          origin: "curated",
+        } as AtlasDocument;
+      })
+      .filter((x): x is AtlasDocument => !!x) ?? [];
+  const primary = [...overlayDocs, ...groups.primary];
+  const { secondary, context } = groups;
   if (primary.length + secondary.length + context.length === 0) {
     return (
       <p className="mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -482,7 +545,7 @@ function DocList({
 
 /* ---------- Level 4: Technical detail ---------- */
 
-function TechLevel({ node }: { node: AtlasNode }) {
+function TechLevel({ node, overlay }: { node: AtlasNode; overlay: CountryOverlay | null }) {
   const isVision = !!node.vision || layerOf(node.node_id) === "vision";
   if (isVision && node.vision) {
     const v = node.vision;
@@ -501,25 +564,35 @@ function TechLevel({ node }: { node: AtlasNode }) {
 
   const { primary, secondary } = splitMorphology(node.morphology);
   return (
-    <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
-      <Row k="node_id" v={node.node_id} />
-      <Row k="layer" v={node.layer} />
-      <Row
-        k="morphology"
-        v={
-          (node.morphology ?? "") +
-          (primary ? ` (${primary}${secondary ? "+" + secondary : ""} · ${MORPH_LABEL[primary]})` : "")
-        }
-      />
-      <Row k="sub_mechanism" v={node.sub_mechanism ?? ""} />
-      <Row k="paper_band" v={node.paper_band ?? ""} />
-      <Row k="realization_band" v={node.realization_band ?? ""} />
-      <Row k="realization_mode" v={node.realization_mode ?? ""} />
-      <Row k="epistemic_level" v={node.epistemic_level ?? ""} />
-      <Row k="evidence_strength" v={node.evidence_strength ?? ""} />
-      {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
-      <Row k="notes" v={node.notes ?? ""} />
-    </dl>
+    <div className="flex flex-col gap-6">
+      <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
+        <Row k="node_id" v={node.node_id} />
+        <Row k="layer" v={node.layer} />
+        <Row
+          k="morphology"
+          v={
+            (node.morphology ?? "") +
+            (primary ? ` (${primary}${secondary ? "+" + secondary : ""} · ${MORPH_LABEL[primary]})` : "")
+          }
+        />
+        <Row k="sub_mechanism" v={node.sub_mechanism ?? ""} />
+        <Row k="paper_band" v={node.paper_band ?? ""} />
+        <Row k="realization_band" v={node.realization_band ?? ""} />
+        <Row k="realization_mode" v={node.realization_mode ?? ""} />
+        <Row k="epistemic_level" v={node.epistemic_level ?? ""} />
+        <Row k="evidence_strength" v={node.evidence_strength ?? ""} />
+        {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
+        <Row k="notes" v={node.notes ?? ""} />
+      </dl>
+      {overlay?.readable.technical_detail && (
+        <p className="font-serif text-[13.5px] leading-relaxed text-foreground/85">
+          {overlay.readable.technical_detail}
+        </p>
+      )}
+      {overlay?.to_verify && overlay.to_verify.length > 0 && (
+        <ToVerify items={overlay.to_verify} />
+      )}
+    </div>
   );
 }
 

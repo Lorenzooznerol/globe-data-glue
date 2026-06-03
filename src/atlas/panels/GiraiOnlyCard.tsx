@@ -48,12 +48,7 @@ export function GiraiOnlyCard({ store }: Props) {
       </header>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-10 pt-5">
-        <p className="font-serif text-[14px] italic leading-relaxed text-muted-foreground">
-          Not yet covered by the Atlas's morphological analysis.
-        </p>
-        <div className="mt-5">
-          <GiraiSnapshot store={store} girai={girai} totalCountries={total} currentIso={girai.iso3} />
-        </div>
+        <GiraiSnapshot store={store} girai={girai} totalCountries={total} currentIso={girai.iso3} />
       </div>
     </aside>
   );
