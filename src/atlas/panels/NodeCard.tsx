@@ -268,11 +268,13 @@ function ShortLevel({
 function HowLevel({
   store,
   node,
+  overlay,
   isVision,
   hue,
 }: {
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   isVision: boolean;
   hue: string;
 }) {
@@ -335,6 +337,12 @@ function HowLevel({
           </section>
         )}
 
+        {overlay?.readable.how_it_works && (
+          <p className="font-serif text-[14px] leading-relaxed text-foreground/85">
+            {overlay.readable.how_it_works}
+          </p>
+        )}
+
         {node.node_id === "ST-US" && <SubFederal store={store} />}
       </div>
     </TermScope>
@@ -388,8 +396,34 @@ function SubFederal({ store }: { store: DataStore }) {
 
 /* ---------- Level 3: Documents ---------- */
 
-function DocsLevel({ groups, hue }: { groups: AtlasDocumentGroups; hue: string }) {
-  const { primary, secondary, context } = groups;
+function DocsLevel({
+  groups,
+  overlay,
+  hue,
+}: {
+  groups: AtlasDocumentGroups;
+  overlay: CountryOverlay | null;
+  hue: string;
+}) {
+  // Merge curated overlay docs into the Official & primary group.
+  const overlayDocs: AtlasDocument[] =
+    overlay?.readable.documents
+      ?.map((d) => {
+        const s = overlay.sources.find((x) => x.source_id === d.source_id);
+        if (!s) return null;
+        return {
+          source_id: s.source_id,
+          title: d.label || s.title,
+          publisher: s.publisher,
+          url: s.url,
+          pub_date: s.pub_date,
+          source_type: s.source_type,
+          origin: "curated",
+        } as AtlasDocument;
+      })
+      .filter((x): x is AtlasDocument => !!x) ?? [];
+  const primary = [...overlayDocs, ...groups.primary];
+  const { secondary, context } = groups;
   if (primary.length + secondary.length + context.length === 0) {
     return (
       <p className="mono text-[11px] uppercase tracking-wider text-muted-foreground">
