@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "iso3": "ITA",
+    "country": "Italy",
+    "schema": "atlas-country-overlay-v1",
+    "compiled": "2026-06-02",
+    "note": "Curated overlay upgrading the GIRAI-only Italy entry to a curated node. Reuses atlas.json grammar. Every load-bearing claim carries source_ids + epistemic_level."
+  },
+  "node": {
+    "node_id": "ST-IT",
+    "iso3": "ITA",
+    "layer": "state",
+    "name": "Italy",
+    "region": "Europe",
+    "morphology": "open-gap",
+    "sub_mechanism": "scaffold-and-trigger",
+    "paper_band": "S",
+    "realization_band": "IN",
+    "realization_mode": "mixed (ex-ante sectoral disclosure + ex-post criminal)",
+    "epistemic_level": "INFERRED",
+    "evidence_strength": "STRONG",
+    "girai_has_data": true,
+    "independence_flag": true,
+    "notes": "First comprehensive national AI law in the EU (L.132/2025), but the substantive engine is the EU AI Act; the national law is governance scaffolding + a few high-temperature triggers. Supervisors are government agencies, not independent authorities. Band codes (S/IN) are INFERRED — confirm against Band Rubric v1.1."
+  },
+  "coordinates": {
+    "gaze":                       { "value": "mixed-ex-ante", "evidence_articles": ["4","11","13","14","20","26"], "epistemic_level": "INFERRED" },
+    "surveillance_breadth":       { "value": "broad",         "evidence_articles": ["2"],                          "epistemic_level": "INFERRED" },
+    "institutional_transparency": { "value": "medium",        "evidence_articles": ["14","19","20"],               "epistemic_level": "INFERRED" },
+    "reciprocity":                { "value": "limited",       "evidence_articles": ["4","11","13","14"],           "epistemic_level": "INFERRED" }
+  },
+  "claims": [
+    { "claim_id": "C-IT-01", "claim_text": "Law 23 Sept 2025 no.132 — first comprehensive national AI law in the EU; approved 17 Sep 2025, in force 10 Oct 2025 (GU Serie Generale n.223, 25/09/2025).", "as_of_date": "2025-10-10", "epistemic_level": "VERIFIED", "source_ids": "S069;S070;S071;S074", "reg_ref": "REG-028" },
+    { "claim_id": "C-IT-02", "claim_text": "Art.20 designates AgID as notifying authority and ACN as market-surveillance authority + single point of contact with the EU; sectoral powers of Banca d'Italia, CONSOB, IVASS, Garante, AGCOM preserved.", "as_of_date": "2025-10-10", "epistemic_level": "VERIFIED", "source_ids": "S069;S072;S073;S076", "reg_ref": "REG-028" },
+    { "claim_id": "C-IT-03", "claim_text": "Art.26(1)(c) inserts Art.612-quater of the Criminal Code: 1–5 years for non-consensual dissemination of AI-falsified/altered images, video or audio causing unjust harm.", "as_of_date": "2025-10-10", "epistemic_level": "VERIFIED", "source_ids": "S069;S075", "reg_ref": "REG-028" },
+    { "claim_id": "C-IT-04", "claim_text": "The law is explicitly subordinated to Regulation (EU) 2024/1689 and adds no obligations beyond the AI Act (Arts.1(2), 3(5)).", "as_of_date": "2025-10-10", "epistemic_level": "VERIFIED", "source_ids": "S073;S074", "reg_ref": "REG-028" },
+    { "claim_id": "C-IT-05", "claim_text": "National supervisors are government agencies (AgID, ACN), not independent authorities; the choice was objected to by the European Commission opinion C(2024)7814 and by the Garante.", "as_of_date": "2025-09-23", "epistemic_level": "ATTESTED", "source_ids": "S073", "reg_ref": "REG-028" },
+    { "claim_id": "C-IT-06", "claim_text": "GIRAI 2024: overall 61.8/100, rank 7/138 globally (6th in Europe); weakest on Responsible AI Capacities (38.21).", "as_of_date": "2024-01-01", "epistemic_level": "VERIFIED", "source_ids": "S077", "reg_ref": "REG-027" },
+    { "claim_id": "C-IT-07", "claim_text": "Morphology = open gap: comprehensive statute on paper while realization lags — authorities only just designated, delegated decrees due by Oct 2026, and EU high-risk obligations deferred to 2 Dec 2027 by the Digital Omnibus.", "as_of_date": "2026-06-02", "epistemic_level": "INFERRED", "source_ids": "S001;S069", "reg_ref": "REG-028" }
+  ],
+  "sources": [
+    { "source_id": "S069", "title": "Legge 23 settembre 2025, n. 132 (consolidated text)", "publisher": "Normattiva", "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-09-23;132", "pub_date": "2025-09-23", "source_type": "primary_act", "reliability": "high" },
+    { "source_id": "S070", "title": "Legge 132/2025 — Gazzetta Ufficiale Serie Generale n.223", "publisher": "Gazzetta Ufficiale della Repubblica Italiana", "url": "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg", "pub_date": "2025-09-25", "source_type": "official_gov", "reliability": "high" },
+    { "source_id": "S071", "title": "Scheda DDL S.1146 (parliamentary record)", "publisher": "Senato della Repubblica", "url": "https://www.senato.it/leggi-e-documenti/disegni-di-legge/scheda-ddl?did=59313", "pub_date": "2025-09-17", "source_type": "official_gov", "reliability": "high" },
+    { "source_id": "S072", "title": "Artificial Intelligence — intervention area", "publisher": "AgID (Agenzia per l'Italia Digitale)", "url": "https://www.agid.gov.it/en/intervention-areas/artificial-intelligence", "pub_date": "2025-10-01", "source_type": "official_gov", "reliability": "high" },
+    { "source_id": "S073", "title": "Italy's AI Law: the good, the bad…and the actual substance", "publisher": "Hogan Lovells", "url": "https://www.hoganlovells.com/en/publications/italys-ai-law-the-good-the-badand-the-actual-substance", "pub_date": "2025-10-01", "source_type": "law_firm_analysis", "reliability": "medium" },
+    { "source_id": "S074", "title": "Italian Law no.132/2025 — first domestic AI law in the EU", "publisher": "Squire Patton Boggs", "url": "https://www.squirepattonboggs.com/insights/publications/italian-law-no-132-2025-the-first-domestic-law-in-the-european-union-on-the-use-of-artificial-intelligence/", "pub_date": "2025-10-01", "source_type": "law_firm_analysis", "reliability": "medium" },
+    { "source_id": "S075", "title": "Gli attuali profili penalistici dell'IA alla luce della legge n.132/2025", "publisher": "Giustizia Insieme", "url": "https://www.giustiziainsieme.it/it/diritto-e-innovazione/3717-gli-attuali-profili-penalistici-dellintelligenza-artificiale-alla-luce-della-legge-n-132-2025", "pub_date": "2025-10-15", "source_type": "academic", "reliability": "medium" },
+    { "source_id": "S076", "title": "AI Watch: Global regulatory tracker — Italy", "publisher": "White & Case LLP", "url": "https://www.whitecase.com/insight-our-thinking/ai-watch-global-regulatory-tracker-italy", "pub_date": "2025-11-01", "source_type": "law_firm_analysis", "reliability": "medium" },
+    { "source_id": "S077", "title": "Global Index on Responsible AI 2024 — Italy", "publisher": "Global Center on AI Governance", "url": "https://www.global-index.ai/Countries", "pub_date": "2024-01-01", "source_type": "ngo_index", "reliability": "high" }
+  ],
+  "readable": {
+    "headline": "Italy — first in the EU to legislate, but the engine is Brussels",
+    "summary": "Italy passed the EU's first comprehensive national AI law (132/2025), in force since 10 October 2025. But it deliberately adds no obligations beyond the EU AI Act: it is governance scaffolding plus a few sharp triggers — a new deepfake crime, rules for health, work, public administration and copyright, and protections for minors. The real regulatory engine remains the EU AI Act.",
+    "how_it_works": "The law designates two government agencies — AgID (notification) and ACN (market surveillance, EU contact point) — and delegates the substance to government decrees due by October 2026. EU high-risk obligations themselves were deferred to December 2027 by the Digital Omnibus, so on the ground the apparatus is named but not yet biting.",
+    "documents": [
+      { "label": "Law 132/2025 — official consolidated text (Normattiva)", "source_id": "S069" },
+      { "label": "Gazzetta Ufficiale n.223 (25 Sep 2025)", "source_id": "S070" },
+      { "label": "Parliamentary record — DDL S.1146 (Senato)", "source_id": "S071" }
+    ],
+    "technical_detail": "Mixed gaze: ex-ante for conformity/notification (delegated to the EU regime via AgID) and for sectoral disclosure duties (Arts.4,11,13,14); ex-post for the new criminal offence (Art.612-quater c.p., 1–5 yrs). Broad scope (all AI/GPAI as defined by the EU AI Act, no national risk taxonomy). Medium institutional transparency (authorities are government agencies, not independent). Limited reciprocity (information rights for workers/clients; no horizontal right to contest beyond AI Act + GDPR Art.22)."
+  },
+  "to_verify": [
+    "Verbatim text of Art.612-quater c.p. as inserted by Art.26(1)(c) — pull from the Normattiva consolidated text before publishing the page.",
+    "Primary link to European Commission opinion C(2024)7814 (TRIS procedure) — currently attested via law-firm sources only.",
+    "Italy's individual signature/ratification of the Council of Europe Framework Convention on AI (CETS No.225) — bound via EU signature; national status unconfirmed.",
+    "Formal adoption date of the Digital Omnibus on AI in the EU Official Journal (political agreement 7 May 2026; not yet adopted at compile time).",
+    "Confirm paper_band=S / realization_band=IN against your Band Rubric v1.1."
+  ]
+}
