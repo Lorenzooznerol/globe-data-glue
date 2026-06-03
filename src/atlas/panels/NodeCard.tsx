@@ -545,7 +545,7 @@ function DocList({
 
 /* ---------- Level 4: Technical detail ---------- */
 
-function TechLevel({ node }: { node: AtlasNode }) {
+function TechLevel({ node, overlay }: { node: AtlasNode; overlay: CountryOverlay | null }) {
   const isVision = !!node.vision || layerOf(node.node_id) === "vision";
   if (isVision && node.vision) {
     const v = node.vision;
@@ -564,25 +564,35 @@ function TechLevel({ node }: { node: AtlasNode }) {
 
   const { primary, secondary } = splitMorphology(node.morphology);
   return (
-    <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
-      <Row k="node_id" v={node.node_id} />
-      <Row k="layer" v={node.layer} />
-      <Row
-        k="morphology"
-        v={
-          (node.morphology ?? "") +
-          (primary ? ` (${primary}${secondary ? "+" + secondary : ""} · ${MORPH_LABEL[primary]})` : "")
-        }
-      />
-      <Row k="sub_mechanism" v={node.sub_mechanism ?? ""} />
-      <Row k="paper_band" v={node.paper_band ?? ""} />
-      <Row k="realization_band" v={node.realization_band ?? ""} />
-      <Row k="realization_mode" v={node.realization_mode ?? ""} />
-      <Row k="epistemic_level" v={node.epistemic_level ?? ""} />
-      <Row k="evidence_strength" v={node.evidence_strength ?? ""} />
-      {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
-      <Row k="notes" v={node.notes ?? ""} />
-    </dl>
+    <div className="flex flex-col gap-6">
+      <dl className="mono grid grid-cols-[140px_1fr] gap-y-2.5 text-[11px]">
+        <Row k="node_id" v={node.node_id} />
+        <Row k="layer" v={node.layer} />
+        <Row
+          k="morphology"
+          v={
+            (node.morphology ?? "") +
+            (primary ? ` (${primary}${secondary ? "+" + secondary : ""} · ${MORPH_LABEL[primary]})` : "")
+          }
+        />
+        <Row k="sub_mechanism" v={node.sub_mechanism ?? ""} />
+        <Row k="paper_band" v={node.paper_band ?? ""} />
+        <Row k="realization_band" v={node.realization_band ?? ""} />
+        <Row k="realization_mode" v={node.realization_mode ?? ""} />
+        <Row k="epistemic_level" v={node.epistemic_level ?? ""} />
+        <Row k="evidence_strength" v={node.evidence_strength ?? ""} />
+        {primary && <Row k="color" v={MORPH_COLOR[primary]} />}
+        <Row k="notes" v={node.notes ?? ""} />
+      </dl>
+      {overlay?.readable.technical_detail && (
+        <p className="font-serif text-[13.5px] leading-relaxed text-foreground/85">
+          {overlay.readable.technical_detail}
+        </p>
+      )}
+      {overlay?.to_verify && overlay.to_verify.length > 0 && (
+        <ToVerify items={overlay.to_verify} />
+      )}
+    </div>
   );
 }
 
