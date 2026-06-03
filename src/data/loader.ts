@@ -37,7 +37,7 @@ export async function loadCountryOverlays(): Promise<CountryOverlay[]> {
       }
     }),
   );
-  return results.filter((x): x is CountryOverlay => !!x);
+  return results.filter((x: CountryOverlay | null): x is CountryOverlay => !!x);
 }
 
 export async function loadAll(): Promise<{

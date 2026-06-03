@@ -135,6 +135,98 @@ export interface AtlasNode {
   subnational?: boolean;
   supranational?: boolean;
   girai_has_data?: boolean;
+  independence_flag?: boolean;
+}
+
+/* ---------- Country Overlay (per-country curated upgrade) ---------- */
+
+export type EpistemicLevel =
+  | "VERIFIED"
+  | "ATTESTED"
+  | "INFERRED"
+  | "SPECULATED"
+  | "OPAQUE";
+
+export interface OverlayMeta {
+  iso3: string;
+  country: string;
+  schema: string;
+  compiled?: string;
+  note?: string;
+}
+
+export interface OverlayNode {
+  node_id: string;
+  iso3: string;
+  layer: string;
+  name: string;
+  region?: string;
+  morphology: string;
+  sub_mechanism?: string;
+  paper_band?: string;
+  realization_band?: string;
+  realization_mode?: string;
+  epistemic_level?: string;
+  evidence_strength?: string;
+  girai_has_data?: boolean;
+  independence_flag?: boolean;
+  notes?: string;
+}
+
+export interface OverlayCoordinate {
+  value: string;
+  evidence_articles: string[];
+  epistemic_level: EpistemicLevel | string;
+}
+
+export interface OverlayCoordinates {
+  gaze: OverlayCoordinate;
+  surveillance_breadth: OverlayCoordinate;
+  institutional_transparency: OverlayCoordinate;
+  reciprocity: OverlayCoordinate;
+}
+
+export interface OverlayClaim {
+  claim_id: string;
+  claim_text: string;
+  as_of_date: string;
+  epistemic_level: EpistemicLevel | string;
+  /** Semicolon-joined source ids, e.g. "S069;S070". */
+  source_ids: string;
+  reg_ref?: string;
+}
+
+export interface OverlaySource {
+  source_id: string;
+  title: string;
+  publisher?: string;
+  url?: string;
+  pub_date?: string;
+  source_type?: string;
+  reliability?: string;
+}
+
+export interface OverlayDocument {
+  label: string;
+  source_id: string;
+}
+
+export interface OverlayReadable {
+  headline?: string;
+  summary?: string;
+  how_it_works?: string;
+  documents?: OverlayDocument[];
+  technical_detail?: string;
+}
+
+export interface CountryOverlay {
+  meta: OverlayMeta;
+  node: OverlayNode;
+  coordinates: OverlayCoordinates;
+  claims: OverlayClaim[];
+  sources: OverlaySource[];
+  readable: OverlayReadable;
+  to_verify: string[];
 }
 
 export interface Atlas {
