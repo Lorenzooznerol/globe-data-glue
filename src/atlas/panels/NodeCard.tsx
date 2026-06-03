@@ -186,10 +186,12 @@ function LevelView({
 function ShortLevel({
   store,
   node,
+  overlay,
   hue,
 }: {
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   hue: string;
 }) {
   const headline = node.headline ?? "";
@@ -212,7 +214,7 @@ function ShortLevel({
       : undefined;
   const family = familyOf(node.morphology);
 
-  if (!headline && !summary && !girai && !showUnscoredNote) {
+  if (!headline && !summary && !girai && !showUnscoredNote && !overlay) {
     return (
       <p className="mono text-[11px] uppercase tracking-wider text-muted-foreground">
         No readable summary recorded yet.
@@ -253,10 +255,13 @@ function ShortLevel({
           </p>
         )}
         <TrajectorySection store={store} node={node} />
+        {overlay && <ClaimsProvenance overlay={overlay} />}
+        {overlay && <CoordinatesReadout coordinates={overlay.coordinates} />}
       </div>
     </TermScope>
   );
 }
+
 
 /* ---------- Level 2: How it works ---------- */
 
