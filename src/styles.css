@@ -102,7 +102,6 @@
   --epistemic-speculated: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
   --epistemic-opaque: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
   --epistemic-warn: oklch(0.72 0.12 75);
-  --morph-m7: #6b7385;
 
   /* Encounter inherits global tokens — no hardcoded color, no orange. */
   --encounter-bg: var(--background);
