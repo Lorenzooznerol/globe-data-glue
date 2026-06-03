@@ -50,12 +50,15 @@ export function NodeCard({ store }: Props) {
 
   const node = store.nodesById.get(selectedNodeId);
   if (!node) return null;
+  const overlay = store.overlayByNodeId.get(selectedNodeId) ?? null;
 
   const isVision = !!node.vision || layerOf(node.node_id) === "vision";
   const groups = node.documents ?? { primary: [], secondary: [], context: [] };
   const totalDocs = groups.primary.length + groups.secondary.length + groups.context.length;
   const hue = colorForNode(node);
   const layer = layerOf(node.node_id).toUpperCase();
+  const showIndependenceFlag =
+    overlay?.node.independence_flag === true || node.independence_flag === true;
 
   return (
     <aside
@@ -86,6 +89,16 @@ export function NodeCard({ store }: Props) {
           {node.name}
         </h2>
         <NodeGlossary store={store} node={node} />
+        {showIndependenceFlag && (
+          <div
+            className="mt-3 flex items-start gap-2 border-l-2 pl-2.5 font-serif text-[12.5px] leading-snug"
+            style={{ borderColor: "var(--epistemic-warn)", color: "var(--epistemic-warn)" }}
+            role="note"
+          >
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+            <span>Supervisors are government agencies, not independent authorities.</span>
+          </div>
+        )}
       </header>
 
       <nav
@@ -124,6 +137,7 @@ export function NodeCard({ store }: Props) {
           reducedMotion={reducedMotion}
           store={store}
           node={node}
+          overlay={overlay}
           isVision={isVision}
           hue={hue}
           groups={groups}
@@ -138,6 +152,7 @@ function LevelView({
   reducedMotion,
   store,
   node,
+  overlay,
   isVision,
   hue,
   groups,
@@ -146,6 +161,7 @@ function LevelView({
   reducedMotion: boolean;
   store: DataStore;
   node: AtlasNode;
+  overlay: CountryOverlay | null;
   isVision: boolean;
   hue: string;
   groups: AtlasDocumentGroups;
@@ -155,12 +171,12 @@ function LevelView({
       key={level}
       className={reducedMotion ? "" : "animate-in fade-in-0 slide-in-from-bottom-1 duration-200"}
     >
-      {level === "short" && <ShortLevel store={store} node={node} hue={hue} />}
+      {level === "short" && <ShortLevel store={store} node={node} overlay={overlay} hue={hue} />}
       {level === "how" && (
-        <HowLevel store={store} node={node} isVision={isVision} hue={hue} />
+        <HowLevel store={store} node={node} overlay={overlay} isVision={isVision} hue={hue} />
       )}
-      {level === "docs" && <DocsLevel groups={groups} hue={hue} />}
-      {level === "tech" && <TechLevel node={node} />}
+      {level === "docs" && <DocsLevel groups={groups} overlay={overlay} hue={hue} />}
+      {level === "tech" && <TechLevel node={node} overlay={overlay} />}
     </div>
   );
 }
