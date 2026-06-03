@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import type { DataStore } from "@/data/store";
-import type { AtlasDocument, AtlasDocumentGroups, AtlasNode } from "@/data/types";
+import type {
+  AtlasDocument,
+  AtlasDocumentGroups,
+  AtlasNode,
+  CountryOverlay,
+} from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { X, ChevronDown } from "lucide-react";
+import { X, ChevronDown, AlertTriangle } from "lucide-react";
 import { splitMorphology, MORPH_COLOR, MORPH_LABEL, layerOf } from "@/atlas/morphology";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainGapGloss } from "@/atlas/plainLanguage";
@@ -14,6 +19,9 @@ import { NodeGlossary } from "./NodeGlossary";
 import { GiraiSnapshot } from "./GiraiSnapshot";
 import { MorphologyVsScoreLine } from "./MorphologyVsScoreLine";
 import { TrajectorySection } from "./TrajectorySection";
+import { ClaimsProvenance } from "./ClaimsProvenance";
+import { CoordinatesReadout } from "./CoordinatesReadout";
+import { ToVerify } from "./ToVerify";
 
 interface Props {
   store: DataStore;
