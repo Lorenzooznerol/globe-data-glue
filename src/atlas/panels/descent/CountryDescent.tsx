@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { X, ChevronUp } from "lucide-react";
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, CountryOverlay } from "@/data/types";
@@ -70,7 +70,8 @@ export function CountryDescent({ store, node, overlay }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [active, ascend, close, descend, toVerifyOpen]);
 
-  const visibleLayers = useMemo(() => LAYERS.slice(0, active + 1), [active]);
+
+
 
   return (
     <aside
@@ -117,40 +118,25 @@ export function CountryDescent({ store, node, overlay }: Props) {
       </header>
 
       <div className="relative min-h-0 flex-1 overflow-hidden pl-20">
-        {visibleLayers.map((l) => {
-          const isTop = l.key === active;
-          const depth = active - l.key;
-          const transform = reducedMotion
-            ? "none"
-            : isTop
-              ? "translateY(0) scale(1)"
-              : `translateY(${-8 * depth}px) scale(${1 - 0.04 * depth})`;
-          const opacity = isTop ? 1 : Math.max(0, 0.35 - 0.1 * (depth - 1));
-          return (
-            <div
-              key={l.key}
-              aria-hidden={!isTop}
-              className="absolute inset-0 overflow-y-auto px-6 pb-12 pt-5"
-              style={{
-                transform,
-                opacity,
-                transition: reducedMotion
-                  ? "opacity 200ms ease-out"
-                  : "transform 220ms ease-out, opacity 220ms ease-out",
-                pointerEvents: isTop ? "auto" : "none",
-                zIndex: 10 + l.key,
-              }}
-            >
-              <LayerView
-                index={l.key}
-                store={store}
-                node={node}
-                overlay={overlay}
-                onDeeper={descend}
-              />
-            </div>
-          );
-        })}
+        <div
+          key={active}
+          className="absolute inset-0 overflow-y-auto px-6 pb-12 pt-5"
+          style={{
+            animation: reducedMotion
+              ? "descent-fade 180ms ease-out both"
+              : "descent-enter 240ms ease-out both",
+          }}
+        >
+          <LayerView
+            index={active}
+            store={store}
+            node={node}
+            overlay={overlay}
+            onDeeper={descend}
+          />
+
+
+        </div>
       </div>
 
       <ToVerifyDrawer
