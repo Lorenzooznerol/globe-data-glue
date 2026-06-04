@@ -145,7 +145,8 @@ export type EpistemicLevel =
   | "ATTESTED"
   | "INFERRED"
   | "SPECULATED"
-  | "OPAQUE";
+  | "OPAQUE"
+  | "TO_VERIFY";
 
 export interface OverlayMeta {
   iso3: string;
