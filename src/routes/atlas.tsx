@@ -104,7 +104,7 @@ function AtlasPage() {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-background">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 globe-recede">
         {mounted && <EarthGlobe store={store} width={size.w} height={size.h} />}
       </div>
 

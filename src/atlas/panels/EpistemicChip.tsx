@@ -14,6 +14,7 @@ interface Props {
  * ATTESTED  → outlined
  * INFERRED  → dashed border, muted
  * SPECULATED → faint dashed, very muted
+ * TO_VERIFY → faint dotted + small dot
  * OPAQUE    → ghosted
  */
 export function EpistemicChip({ level, children, className }: Props) {
@@ -46,6 +47,12 @@ export function EpistemicChip({ level, children, className }: Props) {
           color: "var(--epistemic-speculated)",
           border: "1px dashed var(--epistemic-speculated)",
         };
+      case "TO_VERIFY":
+        return {
+          backgroundColor: "transparent",
+          color: "var(--epistemic-to-verify)",
+          border: "1px dotted var(--epistemic-to-verify)",
+        };
       case "OPAQUE":
       default:
         return {
@@ -56,14 +63,22 @@ export function EpistemicChip({ level, children, className }: Props) {
     }
   })();
 
+  const showDot = lvl === "TO_VERIFY";
   return (
     <span
       className={
-        "mono inline-flex items-center px-1.5 py-[1px] text-[9px] uppercase tracking-[0.18em] " +
+        "mono inline-flex items-center gap-1 px-1.5 py-[1px] text-[9px] uppercase tracking-[0.18em] " +
         (className ?? "")
       }
       style={style}
     >
+      {showDot && (
+        <span
+          aria-hidden
+          className="inline-block h-1 w-1 rounded-full"
+          style={{ background: "var(--epistemic-to-verify)" }}
+        />
+      )}
       {label}
     </span>
   );

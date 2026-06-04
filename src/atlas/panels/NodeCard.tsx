@@ -22,6 +22,7 @@ import { TrajectorySection } from "./TrajectorySection";
 import { ClaimsProvenance } from "./ClaimsProvenance";
 import { CoordinatesReadout } from "./CoordinatesReadout";
 import { ToVerify } from "./ToVerify";
+import { CountryDescent } from "./descent/CountryDescent";
 
 interface Props {
   store: DataStore;
@@ -52,13 +53,18 @@ export function NodeCard({ store }: Props) {
   if (!node) return null;
   const overlay = store.overlayByNodeId.get(selectedNodeId) ?? null;
 
+  // Curated overlay countries get the layered descent instead of the flat card.
+  if (overlay) {
+    return <CountryDescent store={store} node={node} overlay={overlay} />;
+  }
+
+
   const isVision = !!node.vision || layerOf(node.node_id) === "vision";
   const groups = node.documents ?? { primary: [], secondary: [], context: [] };
   const totalDocs = groups.primary.length + groups.secondary.length + groups.context.length;
   const hue = colorForNode(node);
   const layer = layerOf(node.node_id).toUpperCase();
-  const showIndependenceFlag =
-    overlay?.node.independence_flag === true || node.independence_flag === true;
+  const showIndependenceFlag = node.independence_flag === true;
 
   return (
     <aside

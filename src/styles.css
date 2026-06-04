@@ -101,6 +101,7 @@
   --epistemic-inferred: var(--muted-foreground);
   --epistemic-speculated: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
   --epistemic-opaque: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+  --epistemic-to-verify: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
   --epistemic-warn: oklch(0.72 0.12 75);
 
   /* Encounter inherits global tokens — no hardcoded color, no orange. */
@@ -154,6 +155,7 @@
   --morph-m7: #6b7385;
 
   --epistemic-warn: oklch(0.78 0.13 75);
+  --epistemic-to-verify: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
 
 
   --encounter-hint: oklch(0.96 0.004 270 / 0.35);
@@ -168,6 +170,22 @@
 
 .encounter-hint-breathe {
   animation: encounter-hint-breathe 3000ms ease-in-out infinite;
+}
+
+/* Layered country entry — globe recedes when a descent is open. */
+.globe-recede {
+  transition: transform 240ms ease-out, opacity 240ms ease-out, filter 240ms ease-out;
+}
+body[data-descent="on"] .globe-recede {
+  transform: scale(0.92);
+  opacity: 0.55;
+  filter: blur(1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-descent="on"] .globe-recede {
+    transform: none;
+    filter: none;
+  }
 }
 
 @layer base {
