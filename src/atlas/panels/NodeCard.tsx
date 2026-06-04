@@ -56,6 +56,9 @@ export function NodeCard({ store }: Props) {
 
   // Curated overlay countries get the layered descent instead of the flat card.
   if (overlay) {
+    if (overlay.meta.iso3 === "ITA") {
+      return <ItalyView store={store} node={node} overlay={overlay} />;
+    }
     return <CountryDescent store={store} node={node} overlay={overlay} />;
   }
 
