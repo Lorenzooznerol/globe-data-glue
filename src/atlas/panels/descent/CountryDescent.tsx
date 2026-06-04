@@ -132,8 +132,8 @@ export function CountryDescent({ store, node, overlay }: Props) {
             node={node}
             overlay={overlay}
             onDeeper={descend}
-            isLast={active === LAYERS.length - 1}
           />
+
 
         </div>
       </div>
@@ -159,7 +159,6 @@ function LayerView({
   node: AtlasNode;
   overlay: CountryOverlay;
   onDeeper: () => void;
-  isLast: boolean;
 }) {
   switch (index) {
     case 0:
