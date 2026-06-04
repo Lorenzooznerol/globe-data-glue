@@ -1,13 +1,12 @@
 import type { OverlayCoordinates } from "@/data/types";
 
 const AXES: { key: keyof OverlayCoordinates; label: string }[] = [
-  { key: "gaze", label: "gaze" },
-  { key: "surveillance_breadth", label: "breadth" },
-  { key: "institutional_transparency", label: "transparency" },
-  { key: "reciprocity", label: "reciprocity" },
+  { key: "gaze", label: "GAZE" },
+  { key: "surveillance_breadth", label: "BREADTH" },
+  { key: "institutional_transparency", label: "TRANSPARENCY" },
+  { key: "reciprocity", label: "RECIPROCITY" },
 ];
 
-// Heuristic scale from textual values → 0..1
 const SCALE: Record<string, number> = {
   none: 0,
   limited: 0.35,
@@ -16,6 +15,8 @@ const SCALE: Record<string, number> = {
   broad: 0.85,
   high: 0.9,
   "mixed-ex-ante": 0.5,
+  "ex-ante": 0.6,
+  "ex-post": 0.45,
 };
 
 function toScalar(v: string): number {
@@ -24,10 +25,10 @@ function toScalar(v: string): number {
 }
 
 export function MiniRadar({ coords }: { coords: OverlayCoordinates }) {
-  const size = 180;
+  const size = 240;
   const cx = size / 2;
   const cy = size / 2;
-  const r = 70;
+  const r = 84;
   const points = AXES.map((a, i) => {
     const angle = (Math.PI * 2 * i) / AXES.length - Math.PI / 2;
     const value = toScalar(coords[a.key].value);
@@ -45,6 +46,7 @@ export function MiniRadar({ coords }: { coords: OverlayCoordinates }) {
       role="img"
       aria-label="inferred coordinates radar"
     >
+      {/* concentric rings — three steps, hairline */}
       {[0.33, 0.66, 1].map((k) => (
         <circle
           key={k}
@@ -52,11 +54,12 @@ export function MiniRadar({ coords }: { coords: OverlayCoordinates }) {
           cy={cy}
           r={r * k}
           fill="none"
-          stroke="var(--border)"
-          strokeWidth={0.5}
+          stroke="var(--it-rule-2)"
+          strokeWidth={0.6}
           strokeDasharray="2 3"
         />
       ))}
+      {/* axes */}
       {points.map((p, i) => {
         const ex = cx + Math.cos(p.angle) * r;
         const ey = cy + Math.sin(p.angle) * r;
@@ -67,33 +70,45 @@ export function MiniRadar({ coords }: { coords: OverlayCoordinates }) {
             y1={cy}
             x2={ex}
             y2={ey}
-            stroke="var(--border)"
-            strokeWidth={0.5}
+            stroke="var(--it-rule-2)"
+            strokeWidth={0.6}
           />
         );
       })}
+      {/* inferred polygon — soft fill + dashed stroke */}
       <polygon
         points={poly}
-        fill="var(--epistemic-inferred)"
-        fillOpacity={0.15}
-        stroke="var(--epistemic-inferred)"
-        strokeWidth={1}
-        strokeDasharray="3 2"
+        fill="var(--it-prov-inferred)"
+        fillOpacity={0.18}
+        stroke="var(--it-prov-inferred)"
+        strokeWidth={1.2}
+        strokeDasharray="4 3"
       />
+      {/* vertex dots */}
+      {points.map((p, i) => (
+        <circle
+          key={`d-${i}`}
+          cx={p.px}
+          cy={p.py}
+          r={2}
+          fill="var(--it-prov-inferred)"
+        />
+      ))}
+      {/* axis labels */}
       {points.map((p, i) => {
-        const lx = cx + Math.cos(p.angle) * (r + 14);
-        const ly = cy + Math.sin(p.angle) * (r + 14);
+        const lx = cx + Math.cos(p.angle) * (r + 22);
+        const ly = cy + Math.sin(p.angle) * (r + 22);
         return (
           <text
-            key={i}
+            key={`l-${i}`}
             x={lx}
             y={ly}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize={8}
-            fontFamily="ui-monospace, monospace"
-            fill="var(--muted-foreground)"
-            style={{ letterSpacing: "0.12em", textTransform: "uppercase" }}
+            fontSize={9}
+            fontFamily="var(--font-mono)"
+            fill="var(--it-ink-2)"
+            style={{ letterSpacing: "0.18em" }}
           >
             {p.label}
           </text>

@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import type { CountryOverlay, OverlayClaim } from "@/data/types";
 import { ProvenanceChip } from "@/atlas/panels/descent/ProvenanceChip";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import { MiniRadar } from "./MiniRadar";
 import type { EntityData } from "./graphModel";
 
@@ -20,8 +18,24 @@ const KIND_LABEL: Record<string, string> = {
   criminal: "Criminal law",
   sectors: "Sectoral rules",
   programme: "Programme",
-  morphology: "Morphology",
+  morphology: "Morphology — inferred",
 };
+
+function ProvLine({
+  level,
+  children,
+}: {
+  level: string;
+  children: React.ReactNode;
+}) {
+  const lvl = (level || "").toUpperCase();
+  return (
+    <span className="italy-prov-line">
+      <span className="italy-prov-mark" data-level={lvl} aria-hidden />
+      {children}
+    </span>
+  );
+}
 
 export function Inspector({ entity, overlay, onClose, reducedMotion }: Props) {
   const claimsById = useMemo(() => {
@@ -32,7 +46,9 @@ export function Inspector({ entity, overlay, onClose, reducedMotion }: Props) {
 
   const open = !!entity;
   const claims = entity
-    ? (entity.claimIds ?? []).map((id) => claimsById.get(id)).filter(Boolean) as OverlayClaim[]
+    ? ((entity.claimIds ?? [])
+        .map((id) => claimsById.get(id))
+        .filter(Boolean) as OverlayClaim[])
     : [];
 
   return (
@@ -48,21 +64,22 @@ export function Inspector({ entity, overlay, onClose, reducedMotion }: Props) {
         <>
           <header className="italy-inspector__head">
             <div>
-              <p className="italy-inspector__kind">{KIND_LABEL[entity.kind] ?? entity.kind}</p>
+              <p className="italy-inspector__kind">
+                {KIND_LABEL[entity.kind] ?? entity.kind}
+              </p>
               <h2 className="italy-inspector__title">{entity.label}</h2>
               {entity.subLabel && (
                 <p className="italy-inspector__sub">{entity.subLabel}</p>
               )}
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
+            <button
+              type="button"
+              className="italy-inspector__close"
               onClick={onClose}
-              className="h-7 w-7 text-muted-foreground hover:text-foreground"
               aria-label="Close inspector"
             >
-              <X className="h-3.5 w-3.5" />
-            </Button>
+              ×
+            </button>
           </header>
 
           <div className="italy-inspector__body">
@@ -80,24 +97,34 @@ export function Inspector({ entity, overlay, onClose, reducedMotion }: Props) {
               </ul>
             )}
 
+            {claims.length > 0 && (
+              <p className="italy-inspector__section-label">
+                Claims · {claims.length}
+              </p>
+            )}
+
             <ul className="italy-inspector__claims">
               {claims.map((c) => (
                 <li key={c.claim_id} className="italy-inspector__claim">
                   <p className="italy-inspector__claim-text">{c.claim_text}</p>
-                  <ProvenanceChip
-                    level={c.epistemic_level}
-                    sourceIds={c.source_ids}
-                    overlay={overlay}
-                    regRef={c.reg_ref}
-                    asOf={c.as_of_date}
-                  />
+                  <ProvLine level={c.epistemic_level}>
+                    <ProvenanceChip
+                      level={c.epistemic_level}
+                      sourceIds={c.source_ids}
+                      overlay={overlay}
+                      regRef={c.reg_ref}
+                      asOf={c.as_of_date}
+                    />
+                  </ProvLine>
                 </li>
               ))}
             </ul>
 
             {entity.flagToVerify && overlay.to_verify?.length > 0 && (
               <section className="italy-inspector__verify">
-                <p className="italy-inspector__verify-head">To verify</p>
+                <p className="italy-inspector__verify-head">
+                  To verify · {overlay.to_verify.length}
+                </p>
                 <ul>
                   {overlay.to_verify.map((t, i) => (
                     <li key={i}>{t}</li>
