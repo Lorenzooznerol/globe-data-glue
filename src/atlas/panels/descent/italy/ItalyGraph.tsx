@@ -12,8 +12,6 @@ import "./italy-graph.css";
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, CountryOverlay } from "@/data/types";
 import { useAtlasStore } from "@/atlas/store";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 
 import { buildItalyGraph, type EntityData } from "./graphModel";
 import { EntityNode } from "./nodes/EntityNode";
@@ -28,9 +26,18 @@ interface Props {
 
 const nodeTypes = { entity: EntityNode, baseline: BaselineNode };
 
+/* ============================================================
+   PASS-4 final critiques addressed in this file:
+   • Header strip with crumb + legend gives the canvas a "console"
+     frame and explains what the symbols mean (no mystery glyphs).
+   • Edge labels styled via CSS, not inline (consistent typography).
+   • Neighbor / inferred edges classed so CSS owns the visual states.
+   ============================================================ */
+
 export function ItalyGraph({ node, overlay }: Props) {
   const selectNode = useAtlasStore((s) => s.selectNode);
   const reducedMotion = useAtlasStore((s) => s.reducedMotion);
+  const theme = useAtlasStore((s) => s.theme);
 
   const { nodes: baseNodes, edges: baseEdges } = useMemo(
     () => buildItalyGraph(overlay),
@@ -38,7 +45,6 @@ export function ItalyGraph({ node, overlay }: Props) {
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // Hide the globe.
   useEffect(() => {
     document.body.setAttribute("data-descent", "on");
     return () => document.body.removeAttribute("data-descent");
@@ -56,7 +62,6 @@ export function ItalyGraph({ node, overlay }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [selectedId, close]);
 
-  // Compute neighbor set for focus+context.
   const neighborIds = useMemo(() => {
     if (!selectedId) return new Set<string>();
     const set = new Set<string>([selectedId]);
@@ -69,17 +74,18 @@ export function ItalyGraph({ node, overlay }: Props) {
 
   const nodes: Node<EntityData>[] = useMemo(
     () =>
-      baseNodes.map((n) => ({
-        ...n,
-        selected: n.id === selectedId,
-        data: { ...n.data },
-        // attach a flag we read via DOM attribute
-        className: selectedId
-          ? neighborIds.has(n.id)
-            ? "is-neighbor"
-            : "is-dim"
-          : undefined,
-      })),
+      baseNodes.map((n) => {
+        const cls: string[] = [];
+        if (selectedId) {
+          if (n.id === selectedId) cls.push("is-selected", "is-neighbor");
+          else if (neighborIds.has(n.id)) cls.push("is-neighbor");
+        }
+        return {
+          ...n,
+          selected: n.id === selectedId,
+          className: cls.join(" ") || undefined,
+        };
+      }),
     [baseNodes, selectedId, neighborIds],
   );
 
@@ -88,12 +94,19 @@ export function ItalyGraph({ node, overlay }: Props) {
       baseEdges.map((e) => {
         const isNeighbor =
           !!selectedId && (e.source === selectedId || e.target === selectedId);
+        const cls = [
+          e.className,
+          isNeighbor ? "is-neighbor" : null,
+          selectedId && !isNeighbor ? "is-dim" : null,
+        ]
+          .filter(Boolean)
+          .join(" ");
         return {
           ...e,
-          animated: false,
+          className: cls || undefined,
           style: {
             ...e.style,
-            opacity: selectedId ? (isNeighbor ? 1 : 0.18) : 1,
+            opacity: selectedId ? (isNeighbor ? 1 : 0.22) : 1,
           },
         };
       }),
@@ -113,22 +126,42 @@ export function ItalyGraph({ node, overlay }: Props) {
     <div
       className="italy-graph-root"
       data-focus={selectedId ? "true" : "false"}
+      data-theme-light={theme === "light" ? "true" : undefined}
       role="region"
       aria-label={`${node.name} — object graph`}
     >
       <div className="italy-graph-canvas">
-        <span className="italy-graph-title">
-          IT · {overlay.meta.country} · object graph
-        </span>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={close}
-          className="italy-graph-close h-7 w-7 text-muted-foreground hover:text-foreground"
-          aria-label="Close Italy view"
-        >
-          <X className="h-3.5 w-3.5" />
-        </Button>
+        <header className="italy-header">
+          <div className="italy-header__crumb">
+            <span className="italy-header__id">ATLAS · IT · ITA</span>
+            <span className="italy-header__sep" />
+            <span className="italy-header__title">
+              {overlay.meta.country} <em>— object graph</em>
+            </span>
+          </div>
+          <div className="italy-header__legend" aria-label="provenance legend">
+            <span>
+              <span className="italy-prov-mark" data-level="VERIFIED" /> verified
+            </span>
+            <span>
+              <span className="italy-prov-mark" data-level="ATTESTED" /> attested
+            </span>
+            <span>
+              <span className="italy-prov-mark" data-level="INFERRED" /> inferred
+            </span>
+            <span>
+              <span className="italy-prov-mark" data-level="TO_VERIFY" /> to verify
+            </span>
+          </div>
+          <button
+            type="button"
+            className="italy-header__close"
+            onClick={close}
+            aria-label="Close Italy view"
+          >
+            ×
+          </button>
+        </header>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -141,12 +174,12 @@ export function ItalyGraph({ node, overlay }: Props) {
           panOnDrag
           zoomOnScroll
           fitView
-          fitViewOptions={{ padding: 0.18, maxZoom: 1 }}
+          fitViewOptions={{ padding: 0.22, maxZoom: 1 }}
           minZoom={0.4}
           maxZoom={1.6}
           proOptions={{ hideAttribution: true }}
         >
-          <Background gap={32} size={1} color="var(--border)" />
+          <Background gap={48} size={1} color="transparent" />
           <Controls showInteractive={false} position="bottom-left" />
         </ReactFlow>
       </div>

@@ -20,11 +20,11 @@ export interface EntityData {
   dashed?: boolean;
   flagToVerify?: boolean;
   sectors?: string[];
-  /** For morphology node — show inline radar in inspector */
   showRadar?: boolean;
 }
 
-const ROW = { baseline: 0, law: 140, branch: 320, leaf: 460, morph: 620 };
+// Vertical rhythm — generous, grid-aligned to 96px.
+const ROW = { baseline: 0, law: 192, branch: 480, morph: 816 };
 
 export function buildItalyGraph(overlay: CountryOverlay): {
   nodes: Node<EntityData>[];
@@ -49,12 +49,12 @@ export function buildItalyGraph(overlay: CountryOverlay): {
     {
       id: "law",
       type: "entity",
-      position: { x: 480, y: ROW.law },
+      position: { x: 510, y: ROW.law },
       data: {
         kind: "law",
         label: "Law 132/2025",
-        subLabel: "in force 10 Oct 2025",
-        meta: "GIRAI 61.8 · 7/138",
+        subLabel: "in force 10 Oct 2025 · Italy",
+        meta: "GIRAI 61.8 · rank 7 / 138",
         claimIds: ["C-IT-01", "C-IT-04", "C-IT-06", "C-IT-07"],
         flagToVerify: toVerifyCount > 0,
       },
@@ -62,11 +62,12 @@ export function buildItalyGraph(overlay: CountryOverlay): {
     {
       id: "authorities",
       type: "entity",
-      position: { x: 80, y: ROW.branch },
+      position: { x: 24, y: ROW.branch },
       data: {
         kind: "authority",
-        label: "AUTHORITIES",
-        subLabel: "AgID · ACN",
+        label: "AgID · ACN",
+        subLabel: "notifying + market surveillance",
+        meta: "designated Oct 2025",
         claimIds: ["C-IT-02", "C-IT-05"],
         independence: true,
       },
@@ -74,21 +75,23 @@ export function buildItalyGraph(overlay: CountryOverlay): {
     {
       id: "criminal",
       type: "entity",
-      position: { x: 380, y: ROW.branch },
+      position: { x: 360, y: ROW.branch },
       data: {
         kind: "criminal",
-        label: "CRIMINAL",
-        subLabel: "Art. 612-quater +",
+        label: "Art. 612-quater +",
+        subLabel: "deepfake offence · aggravating circumstances",
+        meta: "1–5 yrs · in force 10 Oct 2025",
         claimIds: ["C-IT-03"],
       },
     },
     {
       id: "sectors",
       type: "entity",
-      position: { x: 640, y: ROW.branch },
+      position: { x: 696, y: ROW.branch },
       data: {
         kind: "sectors",
-        label: "SECTORS",
+        label: "Sectoral rules",
+        subLabel: "ex-ante disclosure & duties",
         sectors: [
           "health",
           "work",
@@ -104,22 +107,24 @@ export function buildItalyGraph(overlay: CountryOverlay): {
     {
       id: "programme",
       type: "entity",
-      position: { x: 940, y: ROW.branch },
+      position: { x: 1056, y: ROW.branch },
       data: {
         kind: "programme",
-        label: "PROGRAMME & DECREES",
-        subLabel: "€1bn fund · decrees due 10 Oct 2026",
+        label: "Programme & decrees",
+        subLabel: "€1bn fund · delegated decrees",
+        meta: "decrees due 10 Oct 2026",
         claimIds: ["C-IT-07"],
       },
     },
     {
       id: "morphology",
       type: "entity",
-      position: { x: 480, y: ROW.morph },
+      position: { x: 510, y: ROW.morph },
       data: {
         kind: "morphology",
-        label: "MORPHOLOGY — coordinates",
-        subLabel: "inferred · gaze / breadth / transparency / reciprocity",
+        label: "Coordinates — reading",
+        subLabel: "gaze · breadth · transparency · reciprocity",
+        meta: "inferred · not a verified fact",
         claimIds: ["C-IT-07"],
         dashed: true,
         showRadar: true,
@@ -138,20 +143,12 @@ export function buildItalyGraph(overlay: CountryOverlay): {
     source,
     target,
     label,
-    type: "straight",
-    style: {
-      stroke: "var(--border)",
-      strokeWidth: 1,
-      ...(dashed ? { strokeDasharray: "4 3" } : {}),
-    },
-    labelStyle: {
-      fill: "var(--muted-foreground)",
-      fontSize: 9,
-      letterSpacing: "0.12em",
-      textTransform: "uppercase",
-    },
-    labelBgStyle: { fill: "var(--background)" },
-    labelBgPadding: [4, 2],
+    type: "smoothstep",
+    pathOptions: { borderRadius: 12, offset: 24 },
+    className: dashed ? "is-inferred" : undefined,
+    style: { strokeWidth: 1 },
+    labelBgPadding: [6, 3],
+    labelBgBorderRadius: 0,
     data: { dashed },
   });
 
