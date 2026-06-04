@@ -64,8 +64,7 @@ export function NodeCard({ store }: Props) {
   const totalDocs = groups.primary.length + groups.secondary.length + groups.context.length;
   const hue = colorForNode(node);
   const layer = layerOf(node.node_id).toUpperCase();
-  const showIndependenceFlag =
-    overlay?.node.independence_flag === true || node.independence_flag === true;
+  const showIndependenceFlag = node.independence_flag === true;
 
   return (
     <aside
