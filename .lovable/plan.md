@@ -1,140 +1,94 @@
-# Per-country curated overlay (Italy first)
 
-Adds a third data layer on top of `atlas.json` + `girai.json`: per-country overlay files under `/public/data/countries/`. Italy (`IT.json`) upgrades to a fully curated node with claims, sources, coordinates, independence flag, and a "to verify" list. Globe, both legends, GIRAI choropleth, and existing card grammar stay exactly as they are.
+# Layered Country Entry (Italy worked example)
 
-## Small cleanup (the "delete the input with that phrase" bit)
+When a user clicks a country that has an overlay file, replace the standard right-hand card with a **descent**: 5 stacked layers (Face → Law → Authorities → Triggers → Coordinates) that nest into each other. Globe recedes, vertical breadcrumb on the left, Escape returns to globe. Countries without an overlay keep the existing card.
 
-Interpreting this as: remove the italic line **"Not yet covered by the Atlas's morphological analysis."** from `GiraiOnlyCard`. Once a country has an overlay file it becomes curated, and for the rest the GIRAI snapshot speaks for itself — the apologetic line adds noise. (If you actually meant a different input field, tell me which one and I'll swap it in.)
+## Scope
 
-## Data layer
+- Touches only **overlay countries** (currently ITA). Everything else — globe, both legends, GIRAI choropleth, GiraiOnlyCard, NodeCard for non-overlay nodes, all loaders — stays untouched.
+- Uses the existing overlay schema verbatim. No new data fields. `TO_VERIFY` is accepted as an epistemic level alongside the existing `VERIFIED | ATTESTED | INFERRED | SPECULATED | OPAQUE`.
 
-**New files**
+## Data wiring (tiny)
 
-- `public/data/countries/index.json` — manifest, starts as `["IT"]`.
-- `public/data/countries/IT.json` — the Italy payload you supplied, dropped in verbatim.
+- `src/data/types.ts` — extend `EpistemicLevel` union with `"TO_VERIFY"`.
+- No store changes. `NodeCard` already reads `store.overlayByNodeId`; the new component reads the same map.
 
-**Loader (`src/data/loader.ts`)**
+## Routing the click
 
-- New `loadCountryOverlays()`: fetch `countries/index.json`, then `Promise.all` of `countries/{code}.json`. Failures on a single file are logged and skipped, never block boot.
-- `loadAll()` returns `{ atlas, girai, overlays }`.
+`src/atlas/panels/NodeCard.tsx` — at the top of the component, if `store.overlayByNodeId.has(selectedNodeId)`, render `<CountryDescent store node overlay />` and return; otherwise fall through to the existing card. Globe code unchanged.
 
-**Types (`src/data/types.ts`)**
-
-- New `CountryOverlay` matching the schema: `meta`, `node`, `coordinates` (4 axes, each `{value, evidence_articles[], epistemic_level}`), `claims[]` (with `source_ids` semicolon-string + `reg_ref`), `sources[]` (`source_id`, `title`, `publisher`, `url`, `pub_date`, `source_type`, `reliability`), `readable` (`headline`, `summary`, `how_it_works`, `documents[]`, `technical_detail`), `to_verify[]`.
-- Extend `AtlasNode` with optional `independence_flag?: boolean` (read from overlay; not required in atlas.json).
-
-## Merge into the store (`src/data/store.ts`)
-
-- New maps: `overlayByIso: Map<string, CountryOverlay>`, `overlayByNodeId`.
-- For each overlay, **synthesise / upgrade an `AtlasNode`** keyed by `overlay.node.node_id` (e.g. `ST-IT`):
-  - If an atlas node with that id already exists, shallow-merge overlay `node.*` over it.
-  - Otherwise, push a new node into `nodesById` / `nodeByIso` with `layer: "state"`, `girai_has_data: true`, the overlay's morphology/bands, etc.
-- Store keeps overlay alongside the node so the card can read `claims`, `sources`, `coordinates`, `readable`, `to_verify`, `independence_flag`.
-- `nodeByIso` now resolves `"ITA" → ST-IT`, which means the existing globe click handler routes Italy through `NodeCard` instead of `GiraiOnlyCard` automatically — **no globe code changes**.
-
-## Globe (`src/atlas/components/EarthGlobe.tsx`)
-
-No changes. The click handler already does:
-
-```
-if (r.node) selectNode(r.node.node_id)   // → NodeCard
-else if (r.iso && r.girai) selectIso(r.iso) // → GiraiOnlyCard
-```
-
-Once the overlay populates `nodeByIso["ITA"]`, Italy gets the family-coloured ring (via existing `colorForNode`) on top of the GIRAI glow — exactly what the brief asks for.
-
-## Card additions (`src/atlas/panels/NodeCard.tsx`)
-
-Reuse the existing 4-level tab structure and grammar. Only additions, no rewrites:
-
-1. **In short** — if `overlay.readable.headline`/`summary` exist, prefer them over `node.headline`/`node.summary`. GIRAI snapshot stays exactly where it is, underneath, as substantiation.
-2. **How it works** — if `overlay.readable.how_it_works` exists, render it inside the existing How section.
-3. **Documents** — merge `overlay.readable.documents[]` (resolved via `source_id` → overlay `sources[]`) into the existing "Official & primary" group. Same `DocList` component, no new visual style.
-4. **Technical detail** — append `overlay.readable.technical_detail` paragraph.
-
-New blocks, all rendered below the existing level content (or as their own subtle sections within the relevant level):
-
-- **`ClaimsProvenance`** (new file `src/atlas/panels/ClaimsProvenance.tsx`) — list of claims, each one line: `claim_text` + small **epistemic chip** (`VERIFIED` solid ink, `ATTESTED` outlined, `INFERRED` dashed/muted, `SPECULATED` faint, `OPAQUE` ghosted). Chip is a popover/expandable that resolves `source_ids` (split on `;`) against overlay `sources[]` and renders title + publisher + `target="_blank"` link. Chip styles come from new tokens (see Design) — same palette as the existing "How we know" glossary entry; legend text reuses that glossary copy via the existing `Term`/`NodeGlossary` mechanism, no new wording invented.
-- **`CoordinatesReadout`** (new file `src/atlas/panels/CoordinatesReadout.tsx`) — 4-axis compact readout: `gaze`, `surveillance_breadth`, `institutional_transparency`, `reciprocity`. Whole block carries the dashed `INFERRED` treatment with a single header chip ("Reading, not fact — INFERRED"). Each axis shows value + small evidence article list (e.g. "Arts. 4, 11, 13, 14").
-- **`IndependenceFlag`** (inline in NodeCard header area, under the country meta line) — when `overlay.node.independence_flag === true` OR any claim text contains `independence_flag=true`, render a quiet amber row: `⚠ Supervisors are government agencies, not independent authorities.` Uses a new `--epistemic-warn` token (warm amber, low chroma), single line, no icon animation.
-- **`ToVerify`** (new file `src/atlas/panels/ToVerify.tsx`) — collapsed `Collapsible` titled "To verify ({n})"; expands to a plain list of `to_verify[]` strings. Lives at the bottom of the Technical detail level so it doesn't compete with the lead reading.
-
-Card structure for curated overlay countries:
+## New component tree (under `src/atlas/panels/descent/`)
 
 ```text
-Header (layer · region · name · independence flag if any)
-Tabs: In short | How it works | Documents | Technical detail
-  In short:
-    headline (curated)
-    morphology-vs-score line
-    summary (curated)
-    GIRAI snapshot
-    Trajectory section
-    Claims & provenance        ← new
-    Coordinates (INFERRED)     ← new
-  How it works:
-    morph line, BandMeter pair, gap gloss
-    how_it_works paragraph     ← new (if present)
-  Documents:
-    Official & primary (atlas + overlay.documents merged)
-    Analysis & commentary
-    More references
-  Technical detail:
-    existing dl
-    technical_detail paragraph ← new
-    To verify (collapsed)      ← new
+CountryDescent.tsx        orchestrator: layer state, keyboard, reduced-motion, globe-recede class
+LayerStack.tsx            renders layers 0..n with push/scale + opacity (cross-fade if reduced)
+LayerBreadcrumb.tsx       persistent left nav, 5 dots + labels + "To verify" link
+ClaimLine.tsx             one fact line: text + ProvenanceChip (uses overlay.sources to resolve)
+ProvenanceChip.tsx        VERIFIED / ATTESTED / INFERRED / TO_VERIFY chip → Popover with sources
+GoDeeper.tsx              the calm "Go inside ↓" / "Next: Authorities ↓" affordance
+ToVerifyDrawer.tsx        sheet listing overlay.to_verify[], opened from breadcrumb
+layers/
+  Layer0Face.tsx          name · headline · "61.8 / 100 · 7th of 138" · 1-line summary · Go inside
+  Layer1Law.tsx           how_it_works spine + C-IT-01, C-IT-02, C-IT-03 strata + readable.documents
+  Layer2Authorities.tsx   AgID/ACN + preserved bodies from C-IT-03 + amber independence flag (C-IT-09)
+  Layer3Triggers.tsx      C-IT-04, C-IT-05, C-IT-06, C-IT-07, C-IT-08, each its own opening stratum
+  Layer4Coordinates.tsx   4-axis readout (dashed INFERRED), value + reading + evidence_articles
 ```
 
-## Design tokens (`src/styles.css`)
+Claim → layer mapping is data-driven inside the layer files (an array of `claim_id`s per layer), so adding a country with the same schema works with no code change.
 
-Add a small epistemic palette so chips and the independence flag are part of the design system, not local hex:
+## Globe recession
 
-```css
---epistemic-verified: var(--foreground);
---epistemic-attested: var(--foreground);   /* used as outline */
---epistemic-inferred: var(--muted-foreground);
---epistemic-speculated: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
---epistemic-opaque: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
---epistemic-warn: oklch(0.78 0.12 75); /* quiet amber, both themes */
-```
+`CountryDescent` toggles a class on `<body>` (e.g. `data-descent="on"`). `src/routes/atlas.tsx` adds a wrapper style on the globe container reacting to that attribute: `scale(0.92)` + `opacity 0.55` + slight blur. Reduced-motion → opacity only, no transform. Pure CSS, no globe code change.
 
-Chip variants (in a new `EpistemicChip` component) map to these tokens. Same type scale as existing mono micro-labels, hairline 1px borders, no shadows.
+## Motion & interaction
 
-## Accessibility / motion
+- 200ms ease-out per layer. Push-in = current layer goes to `scale(0.96) opacity-60`, next layer enters from `translateY(8px) opacity-0`.
+- `prefers-reduced-motion` OR store `reducedMotion` → cross-fade (no transform).
+- Keyboard: `↓` / `Enter` on "Go inside" descends; `↑` / `Esc` ascends; `Esc` from Layer 0 closes to globe (calls `selectNode(null)`).
+- Focus trap inside the active layer (Radix Dialog primitives already in repo); breadcrumb is a real `<nav><ol>` with `aria-current`.
+- Each `ProvenanceChip` is a `<button>` opening a Radix Popover listing every resolved source (title · publisher · external link).
 
-- All new collapsibles use existing Radix `Collapsible` → keyboard-operable.
-- Chip → source popover uses Radix `Popover` (already in repo).
-- No new motion: respect existing `reducedMotion` flag from the store; chips and the flag row are static.
+## Provenance vocabulary
 
-## Files touched / created
+Reuse the glossary's "How we know" definitions — `NodeGlossary`/`Term` already expose them. The chip popover header reads the existing glossary entry for the level (no new copy). Add `TO_VERIFY` styling to the existing `EpistemicChip` component (faint chip + small dot).
+
+## Tokens
+
+`src/styles.css` — add only what's missing:
+- `--epistemic-to-verify` (very muted foreground)
+- `--descent-dim` (overlay tone behind layers) — optional, can use existing `--background/85`.
+
+## Files
 
 **Created**
-
-- `public/data/countries/index.json`
-- `public/data/countries/IT.json` (the JSON you provided, verbatim)
-- `src/atlas/panels/ClaimsProvenance.tsx`
-- `src/atlas/panels/CoordinatesReadout.tsx`
-- `src/atlas/panels/ToVerify.tsx`
-- `src/atlas/panels/EpistemicChip.tsx`
+- `src/atlas/panels/descent/CountryDescent.tsx`
+- `src/atlas/panels/descent/LayerStack.tsx`
+- `src/atlas/panels/descent/LayerBreadcrumb.tsx`
+- `src/atlas/panels/descent/ClaimLine.tsx`
+- `src/atlas/panels/descent/ProvenanceChip.tsx`
+- `src/atlas/panels/descent/GoDeeper.tsx`
+- `src/atlas/panels/descent/ToVerifyDrawer.tsx`
+- `src/atlas/panels/descent/layers/Layer0Face.tsx`
+- `src/atlas/panels/descent/layers/Layer1Law.tsx`
+- `src/atlas/panels/descent/layers/Layer2Authorities.tsx`
+- `src/atlas/panels/descent/layers/Layer3Triggers.tsx`
+- `src/atlas/panels/descent/layers/Layer4Coordinates.tsx`
 
 **Edited**
+- `src/atlas/panels/NodeCard.tsx` — early return into `CountryDescent` when overlay exists.
+- `src/data/types.ts` — add `TO_VERIFY` to `EpistemicLevel`.
+- `src/atlas/panels/EpistemicChip.tsx` — handle `TO_VERIFY` variant.
+- `src/styles.css` — add `--epistemic-to-verify`.
+- `src/routes/atlas.tsx` — `data-descent` class hook on globe wrapper (CSS only).
 
-- `src/data/types.ts` — add `CountryOverlay`, `independence_flag`.
-- `src/data/loader.ts` — add `loadCountryOverlays`, extend `loadAll`.
-- `src/data/store.ts` — index overlays, merge/synthesise nodes, expose `overlayByNodeId`.
-- `src/atlas/panels/NodeCard.tsx` — read overlay, render new sections, slot in headline/summary/how/tech overrides, independence flag in header.
-- `src/atlas/panels/GiraiOnlyCard.tsx` — remove the "Not yet covered…" italic line.
-- `src/styles.css` — epistemic + warn tokens.
+**Not touched**
+- Globe, both legends, GIRAI choropleth, loaders, GiraiOnlyCard, store.
 
-## Adding new countries
+## Acceptance
 
-1. Drop `public/data/countries/XX.json` (same schema as `IT.json`).
-2. Add `"XX"` to `public/data/countries/index.json`.
-
-No code change required.
-
-## Acceptance check
-
-- Boot loads `atlas.json` + `girai.json` + every file in the manifest; no CSVs.
-- Italy renders with GIRAI glow **and** family ring; clicking shows curated headline + summary + levels + claims-with-chips + 4 coordinates (dashed INFERRED) + amber independence flag + collapsed "to verify".
-- Every other country behaves exactly as before.
+- Click Italy → globe recedes, Layer 0 appears with name, headline, "61.8 / 100 · 7th of 138", 1-line summary, "Go inside ↓".
+- Descending walks Law → Authorities → Triggers → Coordinates; each nests into the previous.
+- Left breadcrumb shows all 5 layers + "To verify (4)" link; clicking jumps; Escape returns to globe.
+- Every fact line shows a chip; VERIFIED chips open real sources from `sources[]`; Coordinates layer is visibly dashed/INFERRED; amber independence line appears in Authorities.
+- Adding `FR.json` + `"FR"` in the manifest gets the same descent automatically.
