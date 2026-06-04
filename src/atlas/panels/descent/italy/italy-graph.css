@@ -1,0 +1,317 @@
+/* Italy Object-Graph — Palantir/Gotham-style entity explorer */
+
+.italy-graph-root {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.italy-graph-root[data-focus="true"] .react-flow__node:not([data-neighbor="true"]):not(.selected),
+.italy-graph-root[data-focus="true"] .react-flow__edge:not([data-neighbor="true"]) {
+  opacity: 0.18;
+  transition: opacity 0.15s ease;
+}
+
+.italy-graph-canvas {
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 0;
+}
+
+.italy-graph-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.italy-graph-title {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 5;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* React Flow overrides — strip chrome */
+.italy-graph-canvas .react-flow,
+.italy-graph-canvas .react-flow__renderer {
+  background: var(--background);
+}
+.italy-graph-canvas .react-flow__attribution {
+  display: none;
+}
+.italy-graph-canvas .react-flow__controls {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--background);
+}
+.italy-graph-canvas .react-flow__controls-button {
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+/* Nodes */
+.italy-node {
+  background: var(--background);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+  border-radius: 1px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.italy-node:hover {
+  border-color: var(--foreground);
+}
+.italy-node[data-selected="true"] {
+  border-color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 4%, var(--background));
+}
+.italy-node[data-dashed="true"] {
+  border-style: dashed;
+  color: var(--muted-foreground);
+}
+
+.italy-node--baseline {
+  padding: 8px 14px;
+  border-color: color-mix(in oklab, var(--foreground) 25%, transparent);
+  background: color-mix(in oklab, var(--foreground) 3%, var(--background));
+  min-width: 0;
+}
+
+.italy-node__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.italy-node__label {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+.italy-node__sub {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+.italy-node__meta {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--muted-foreground);
+  letter-spacing: 0.06em;
+}
+.italy-node__flag {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #d29a3a;
+}
+.italy-node__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--epistemic-to-verify, #b8a14a);
+}
+
+/* Entity-type accents (thin left border only) */
+.italy-node--entity {
+  border-left-width: 2px;
+}
+.italy-node[data-kind="law"] {
+  border-left-color: var(--foreground);
+}
+.italy-node[data-kind="authority"] {
+  border-left-color: #5b7a99;
+}
+.italy-node[data-kind="criminal"] {
+  border-left-color: #a05656;
+}
+.italy-node[data-kind="sectors"] {
+  border-left-color: #5f8c63;
+}
+.italy-node[data-kind="programme"] {
+  border-left-color: #a98a52;
+}
+.italy-node[data-kind="morphology"] {
+  border-left-color: var(--epistemic-inferred, #7a7a7a);
+}
+
+.italy-node__sectors {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 260px;
+}
+.italy-sector-pill {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.italy-handle {
+  width: 1px !important;
+  height: 1px !important;
+  background: transparent !important;
+  border: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Inspector */
+.italy-inspector {
+  width: 0;
+  border-left: 1px solid var(--border);
+  background: var(--background);
+  overflow: hidden;
+  transition: width 0.18s ease;
+  flex-shrink: 0;
+}
+.italy-inspector[data-open="true"] {
+  width: min(420px, 38vw);
+}
+.italy-inspector[data-reduced="true"] {
+  transition: none;
+}
+
+.italy-inspector__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.italy-inspector__kind {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 6px;
+}
+.italy-inspector__title {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--foreground);
+  margin: 0;
+}
+.italy-inspector__sub {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: 4px;
+}
+
+.italy-inspector__body {
+  padding: 16px 18px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  max-height: calc(100vh - 96px);
+  width: min(420px, 38vw);
+}
+
+.italy-inspector__radar {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.italy-inspector__sectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.italy-inspector__sectors li {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.italy-inspector__claims {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.italy-inspector__claim {
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.italy-inspector__claim:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.italy-inspector__claim-text {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.italy-inspector__verify {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+.italy-inspector__verify-head {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 8px;
+}
+.italy-inspector__verify ul {
+  list-style: disc;
+  padding-left: 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.italy-inspector__verify li {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+/* Edges — kept minimal; dashed handled inline */
+.italy-graph-canvas .react-flow__edge-text {
+  font-family: ui-monospace, monospace;
+}
