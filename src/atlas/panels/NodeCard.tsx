@@ -23,6 +23,7 @@ import { ClaimsProvenance } from "./ClaimsProvenance";
 import { CoordinatesReadout } from "./CoordinatesReadout";
 import { ToVerify } from "./ToVerify";
 import { CountryDescent } from "./descent/CountryDescent";
+import { ItalyView } from "./descent/ItalyView";
 
 interface Props {
   store: DataStore;
