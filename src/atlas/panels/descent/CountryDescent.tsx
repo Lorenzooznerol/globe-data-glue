@@ -131,8 +131,10 @@ export function CountryDescent({ store, node, overlay }: Props) {
             store={store}
             node={node}
             overlay={overlay}
-            onDeeper={active < LAYERS.length - 1 ? descend : undefined}
+            onDeeper={descend}
+            isLast={active === LAYERS.length - 1}
           />
+
         </div>
       </div>
 
