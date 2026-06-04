@@ -159,6 +159,7 @@ function LayerView({
   node: AtlasNode;
   overlay: CountryOverlay;
   onDeeper: () => void;
+  isLast: boolean;
 }) {
   switch (index) {
     case 0:
