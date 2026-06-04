@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { X, ChevronUp } from "lucide-react";
 import type { DataStore } from "@/data/store";
 import type { AtlasNode, CountryOverlay } from "@/data/types";
@@ -70,7 +70,8 @@ export function CountryDescent({ store, node, overlay }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [active, ascend, close, descend, toVerifyOpen]);
 
-  const visibleLayers = useMemo(() => LAYERS.slice(0, active + 1), [active]);
+
+
 
   return (
     <aside

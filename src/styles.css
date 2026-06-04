@@ -188,6 +188,16 @@ body[data-descent="on"] .globe-recede {
   }
 }
 
+/* Per-layer enter animation when descending. */
+@keyframes descent-enter {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes descent-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
