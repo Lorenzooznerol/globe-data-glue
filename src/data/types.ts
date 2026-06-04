@@ -176,6 +176,7 @@ export interface OverlayNode {
 
 export interface OverlayCoordinate {
   value: string;
+  reading?: string;
   evidence_articles: string[];
   epistemic_level: EpistemicLevel | string;
 }
