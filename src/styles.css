@@ -177,9 +177,10 @@
   transition: transform 240ms ease-out, opacity 240ms ease-out, filter 240ms ease-out;
 }
 body[data-descent="on"] .globe-recede {
-  transform: scale(0.92);
-  opacity: 0.55;
-  filter: blur(1px);
+  transform: scale(0.88);
+  opacity: 0;
+  filter: blur(2px);
+  pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
   body[data-descent="on"] .globe-recede {
