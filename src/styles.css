@@ -172,6 +172,22 @@
   animation: encounter-hint-breathe 3000ms ease-in-out infinite;
 }
 
+/* Layered country entry — globe recedes when a descent is open. */
+.globe-recede {
+  transition: transform 240ms ease-out, opacity 240ms ease-out, filter 240ms ease-out;
+}
+body[data-descent="on"] .globe-recede {
+  transform: scale(0.92);
+  opacity: 0.55;
+  filter: blur(1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-descent="on"] .globe-recede {
+    transform: none;
+    filter: none;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
