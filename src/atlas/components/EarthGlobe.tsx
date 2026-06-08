@@ -361,9 +361,162 @@ function EarthGlobeImpl({ store, width, height }: Props) {
     });
   }, [theme, themeName]);
 
+  /* ============================================================
+   * Landing layers (Language-Explorer pattern).
+   * Only mounted in `overview` mode. In `girai`/`forecasts` the
+   * existing polygon-only behavior is preserved.
+   * ============================================================ */
+  const landingFilters = useLandingStore();
+  const landingMode = mode === "overview";
+  const landingActive = landingMode && isLandingActive(landingFilters);
 
+  // Country centroids resolved from features (covers far more than NODE_CENTROIDS).
+  const isoCentroid = useMemo(() => {
+    const m = new Map<string, [number, number]>();
+    for (const f of features) {
+      const iso = (f.properties.ADM0_A3 || f.properties.ISO_A3) as string | undefined;
+      if (!iso || iso === "-99" || m.has(iso)) continue;
+      try {
+        const [lng, lat] = geoCentroid(f as never);
+        if (Number.isFinite(lat) && Number.isFinite(lng)) m.set(iso, [lat, lng]);
+      } catch {
+        /* ignore */
+      }
+    }
+    return m;
+  }, [features]);
 
-  
+  const coverageByIso = useMemo(() => {
+    const list = aggregateCountryCoverage(store.atlas.nodes);
+    const m = new Map<string, (typeof list)[number]>();
+    for (const c of list) m.set(c.iso3, c);
+    return m;
+  }, [store]);
+
+  const matchingIsoSet = useMemo(() => {
+    if (!landingActive) return null;
+    const isos = new Set<string>();
+    const matched = store.atlas.nodes.filter((n) => nodeMatches(n, landingFilters));
+    for (const iso of nodesByIso(matched).keys()) isos.add(iso);
+    return isos;
+  }, [store, landingFilters, landingActive]);
+
+  type CountryDot = {
+    iso: string;
+    lat: number;
+    lng: number;
+    band: "high" | "mid" | "low" | "hollow";
+    total: number;
+    coverage: number;
+  };
+
+  const countryDots = useMemo<CountryDot[]>(() => {
+    if (!landingMode) return [];
+    const dots: CountryDot[] = [];
+    for (const [iso, cov] of coverageByIso) {
+      const c = isoCentroid.get(iso);
+      if (!c) continue;
+      dots.push({
+        iso,
+        lat: c[0],
+        lng: c[1],
+        band: cov.band,
+        total: cov.total,
+        coverage: cov.coverage,
+      });
+    }
+    return dots;
+  }, [landingMode, coverageByIso, isoCentroid]);
+
+  const filledDots = useMemo(
+    () => countryDots.filter((d) => d.band !== "hollow"),
+    [countryDots],
+  );
+  const hollowDots = useMemo(
+    () => countryDots.filter((d) => d.band === "hollow"),
+    [countryDots],
+  );
+
+  const dotOpacity = useCallback(
+    (d: CountryDot): number => {
+      const base = coverageOpacity(d.band) || 1;
+      if (!matchingIsoSet) return base;
+      return matchingIsoSet.has(d.iso) ? base : 0.08;
+    },
+    [matchingIsoSet],
+  );
+
+  const dotRadius = useCallback((d: CountryDot): number => {
+    // 0.18deg → ~3.5px-equiv; cap by total nodes
+    return 0.18 + Math.min(0.12, Math.log2(1 + d.total) * 0.035);
+  }, []);
+
+  const dotColor = useCallback(
+    (d: CountryDot): string => {
+      const o = dotOpacity(d);
+      // White ink, opacity encodes coverage (high=1, mid=.65, low=.4) × match dim
+      return `rgba(248,250,252,${o})`;
+    },
+    [dotOpacity],
+  );
+
+  const dotLabel = useCallback((obj: object): string => {
+    const d = obj as CountryDot;
+    const girai = store.giraiByIso.get(d.iso);
+    const name = girai?.country ?? d.iso;
+    const pct = Math.round(d.coverage * 100);
+    return `<div style="font-family:'Hanken Grotesk Variable',sans-serif;background:rgba(10,13,18,0.92);color:#f5f7fa;padding:7px 12px;border:1px solid rgba(255,255,255,0.18);font-size:12px;letter-spacing:-0.005em;backdrop-filter:blur(8px);">
+      <span style="font-weight:500">${escapeHtml(name)}</span>
+      <span style="opacity:.55"> · ${d.total} ${d.total === 1 ? "node" : "nodes"} · cov ${pct}%</span>
+    </div>`;
+  }, [store]);
+
+  const handleDotClick = useCallback(
+    (obj: object) => {
+      const d = obj as CountryDot;
+      selectIso(d.iso);
+    },
+    [selectIso],
+  );
+
+  // Hollow rings rendered as DOM overlays — crisp at every zoom, no Three needed.
+  const hollowElement = useCallback(
+    (obj: object): HTMLElement => {
+      const d = obj as CountryDot;
+      const el = document.createElement("div");
+      const dim = matchingIsoSet && !matchingIsoSet.has(d.iso) ? 0.08 : 0.55;
+      const sz = 9 + Math.min(4, Math.log2(1 + d.total) * 1.2);
+      el.style.cssText = [
+        `width:${sz}px`,
+        `height:${sz}px`,
+        "border-radius:50%",
+        `border:1px solid rgba(248,250,252,${dim})`,
+        "background:transparent",
+        "transform:translate(-50%,-50%)",
+        "pointer-events:auto",
+        "cursor:pointer",
+      ].join(";");
+      el.title = (store.giraiByIso.get(d.iso)?.country ?? d.iso) + " · opaque";
+      el.addEventListener("click", () => selectIso(d.iso));
+      return el;
+    },
+    [matchingIsoSet, store, selectIso],
+  );
+
+  // When landing mode + active, push polygons way down — globe becomes "ghost atlas".
+  const polygonCapColorWithLanding = useCallback(
+    (obj: object): string => {
+      if (landingMode) {
+        // Ghost atlas: very faint fill for ALL polygons; matching iso gets a touch more visibility.
+        const r = obj as Resolved;
+        const baseAlpha = landingActive ? 0.05 : 0.07;
+        const liftAlpha = matchingIsoSet && r.iso && matchingIsoSet.has(r.iso) ? 0.14 : baseAlpha;
+        return `rgba(180,190,200,${liftAlpha})`;
+      }
+      return polygonCapColor(obj);
+    },
+    [landingMode, landingActive, matchingIsoSet, polygonCapColor],
+  );
 
   return (
     <Suspense fallback={null}>
@@ -377,19 +530,37 @@ function EarthGlobeImpl({ store, width, height }: Props) {
         atmosphereAltitude={0.12}
         showGraticules={false}
         globeMaterial={globeMaterial}
-        
+
         polygonsData={resolved}
         polygonGeoJsonGeometry={(obj: object) =>
           (obj as Resolved).feature.geometry as never
         }
-        polygonCapColor={polygonCapColor}
+        polygonCapColor={polygonCapColorWithLanding}
         polygonSideColor={polygonSideColor}
         polygonStrokeColor={polygonStrokeColor}
-        polygonAltitude={polygonAltitude}
+        polygonAltitude={landingMode ? () => 0.004 : polygonAltitude}
         polygonsTransitionDuration={reducedMotion ? 0 : 420}
-        polygonLabel={polygonLabel}
-        onPolygonHover={handleHover}
-        onPolygonClick={handleClick}
+        polygonLabel={landingMode ? () => "" : polygonLabel}
+        onPolygonHover={landingMode ? undefined : handleHover}
+        onPolygonClick={landingMode ? undefined : handleClick}
+
+        pointsData={landingMode ? filledDots : []}
+        pointLat={(d: object) => (d as CountryDot).lat}
+        pointLng={(d: object) => (d as CountryDot).lng}
+        pointAltitude={() => 0.012}
+        pointRadius={(d: object) => dotRadius(d as CountryDot)}
+        pointColor={(d: object) => dotColor(d as CountryDot)}
+        pointResolution={12}
+        pointsMerge={false}
+        pointsTransitionDuration={reducedMotion ? 0 : 350}
+        pointLabel={dotLabel}
+        onPointClick={handleDotClick}
+
+        htmlElementsData={landingMode ? hollowDots : []}
+        htmlLat={(d: object) => (d as CountryDot).lat}
+        htmlLng={(d: object) => (d as CountryDot).lng}
+        htmlAltitude={() => 0.012}
+        htmlElement={hollowElement}
       />
     </Suspense>
   );
