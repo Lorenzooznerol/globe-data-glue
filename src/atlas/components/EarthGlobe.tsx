@@ -7,6 +7,8 @@ import type { DataStore } from "@/data/store";
 import type { AtlasNode, GiraiCountry } from "@/data/types";
 import { useCountries } from "@/atlas/useCountries";
 import { useAtlasStore } from "@/atlas/store";
+import { useLandingStore, isLandingActive } from "@/atlas/landing/landingStore";
+import { aggregateCountryCoverage, coverageOpacity, nodeMatches, nodesByIso } from "@/atlas/landing/derive";
 import { NODE_CENTROIDS, isoToNodeId } from "@/atlas/iso";
 import { colorForNode, familyOf } from "@/atlas/families";
 import { plainHeadline } from "@/atlas/plainLanguage";
