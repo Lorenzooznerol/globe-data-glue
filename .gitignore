@@ -30,3 +30,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Atlas staging / local state
+.atlas_state.json
+.atlas_verify_state.json
+verify_deltas.jsonl
+VERIFY_REPORT.md
