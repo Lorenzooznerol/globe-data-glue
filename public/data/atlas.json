@@ -6573,9 +6573,11 @@
           "claim_id": "C021",
           "claim_text": "Financial-services model-risk deployers are S/S — the Atlas's highest-realization node; SR 11-7 (2011) lineage predates AI; 'deployers lag' is false",
           "as_of_date": "2026-01-01",
-          "epistemic_level": "INFERRED",
+          "epistemic_level": "VERIFIED",
           "reg_ref": "REG-022",
-          "sources": []
+          "sources": [
+            "S071"
+          ]
         }
       ],
       "documents": {
