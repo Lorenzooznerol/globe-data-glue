@@ -8,10 +8,11 @@ import { NodeCard } from "@/atlas/panels/NodeCard";
 import { GiraiOnlyCard } from "@/atlas/panels/GiraiOnlyCard";
 import { SideIndex } from "@/atlas/panels/SideIndex";
 import { SearchCommand } from "@/atlas/panels/SearchCommand";
-import { ModeSwitch } from "@/atlas/panels/ModeSwitch";
 import { ThemeToggle } from "@/atlas/panels/ThemeToggle";
 import { TrajectoryLegend } from "@/atlas/panels/TrajectoryLegend";
 import { ForecastHeader } from "@/atlas/panels/ForecastHeader";
+import { AtlasLanding } from "@/atlas/landing/AtlasLanding";
+import { useLandingStore, isLandingActive } from "@/atlas/landing/landingStore";
 import { useAtlasStore } from "@/atlas/store";
 
 const ForecastsPanel = lazy(() =>
@@ -50,10 +51,12 @@ function AtlasPage() {
   const setReducedMotion = useAtlasStore((s) => s.setReducedMotion);
   const setUserStance = useAtlasStore((s) => s.setUserStance);
   const playMigrations = useAtlasStore((s) => s.playMigrations);
+  const selectedNodeId = useAtlasStore((s) => s.selectedNodeId);
+  const selectedIso = useAtlasStore((s) => s.selectedIso);
+  const landingFilters = useLandingStore();
   const { stance } = Route.useSearch();
   const { data: store, isLoading, error } = useDataStore();
 
-  // TODO: surface stance in Atlas UI ("see where you are" vs. each country).
   useEffect(() => {
     if (stance) setUserStance(stance);
   }, [stance, setUserStance]);
@@ -77,7 +80,6 @@ function AtlasPage() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Trigger migration pulse when entering Forecasts mode.
   useEffect(() => {
     if (mode === "forecasts") playMigrations();
     else setRegisterOpen(false);
@@ -102,10 +104,19 @@ function AtlasPage() {
     );
   }
 
+  const isOverview = mode === "overview";
+  const landingShiftActive =
+    isOverview && (isLandingActive(landingFilters) || !!selectedIso || !!selectedNodeId);
+
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-background">
-      <div className="absolute inset-0 globe-recede">
-        {mounted && <EarthGlobe store={store} width={size.w} height={size.h} />}
+      <div
+        className="globe-landing-shift absolute inset-0"
+        data-active={isOverview ? landingShiftActive : false}
+      >
+        <div className="globe-recede absolute inset-0">
+          {mounted && <EarthGlobe store={store} width={size.w} height={size.h} />}
+        </div>
       </div>
 
       <div
@@ -116,45 +127,48 @@ function AtlasPage() {
         }}
       />
 
-      {/* Top-left: mode + legends + index */}
-      <div className="pointer-events-none absolute left-4 top-4 z-20 flex max-h-[calc(100vh-2rem)] w-[260px] flex-col gap-3">
-        <div className="pointer-events-auto flex shrink-0 flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
-          <ModeSwitch />
-          <Legend />
-          {mode === "girai" && (
-            <>
-              <div className="border-t border-border/40" />
-              <GiraiLegend />
-            </>
-          )}
-          {mode === "forecasts" && (
-            <>
-              <div className="border-t border-border/40" />
-              <TrajectoryLegend />
-            </>
-          )}
-        </div>
-        <SideIndex store={store} />
-      </div>
+      {/* === OVERVIEW MODE: Language-Explorer landing === */}
+      {isOverview && <AtlasLanding store={store} />}
 
+      {/* === GIRAI / FORECASTS MODES: legacy laterals === */}
+      {!isOverview && (
+        <>
+          <div className="pointer-events-none absolute left-4 top-4 z-20 flex max-h-[calc(100vh-2rem)] w-[260px] flex-col gap-3">
+            <div className="pointer-events-auto flex shrink-0 flex-col gap-5 rounded-md border border-border/50 bg-background/85 p-4 backdrop-blur-md">
+              <Legend />
+              {mode === "girai" && (
+                <>
+                  <div className="border-t border-border/40" />
+                  <GiraiLegend />
+                </>
+              )}
+              {mode === "forecasts" && (
+                <>
+                  <div className="border-t border-border/40" />
+                  <TrajectoryLegend />
+                </>
+              )}
+            </div>
+            <SideIndex store={store} />
+          </div>
 
-      {/* Top-center: search, or Forecast header in forecasts mode */}
-      <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2">
-        {mode === "forecasts" ? (
-          <ForecastHeader store={store} onOpenRegister={() => setRegisterOpen(true)} />
-        ) : (
-          <SearchCommand store={store} />
-        )}
-      </div>
+          <div className="pointer-events-none absolute left-1/2 top-4 z-20 -translate-x-1/2">
+            {mode === "forecasts" ? (
+              <ForecastHeader store={store} onOpenRegister={() => setRegisterOpen(true)} />
+            ) : (
+              <SearchCommand store={store} />
+            )}
+          </div>
+        </>
+      )}
 
-      {/* Top-right: theme toggle */}
       <div className="absolute right-4 top-4 z-30">
         <ThemeToggle />
       </div>
 
       <div className="pointer-events-none absolute bottom-3 right-4 z-20">
         <span className="mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-          drag · scroll to zoom · hover a country
+          drag · scroll to zoom · {isOverview ? "click a dot" : "hover a country"}
         </span>
       </div>
 
@@ -173,8 +187,8 @@ function AtlasPage() {
         </button>
       </div>
 
-
-      <div className="absolute inset-0 z-30 pointer-events-none">
+      {/* Node card (drill-down) — fires for any node selection in any mode. */}
+      <div className="absolute inset-0 z-40 pointer-events-none">
         <NodeCard store={store} />
         <GiraiOnlyCard store={store} />
       </div>
