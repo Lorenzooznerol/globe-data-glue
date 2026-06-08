@@ -1,84 +1,119 @@
-# Italy Object-Graph (Palantir/Gotham style)
+# Redesign Atlante → pattern "Language Explorer" (rev. 3)
 
-Replace the current `ItalyView` for ISO `ITA` with a top-down entity-relationship graph driven by `reactflow`. Verified facts above, inferred morphology below (dashed). Text appears only in a right-hand inspector on selection.
+> **Errore della v1 da non ripetere:** la v1 codificava il punto-paese come *banda peggiore tra i nodi*. È un giudizio travestito da misura — un solo nodo CI rendeva tutto il paese "barely moving" anche con dodici nodi C accanto.
+>
+> **Errore della v2 (rev. 1) da non ripetere:** spostare "worst-wins" dalla banda all'evidenza è lo stesso errore. Un paese con dodici nodi STRONG e un OPAQUE non è "non conoscibile" — è quasi del tutto conoscibile con un buco. Renderlo anello cavo mente al contrario: finge di non sapere quando sai molto.
+>
+> **Regola corretta (v3):** la conoscibilità di un paese è una *proporzione*, non un binario. Vedi §1.
 
-## Scope
+Una sola schermata, due stati. Il globo è il dataset; il colore è informazione, mai arredo. Palette esistente preservata.
 
-- Affects only the Italy branch in `NodeCard.tsx` (other countries unchanged).
-- One new dependency: `reactflow`. No other libs.
-- Data: `/public/data/countries/IT.json` (already loaded via `store.overlayByNodeId`).
+## Decisioni di encoding e rendering
 
-## Files
+### 1. Encoding del punto-paese — coverage, non worst-wins
 
-- **Add** `src/atlas/panels/descent/italy/ItalyGraph.tsx` — main view (graph + inspector layout, keyboard, selection state).
-- **Add** `src/atlas/panels/descent/italy/graphModel.ts` — pure builder: overlay → `nodes[]`, `edges[]` with fixed coords + per-node metadata (entity type, claim_ids, dashed flag, flags like `independence`).
-- **Add** `src/atlas/panels/descent/italy/nodes/` — custom node components:
-  - `EntityNode.tsx` (generic: law, authority, criminal, sector group, programme, morphology)
-  - `BaselineNode.tsx` (the EU bar across row 0)
-  - `SectorPill.tsx` (sub-pills inside SECTORS)
-- **Add** `src/atlas/panels/descent/italy/Inspector.tsx` — right-side panel: entity title, one-line claims with `ProvenanceChip`, to_verify list (only when Law selected).
-- **Add** `src/atlas/panels/descent/italy/MiniRadar.tsx` — inline SVG 4-axis radar for the morphology node inspector.
-- **Add** `src/atlas/panels/descent/italy/italy-graph.css` — hairline borders, monospace data type, dashed-edge variants, dim/focus classes.
-- **Edit** `src/atlas/panels/NodeCard.tsx` — swap `ItalyView` import for `ItalyGraph` in the ITA branch.
-- **Keep but unused**: leave `ItalyView.tsx` in place (no other refs); can be removed later.
+Il punto risponde a "quanto sai di questo paese?", come *proporzione* di nodi mappati con evidenza utilizzabile:
 
-## Graph structure (precomputed coords, no force sim)
-
-```text
-ROW 0  [============ EU AI Act — Regulation 2024/1689 ============]   baseline bar (full width)
-                                 │ "rests on"
-ROW 1                  ┌──────── Law 132/2025 ────────┐               in force 10 Oct 2025 · GIRAI 61.8 · 7/138
-                       │       │       │       │
-ROW 2          AUTHORITIES  CRIMINAL  SECTORS  PROGRAMME & DECREES
-                 │   │                  │  │  │ …
-               AgID  ACN▪              health work prof PA judiciary copyright minors
-                       (amber independence square)
-                       │
-ROW 3                                    ┌─── MORPHOLOGY — coordinates ───┐   (dashed node + dashed edges)
-                                         (inferred: gaze / breadth / transparency / reciprocity)
+```
+coverage = (nodi_STRONG + 0.5 * nodi_WEAK) / nodi_totali
 ```
 
-Edge labels: `rests on`, `designates`, `inserts`, `regulates`, `funds & delegates`, `inferred from`.
+Resa visiva in tre fasce + un caso limite:
 
-## Interaction
+| Condizione | Resa |
+|---|---|
+| `coverage ≥ 0.75` | disco pieno, opacità 1.0 |
+| `0.40 ≤ coverage < 0.75` | disco pieno, opacità 0.65 |
+| `0.10 ≤ coverage < 0.40` | disco pieno, opacità 0.40 |
+| `coverage < 0.10` **o** `nodi_STRONG == 0 && nodi_WEAK == 0` | anello cavo hairline (vera assenza di conoscibilità) |
 
-- Default: nodes + labels only, no prose.
-- Click node → set `selectedId`, highlight node + incident edges, dim others (CSS class on container toggling opacity for non-neighbors). Inspector slides in from right.
-- Inspector shows claim_text lines filtered by `claim_ids` mapped per node in `graphModel.ts` (e.g. Law node → C-IT-01, C-IT-04, C-IT-07; Authorities → C-IT-02, C-IT-05; Criminal → C-IT-03; GIRAI cue → C-IT-06; Morphology → C-IT-07 + coordinates).
-- Each claim line uses existing `ProvenanceChip` (resolves `source_ids` → `sources[]`, opens primary URLs in new tab).
-- Law node carries a small dot indicating `to_verify[]` items; expanding it in the inspector lists them (not on the canvas).
-- Morphology node + its edges rendered dashed; inspector shows inline `MiniRadar` from `overlay.coordinates`.
-- `Escape` or click on empty pane → clear selection, restore full graph, close inspector.
-- `prefers-reduced-motion`: skip the inspector slide transition.
+L'anello cavo è riservato ai paesi *davvero* opachi (OPAQUE domina o nessun nodo informativo), non ai paesi con un singolo buco.
 
-## Visual language
+- **Dimensione**: scala lineare su `nodi_totali` (3.5–6px equiv), cappata.
+- **Colore**: bianco (token `--text`); nessuna banda sul punto.
+- **Hover**: tooltip una riga — `nome · N nodi · coverage XX%`.
+- **Bordo focus/match**: accent neutro singolo.
 
-- Background: existing `--background`; ink: `--foreground`; muted: `--muted-foreground`.
-- 1px hairline borders only; no shadows, no gradients, no rounded "cards" (≤2px radius).
-- Entity-type accent (thin 2px left border on node):
-  - law → neutral ink
-  - authority → cool blue token
-  - criminal → warm red token
-  - sectors group → green token (sub-pills neutral)
-  - programme → amber token
-  - morphology → muted, dashed everywhere
-- Provenance: reuse existing `EpistemicChip` / `ProvenanceChip` tokens unchanged.
-- Independence flag: 8px amber square inside ACN node.
-- Monospace for IDs/dates/scores; serif/sans only for entity titles.
+La banda (CI…C) vive nel pannello laterale e nel drill-down dei nodi, dove c'è contesto per leggerla onestamente.
 
-## Technical notes
+### 2. Rendering dei punti — geometria nativa, non CanvasTexture
 
-- Install: `bun add reactflow`. Import its stylesheet once inside `ItalyGraph.tsx` (`import "reactflow/dist/style.css"`) and override in `italy-graph.css`.
-- Use `<ReactFlow>` with `nodesDraggable={false}`, `nodesConnectable={false}`, `panOnDrag`, `zoomOnScroll`, `fitView` on mount, `proOptions={{ hideAttribution: true }}`.
-- Custom `nodeTypes` map for `baseline | entity | sector`. Positions hard-coded in `graphModel.ts` (e.g. ROW 0 y=0, ROW 1 y=140, ROW 2 y=300, ROW 3 y=520) for a deterministic layout — no dagre/elkjs.
-- Edge style toggled by `data.dashed` → `strokeDasharray: "4 3"`.
-- Focus+context implemented by setting `data-focus` on container and `data-dim` on non-neighbor nodes/edges via `nodes`/`edges` state derived from `selectedId`.
-- Inspector is a sibling `<aside>` in flex layout, not a portal — keeps a11y and ESC handling simple.
+- **Layer disco**: `pointsData` nativo di `react-globe.gl` (geometria Three reale, nitida a ogni zoom). Niente sprite/texture.
+- **Layer anello-cavo**: `customLayerData` con `RingGeometry` solo per i paesi che cadono nel caso limite (vedi tabella sopra). Hairline (inner 2.8 / outer 3.2 px equiv).
 
-## Acceptance check (manual)
+Costo accettato: nessuna codifica intent-vs-reality sul punto. Quella informazione vive nel pannello laterale dopo il click.
 
-1. Open Italy → top-down graph renders with EU baseline, Law, 4 children, dashed morphology at bottom; no prose visible.
-2. Click `Law 132/2025` → inspector shows C-IT-01/04/07 lines with chips; clicking VERIFIED chip opens Normattiva URL.
-3. Click `ACN` → amber square visible; inspector shows C-IT-02 + C-IT-05 (ATTESTED outlined).
-4. Click `MORPHOLOGY` → node + edges dashed; inspector shows inline radar + INFERRED chip.
-5. `Esc` clears selection and inspector; full graph returns; reduced-motion disables transitions.
+### 3. Scope reale — onesto, niente "out of scope" ottimistico
+
+**Modificato:**
+- `src/routes/atlas.tsx` — body sostituito da `<AtlasLanding>`; sulla landing default niente Legend/GiraiLegend/SideIndex/NodeCard flottanti/footer.
+- `src/atlas/store.ts` — *aggiunge* slice (vedi sotto). **Non** rinomina `families`.
+- `src/atlas/components/EarthGlobe.tsx` — modalità "ambient" (poligoni a 0.05), 2 nuovi layer (disco + anello-cavo), dim per `landingFilters`. Logica esistente intatta.
+- `src/routes/__root.tsx` — `<link>` Hanken Grotesk.
+- `src/styles.css` — `--font-sans`, tabular-nums, classe `.globe-shifted`.
+
+**Intatto e verificato per dipendenze:**
+- `src/atlas/families.ts`, `Legend.tsx`, `MigrationStrip.tsx`, `TrajectoryPanel.tsx`, `MorphologyVsScoreLine.tsx`, `SideIndex.tsx`, `NodeCard.tsx`, `GiraiOnlyCard.tsx`, `descent/italy/*`.
+
+**Cambio dichiarato:** ModeSwitch sale nel TopBar. Su mode `girai`/`forecasts` i pannelli legacy si rimontano come overlay sopra la landing; su `overview` (default) c'è solo la landing.
+
+## Stati di layout
+
+**A — Riposo** (`!landingFilters.isActive && !selectedNodeId && !selectedIso`)
+- Globo a punti centrato (~70% h), opacità 0.55, autorotate.
+- Poligoni "atlante fantasma" opacità 0.05.
+- Headline a ~38% h, sub con conteggio reale nodi.
+- Search pill 60% w + 6 chip sotto.
+- TopBar: wordmark · About · Metodo · FAQ · ModeSwitch · kebab.
+
+**B — Attivo**
+- Globo: opacità 0.3, `translate3d(20vw,0,0)`, autorotate più lento.
+- Punti non-matching: opacità 0.1.
+- Search sticky in alto, chip in linea.
+- Headline/sub dissolvono.
+- `ResultsPanel` sinistro 40% entra da `translateX(-100%)`; click su punto-paese → lista nodi del paese con bande e fonti.
+
+**Transizione**: 550ms `cubic-bezier(.22,.61,.36,1)`. Reduced-motion: istantanea.
+
+## 6 chip-filtro (slice `landingFilters`, separato da `families`)
+
+1. **Giurisdizione** — Set<iso3>
+2. **Layer** — Set<state|actor|deployer|vision>
+3. **Morfologia** — Set<M1…M7>
+4. **Banda carta** — Set<CI|IN|AS|S|C>
+5. **Banda realtà** — Set<CI|IN|AS|S|C>
+6. **Evidenza** — Set<STRONG|WEAK|OPAQUE>
+
+Derived: `matchingNodeIds`, `matchingIsoSet`, `isActive`.
+
+## Tipografia
+
+- Hanken Grotesk via `<link>` in `__root.tsx` (300/400/500).
+- `--font-sans` in `@theme` aggiornato; `--font-serif` legacy intatto.
+- Headline: `clamp(3rem, 6vw, 5.5rem)`, weight 300, tracking -0.02em.
+- `tabular-nums` su `.mono` e counter.
+
+## Nuovi file
+
+- `src/atlas/landing/AtlasLanding.tsx`
+- `src/atlas/landing/TopBar.tsx`
+- `src/atlas/landing/SearchHero.tsx`
+- `src/atlas/landing/FilterChips.tsx`
+- `src/atlas/landing/ResultsPanel.tsx`
+- `src/atlas/landing/landingStore.ts` (slice separato)
+- `src/atlas/landing/derive.ts` — `nodeMatches(node, filters)`, `aggregateCountryCoverage(nodesByIso)` (formula §1)
+
+## Accettazione (verificabile)
+
+1. `/atlas` carica → globo a punti, headline centrata, 6 chip. Niente Legend laterale.
+2. ModeSwitch → `girai` → Legend/GiraiLegend si rimontano sopra la landing, identici a prima.
+3. Filtro morfologia M3 → punti senza M3 a opacità 0.1; pannello sinistro entra con lista nodi M3.
+4. Click punto Italia → pannello mostra ST-IT + AC-ACN + DP-… con bande e fonti.
+5. Italy drill-down → `ItalyGraph` esistente identico, nessuna regressione.
+6. **Coverage encoding**: un paese con 12 STRONG + 1 OPAQUE (coverage ≈ 0.92) si rende pieno opacità 1.0, *non* cavo. Un paese con 1 STRONG + 5 OPAQUE (coverage ≈ 0.17) si rende pieno opacità 0.40. Un paese con 0 STRONG/WEAK si rende cavo.
+7. Reduced-motion on → transizione A→B istantanea.
+
+## Rischi residui
+
+- **Frizione visiva** fra landing (Hanken Grotesk) e pannelli legacy (serif) quando si attivano modi `girai`/`forecasts`. Accettato, riallineamento in pass dedicato.
+- **Soglie di coverage** (0.75 / 0.40 / 0.10) sono prime stime; vanno tarate guardando la distribuzione reale dei nodi del dataset, non scelte a priori. Da verificare con un istogramma su `store.atlas.nodes` aggregati per iso3 nella prima esecuzione, e ritoccare se le fasce risultano vuote o squilibrate.
